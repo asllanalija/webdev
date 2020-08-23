@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Into The Woods</title>
+		<link rel = "stylesheet" href = "woods.css" />
+		<style>
+			.bgrnd
+			{
+				position:fixed;
+				top:0px;
+				left:0px;
+				width:100%;
+				z-index:-1;
+			}
+			li, span
+			{
+				background-color:#D9ECCA;
+				color:#3E6022;
+				border: 2px solid darkgreen;
+				border-radius:12px;
+				box-shadow: 8px 8px 5px darkgrey;
+				width:175px;
+				height:40px;
+				padding:12px				
+			}
+			li > img, li div
+			{
+				display:none;
+			}
+			h1 li
+			{
+				font-weight:bold;
+			}
+			h1
+			{
+				text-align:center;
+				margin-top:100px;
+				padding: 2px 6px;
+			}
+			li
+			{;
+			}
+			li:hover img, li:hover div
+			{
+				display:inline;
+			}
+			li > img
+			{
+				height: 40px;
+			}
+			li div img
+			{
+				height: 413px;
+				position:absolute;
+				left:35%;
+				top: 0px;
+			}
+			ul
+			{
+				position:relative;
+			}
+		</style>
+		<script>
+			function initialize()
+			{
+				imgOut = document.getElementById("imgselect");
+				pandaOut = document.getElementById("panda");
+				pandaOut.style.display = "none";
+				imgOut.style.display = "none";
+			}
+			function showImg()
+			{
+				imgOut.style.display = "inline";
+				pandaOut.style.display = "inline";
+			}
+			function removeImg()
+			{
+				imgOut.style.display = "none";
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<!-- Background image -->
+		<img src = "images/bamboo-forest.jpg" class = "bgrnd"/>
+
+		<!-- 
+			By putting the title into a span inside the h1, we can style just the title words, leaving the rest of the line invisible.
+		-->
+		<h1><span>Welcome to the Bamboo Forest</span></h1><br />
+		
+		<!--
+			The nesting of the individual elements on the page allows us to use CSS selectors to change the styling of individual elements.
+		-->
+		<!--<ul>
+			<li onmouseover = "showImg('images/Usal-Redwood-Forest.jpg');">
+				<img src = "images/panda wide eyes.png" /> 
+				About Forests
+				<div>
+					<img src = "images/Usal-Redwood-Forest.jpg" />
+				</div>
+			</li><br />
+			<li>
+				<img src = "images/panda wide eyes.png" /> 
+				About Bamboo
+				<div>
+					<img src = "images/bamboo.jpg"/>
+				</div>
+			</li><br />
+			<li>
+				<img src = "images/panda wide eyes.png" /> 
+				About Pandas
+				<div>
+					<img src = "images/panda_thumb.jpg" />
+				</div>
+			</li><br />
+		</ul>-->
+		<div>
+			<img src = "images/panda wide eyes.png"/>
+			<span onmouseover = "showImg();" onmouseout = "removeImg();"> About Forests </span>
+			<h1>
+				<img id = "imgselect" src = "images/bamboo.jpg"/>
+			</h1>
+		</div>
+		
+	</body>
+</html>

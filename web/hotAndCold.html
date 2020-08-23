@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<!-- Asllan Alija -->
+<html> 
+	<head>
+		<script>
+		function initialize()
+		{
+			ans = Math.round(Math.random()*100);
+			guess = 0;
+			turns = 5;
+			degree = 0;
+			preguess = 0;
+			guessOne = 0;
+			guessTwo = 0;
+			guessThree = 0;
+			guessFour = 0;
+			guessFive = 0;
+			backColor = "white";
+			guessOneOut = document.getElementById("oneout");
+			guessTwoOut = document.getElementById("twoout");
+			guessThreeOut = document.getElementById("threeout");
+			guessFourOut = document.getElementById("fourout");
+			guessFiveOut = document.getElementById("fiveout");
+			document.body.style.backgroundColor = backColor;
+			degreeOutput = document.getElementById("degreeout");
+			guessOutput = document.getElementById("guessout");
+			display()	
+		}
+		function Submit()
+		{
+			guess = preguess;
+			if (turns ==5)
+			{
+				guess = guessOne
+				guessOneOut.innerHTMl = guessOne;
+			}
+			if (turns ==4)
+			{
+				guess = guessTwo
+				guessTwoOut.innerHTML = guessTwo;
+			}
+			if (turns ==3)
+			{
+				guess = guessThree
+				guessThreeOut.innerHTML = guessThree;
+			}
+			if (turns ==2)
+			{
+				guess = guessFour
+				guessFourOut.innerHTML = guessFour;
+			}
+			if (turns ==1)
+			{
+				guess = guessFive\
+				guessFiveOut.innerHTML = guessFive;
+			}
+			if (Math.abs(ans-guess) >=55)
+			{
+				degree = "Very Cold"
+			}
+			if (Math.abs(ans-guess) <=55)
+			{
+				degree = "Cold"
+			}
+			if (Math.abs(ans-guess) <=40)
+			{
+				degree = "Very Cool"
+			}
+			if (Math.abs(ans-guess) <=30)
+			{
+				degree = "Cool"
+			}
+			if (Math.abs(ans-guess) <=20)
+			{
+				degree = "Warm"
+			}
+			if (Math.abs(ans-guess) <=15)
+			{
+				degree = "Very Warm"
+			}
+			if (Math.abs(ans-guess) <=8)
+			{
+				degree = "Hot"
+			}
+			if (Math.abs(ans-guess) <=5)
+			{
+				degree = "Very Hot"
+			}
+			if (ans == guess)
+			{
+				degree = "CORRECT!"
+				alert("WINNER");
+				initialize()
+			}
+			if (degree == "Very Cold")
+			{
+				backColor = " #0033cc";
+			}
+			if (degree == "Cold")
+			{
+				backColor = "#3366ff";
+			}
+			if (degree == "Very Cool")
+			{
+				backColor = "#809fff";
+			}
+			if (degree == "Cool")
+			{
+				backColor = "#b3c6ff";
+			}
+			if (degree == "Warm")
+			{
+				backColor = "#ffff00";
+			}
+			if (degree == "Very Warm")
+			{
+				backColor = "#e68a00";
+			}
+			if (degree == "Hot")
+			{
+				backColor = "#ff704d";
+			}
+			if (degree == "Very Hot")
+			{
+				backColor = "#ff3300";
+			}
+			document.body.style.backgroundColor = backColor;
+			degreeOutput.innerHTML = degree;
+			guessOutput.innerHTML = guess;
+			preguess = 0;
+			turns = turns - 1;
+			if (turns == 0 && ans != guess)
+			{
+				alert("YOU LOSE. The answer was " + ans);
+				initialize()
+			}
+			
+			display()
+		}
+		function display()
+		{
+			preguessOutput = document.getElementById("preguessout");
+			preguessOutput.innerHTML = preguess;
+		}
+		function reset()
+		{
+			preguess = 0;
+			display()
+		}
+		function number(mod)
+		{	
+			preguess +=mod;
+			preguess = parseInt(preguess, 10);
+			display()
+		}
+		</script>
+		<style>
+			
+		</style>
+	</head>
+	<body onload = "initialize();">
+			
+		<button onclick = "number('0')"> 0 </button>
+		<button onclick = "number('1')"> 1 </button>
+		<button onclick = "number('2')"> 2 </button>
+		<button onclick = "number('3')"> 3 </button>
+		<button onclick = "number('4')"> 4 </button>
+		<button onclick = "number('5')"> 5 </button>
+		<button onclick = "number('6')"> 6 </button>
+		<button onclick = "number('7')"> 7 </button>
+		<button onclick = "number('8')"> 8 </button>
+		<button onclick = "number('9')"> 9 </button>
+		
+		Current number :<span id = "preguessout"></span><br /> <hr />
+		
+		<button onclick = "Submit();"> Submit </button> <br /> <br />
+		<button onclick = "reset();"> reset </button> <br /> <br />
+		
+		
+		
+		Guess History : <br />
+		Guess 1= <span id = "guessout"></span> Degree = <span id = "degreeout"></span>
+		
+		<br /> <br />
+		
+		
+	</body>
+		
+		

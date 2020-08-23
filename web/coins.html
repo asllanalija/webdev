@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<script>
+			function initialize()
+			{
+				pennies = 0;
+				nickles = 0;
+				dimes = 0;
+				quarters = 0;
+				totalMoney = 0;
+				totalMoneyOutput = document.getElementById("moneyout");
+				penniesOutput = document.getElementById("penniesout");
+				nicklesOutput = document.getElementById("nicklesout");
+				dimesOutput= document.getElementById("dimesout");
+				quartersOutput = document.getElementById("quartersout");
+				display()
+			}
+			function modifyPennies(mod)
+			{
+				pennies += mod;
+				display()
+			}
+			function modifyNickles(mod)
+			{
+				nickles += mod;
+				display()
+			}
+			function modifyDimes(mod)
+			{
+				dimes += mod;
+				display()
+			}
+			function modifyQuarters(mod)
+			{
+				quarters += mod;
+				display()
+			}
+			function display()
+			{
+				money()
+				penniesOutput.innerHTML = pennies;
+				nicklesOutput.innerHTML = nickles;
+				dimesOutput.innerHTML = dimes;
+				quartersOutput.innerHTML = quarters;
+				totalMoneyOutput.innerHTML = totalMoney;
+				
+			}
+			function money()
+			{
+				totalMoney = (quarters*0.25) + (pennies*0.01) + (dimes*0.10) + (nickles*0.05);
+				totalMoney = totalMoney.toFixed(2);
+			}
+		</script>
+		
+	</head>
+	
+	<body onload = "initialize();">
+		<button onclick = "modifyPennies(1)">Add 1 to pennies</button>
+		<button onclick = "modifyPennies(-1)">Subtract 1 from pennies</button>
+		<button onclick = "modifyPennies(5)">Add 5 to pennies</button>
+		<button onclick = "modifyPennies(-5)">Subtract 5 from pennies</button>
+		Pennies: <span id = "penniesout"></span>
+		<hr />
+		<button onclick = "modifyNickles(1)">Add 1 to nickles</button>
+		<button onclick = "modifyNickles(-1)">Subtract 1 from nickles</button>
+		<button onclick = "modifyNickles(5)">Add 5 to nickles</button>
+		<button onclick = "modifyNickles(-5)">Subtract 5 from nickles</button>
+		Nickles: <span id = "nicklesout"></span>
+		<hr />
+		<button onclick = "modifyDimes(1)">Add 1 to dimes</button>
+		<button onclick = "modifyDimes(-1)">Subtract 1 from dimes</button>
+		<button onclick = "modifyDimes(5)">Add 5 to dimes</button>
+		<button onclick = "modifyDimes(-5)">Subtract 5 from dimes</button>
+		Dimes: <span id = "dimesout"></span>
+		<hr />
+		<button onclick = "modifyQuarters(1)">Add 1 to quarters</button>
+		<button onclick = "modifyQuarters(-1)">Subtract 1 from quarters</button>
+		<button onclick = "modifyQuarters(5)">Add 5 to quarters</button>
+		<button onclick = "modifyQuarters(-5)">Subtract 5 from quarters</button>
+		Quarters: <span id = "quartersout"></span><br />
+		
+		
+		Total Money: $<span id = "moneyout"></span>
+	</body>
+</html>

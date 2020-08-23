@@ -1,0 +1,58 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title> </title>
+		<script> 
+			function initialize()
+			{
+				
+			
+			}
+
+			function add(num, numToo)
+			{
+				ans = num+numToo;	
+				display();
+			}
+			function display()
+			{
+				alert(ans);
+			}
+			function subtract(num, numToo)
+			{	
+				ans = num-numToo;
+				display();
+			}
+			function multiply(num, numToo)
+			{	
+				ans = num*numToo;
+				display();
+			}
+			function divide(num, numToo)
+			{
+				ans = num/numToo;
+				display();
+			}
+		</script>
+		<style> </style>
+
+	</head>
+
+	<body onload = "initialize();"> 
+		<button onclick = "add(3,5);">
+			add
+		</button>
+		<button onclick = "subtract(10,7)">
+			subtract
+		</button>
+		<button onclick = "multiply(10,5);"> 
+			multiply
+		</button>
+		<button onclick = "divide(10,5);">
+			divide
+		</button>
+	</body>
+
+</html>
+

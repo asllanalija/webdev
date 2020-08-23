@@ -1,0 +1,58 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				timerDiv = document.getElementById("timer");
+				time = 0;
+				timeOn = false;
+			}
+			function start()
+			{
+				if (!timeOn)
+				{
+					timer = setInterval(count, 1000);
+					timeOn = true;
+				}
+			}
+			function count()
+			{
+				time++;
+				display();
+			}
+			function stop()
+			{
+				clearInterval(timer);
+				timeOn = false;
+			}
+			function reset()
+			{
+				time = 0;
+				clearInterval(timer);
+				timeOn = false;
+				display();
+			}
+			function display()
+			{
+				timerDiv.innerHTML = time;
+			}
+		</script>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div id = "timer" > 0 </div>
+		<button onclick = "start();"> Start </button>
+		<button onclick = "stop();"> Stop </button>
+		<button onclick = "reset();"> Reset </button>
+	
+	</body>
+</html>
+
+

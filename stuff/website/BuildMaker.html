@@ -1,0 +1,274 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script src = "utilities.js">
+		</script>
+		<script>
+			function initialize()
+			{
+				img1 = document.getElementById("item1");
+				img2 = document.getElementById("item2");		
+				img3 = document.getElementById("item3");		
+				img4 = document.getElementById("item4");
+				img5 = document.getElementById("item5");
+				img6 = document.getElementById("item6");
+				imgArray = ["", img1, img2, img3, img4, img5, img6];
+				resetItems();
+			}
+			function resetItems()
+			{
+				ad = 70;
+				ap = 0;
+				crit = 0;
+				cdr = 0;
+				atkSpeed = 0.644;
+				armor = 30;
+				mr = 30;
+				lethality = 0;
+				armorpen = 0;				
+				mpen = 0;
+				mpenPercent = 0;
+				lifesteal = 0;
+				numItems = 0;
+				mana = 250;
+				health = 600;
+				mpenUsed = false;
+				apen = false;
+				rabadons = false;
+				img1.src = "texture.jpg"
+				img2.src = "texture.jpg"
+				img3.src = "texture.jpg"
+				img4.src = "texture.jpg"
+				img5.src = "texture.jpg"
+				img6.src = "texture.jpg"				
+			}
+			function test(idx, itemType, itemStat)
+			{
+				if (numItems >= 6)
+				{
+					return
+				}
+				var itemStr = itemType[idx].toString();
+				itemStr = itemStr.split(",");
+				name = itemStr[0];
+				img = itemStr[1];
+				statStr = itemStat[idx].toString();
+				statStr = statStr.split(",");			
+				for (i = 0; i < statStr.length; i++)
+				{
+					var temp3 = statStr[i];
+					temp3 = temp3.split(" ");
+					var m = parseInt(temp3[0]);				
+					if (temp3[1] == "AP")
+					{
+						ap += m;
+					}
+					if (temp3[1] == "AD")
+					{
+						ad += m;
+					}
+					if (temp3[1] == "CRIT")
+					{
+						crit += m;
+						if (crit > 100)
+						{
+							crit = 100;
+						}
+					}
+					if (temp3[1] == "CDR")
+					{
+						cdr += m;
+						if (cdr > 40)
+						{
+							cdr = 40;
+						}
+					}
+					if (temp3[1] == "%AS")
+					{
+						atkSpeed *= 1 + m/100;
+						if (atkSpeed > 2.5)
+						{
+							atkSpeed = 2.5;
+						}
+					}
+					if (temp3[1] == "ARMOR")
+					{
+						armor += m;
+					}
+					if (temp3[1] == "MR")
+					{
+						mr += m;
+					}
+					if (temp3[1] == "LTH")
+					{
+						lethality += m;
+					}
+					if (temp3[1] == "APEN")
+					{
+						if (apen == false)
+						{
+							armorpen += m;
+							apen = true;
+						}
+					}
+					if (temp3[1] == "MP")
+					{
+						mpen += m;
+					}
+					if (temp3[1] == "%MP")
+					{
+						if (mpenUsed == false)
+						{
+							mpenPercent += m;
+							mpenUsed = true;													
+						}
+
+					}
+					if (temp3[1] == "Mana")
+					{
+						mana += m;
+					}	
+					if (temp3[1] == "HP")
+					{
+						health += m;
+					}
+					if (temp3[1] == "%AP")
+					{
+						rabadons = true;
+					}
+					calcAP(m);					
+				}
+				numItems++
+				imgArray[numItems].src = img;
+			}
+			function calcAP(mod)
+			{
+				if (rabadons)
+				{
+					var x = (mod/100)*ap;
+					displayAP = ap + x;
+				}
+			}
+		</script>
+		
+		<style>
+			img.title
+			{
+				height:50px;
+				text-align:left;
+			}
+			body
+			{
+				background-image: url("background.jpg");
+				position: sticky;
+			
+			}
+			.hyperlink, .hyperlink-current
+			{
+				font: bold 14px Arial;
+				text-decoration: none;
+				background-color: #00001a;
+				color: #c9aa71;
+				margin-left: 1%;
+			}
+			div.buttons
+			{			
+				text-align:left;
+				padding: 1%;
+				background-color:#00001a
+				
+			}
+			div.outline
+			{
+				background-color: #00001a;
+				margin-left: 13%;
+				height:100%;
+				width:75%;
+			}
+			a.icon
+			{
+				float:left;
+				margin-top: -1%;
+			}
+			.hyperlink-current
+			{
+				color: white;
+				padding-bottom: 12px;
+				border-bottom: 2px solid #c9aa71;
+			}
+			a.hyperlink:hover
+			{
+				color: #e2ca9c;
+			}
+			div.logo
+			{
+				text-align:center;
+			}
+			img.logo
+			{
+				height:25%;
+			}
+			#item1, #item2, #item3, #item4, #item5, #item6
+			{
+				width: 10%;
+				border: 1px solid #c9aa71;				
+			}
+			div.itemcontainer
+			{
+				background-color:black;
+				margin-top: 5%;
+			}
+			div.itemchooser
+			{
+				text-align:right;
+			}
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div class = "buttons">
+			<a class = "icon" href = "index.html">
+				<img class = "title" src = "icon.png">	
+			</a>
+			<div class = "test">
+				<a class = "hyperlink" href = "majorChanges.html"> MAJOR CHANGES </a>	
+				<a class = "hyperlink" href = "Resources.html"> RESOURCES </a>
+				<a class = "hyperlink-current" href = "BuildMaker.html"> BUILD MAKER </a>
+			</div>
+		</div><br /><br />	
+		<div class = "logo">
+			<img src = "lol.png" class = "logo"/>
+		</div>
+		<div class = "outline">
+			<div class = "text">
+				adasdasdsadsadasdasdasd
+			</div>
+			<div class = "itemcontainer">
+				<img id = "item1"/>
+				<img id = "item2"/>
+				<img id = "item3"/>
+				<img id = "item4"/>
+				<img id = "item5"/>
+				<img id = "item6"/>
+			</div>
+			<div class = "itemchooser">
+				<img src = "items/rabadons.png" onclick = "test(0, AP_ITEMS, AP_STATS);">
+				<img src = "items/morellos.png" onclick = "test(1, AP_ITEMS, AP_STATS);">
+				<img src = "items/Liandry.png" onclick = "test(2, AP_ITEMS, AP_STATS);">
+				<img src = "items/Lich.png" onclick = "test(3, AP_ITEMS, AP_STATS);">
+				<img src = "items/Ludens.png" onclick = "test(4, AP_ITEMS, AP_STATS);">
+				<img src = "items/Void.png" onclick = "test(5, AP_ITEMS, AP_STATS);">
+			</div>
+			<div class = "itemchooser">
+				<img src = "items/Zhonyas.png" onclick = "test(6, AP_ITEMS, AP_STATS);">
+			</div>
+			<button onclick = "resetItems();"> Reset </button>			
+		</div>
+	</body>
+</html>

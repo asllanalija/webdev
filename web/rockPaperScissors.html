@@ -1,0 +1,176 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+			Rock Paper Scissors
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				plyrChoice = null;
+				comChoice = null;
+				Rock = "rock";
+				Paper = "paper";
+				Scissors = "scissors";
+				rockCounter = 0;
+				paperCounter = 0;
+				scissorsCounter = 0;
+				plyrScore = 0;
+				comScore = 0;
+				plyrChoiceOut = document.getElementById("pchoice");
+				comChoiceOut = document.getElementById("cchoice");
+				plyrScoreOut = document.getElementById("plyrout");
+				comScoreOut = document.getElementById("comout");
+			}
+			function playerMove(mod)
+			{
+				if (mod == Rock)
+				{
+					rockCounter++;
+				}
+				else
+				{
+					rockCounter = 0;
+				}
+				if (mod == Paper)
+				{
+					paperCounter++;
+				}
+				else
+				{
+					paperCounter = 0;
+				}
+				if (mod == Scissors)
+				{
+					scissorsCounter++;
+				}
+				else
+				{
+					scissorsCounter = 0;
+				}
+				plyrChoice = mod;
+				var RPS = Math.floor(Math.random()*3)+1;
+				plyrChoiceOut.innerHTML = plyrChoice;
+				computerMove(RPS);
+			}
+			function computerMove(mod)
+			{
+				/* if the player chooses a certain move 3 or more times in a row, the computer learns and chooses the move that beats it*/
+				if (rockCounter >= 3)
+				{
+					comChoice = Paper;
+				}
+				else
+				{
+					if (paperCounter >= 3)
+					{
+						comChoice = Scissors;
+					}
+					else
+					{
+						if (scissorsCounter >=3)
+						{
+							comChoice = Rock;
+						}
+						else
+						{
+							if (mod == 1)
+							{
+								comChoice = Rock;
+							}
+							if (mod == 2)
+							{
+								comChoice = Paper;
+							}
+							if (mod == 3)
+							{
+								comChoice = Scissors;
+							}
+						}
+					}
+				}
+				
+				comChoiceOut.innerHTML = comChoice;
+				calcWinner();
+			}
+			function calcWinner()
+			{
+				if (plyrChoice == Rock)
+				{
+					if (comChoice == Paper)
+					{
+						comScore++;
+					}
+					if (comChoice == Scissors)
+					{
+						plyrScore++;
+					}
+				}
+				if (plyrChoice == Paper)
+				{
+					if (comChoice == Rock)
+					{
+						plyrScore++;
+					}
+					if (comChoice == Scissors)
+					{
+						comScore++;
+					}
+				}
+				if (plyrChoice == Scissors)
+				{
+					if (comChoice == Paper)
+					{
+						plyrScore++;
+					}
+					if (comChoice == Rock)
+					{
+						comScore++;
+					}
+				}
+				display();
+			}
+			function reset()
+			{
+				initialize();
+				display();
+			}
+			function display()
+			{
+				plyrScoreOut.innerHTML = plyrScore;
+				comScoreOut.innerHTML = comScore;
+				plyrChoiceOut.innerHTML = plyrChoice;
+				comChoiceOut.innerHTML = comChoice;
+			}
+			
+		</script>
+		<style>
+			div
+			{
+				text-align : center;
+			}
+			p
+			{
+				text-align : center;
+			}
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div>Player Score : <span id = "plyrout"></span><br />
+		Computer Score : <span id = "comout"></div>
+		<button onclick = "playerMove(Rock);"> Rock </button>
+		<button onclick = "playerMove(Paper);"> Paper </button>
+		<button onclick = "playerMove(Scissors);"> Scissors </button><br />
+		<p>Player chooses : <span id = "pchoice"></span><br />
+		Computer chooses : <span id = "cchoice"></span><br />
+		<button onclick = "reset();"> Reset Game </button></p>
+	
+	</body>
+</html>
+
+

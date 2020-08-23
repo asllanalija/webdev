@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Data Gallery</title>
+		<style>
+			body
+			{
+				text-align:center;
+			}
+			
+			.thumb
+			{
+				width:12%;
+			}
+			
+			.arrow
+			{
+				width:8%;
+			}
+			
+			#mainimg
+			{
+				width:50%;
+			}
+			
+			#caption
+			{
+				font-size:24pt;
+				font-weight:bold;
+			}
+			.scroll
+			{
+				margin-top:2%;
+			}
+		</style>
+		
+		<script src = "itemdata2.js"></script>
+		<script>
+			function initialize()
+			{
+				mainImage = document.getElementById("mainimg");
+				captionOutput = document.getElementById("caption");
+				infoOutput = document.getElementById("info");
+				itemThumbs = document.getElementsByClassName("thumb");
+				
+				itemList = [];
+				currentItemIdx = 0;
+				offset = 0;
+				
+				document.getElementById("pagetitle").innerHTML = pageTitle;
+				buildData();
+				setThumbnails();
+				display();
+			}
+			
+			function buildData()
+			{
+				itemArray = items.split(";");
+				for (i = 0; i < itemArray.length; i++)
+				{
+					item = {};
+					itemParts = itemArray[i].split(":");
+					item.itemName = itemParts[NAME];
+					item.itemInfo = itemParts[INFO];
+					item.itemImage = itemParts[IMAGE];
+					itemList.push(item);
+				}
+			}
+			
+			function selectitem(idx)
+			{
+				currentItemIdx = idx + offset;
+				display()
+			}
+			
+			function moveOffset(mod)
+			{
+				offset += mod;
+				if (offset < 0)
+					offset = 0;
+				if (offset > itemList.length - 3)
+					offset = itemList.length - 3;
+				setThumbnails();
+			}
+		
+			function setThumbnails()
+			{
+				for (i = 0; i < itemThumbs.length; i++)
+				{
+					itemThumbs[i].src = 'images/' + itemList[i + offset].itemImage;
+				}
+			}
+			
+			function display()
+			{
+				mainImage.src = "images/" + itemList[currentItemIdx].itemImage;
+				captionOutput.innerHTML = itemList[currentItemIdx].itemName;
+				infoOutput.innerHTML = itemList[currentItemIdx].itemInfo;
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<h1 id = "pagetitle"></h1>
+		<img id = "mainimg"  />
+		<div id = "caption"></div>
+		<div id = "info"></div>
+		<div class = "scroll">
+			<img class = "arrow" src = "images/backward.png" onclick = "moveOffset(-1);"/>
+			<img class = "thumb" onclick = "selectitem(0);" />
+			<img class = "thumb" onclick = "selectitem(1);" />
+			<img class = "thumb" onclick = "selectitem(2);" />
+			<img class = "arrow" src = "images/forward.png" onclick = "moveOffset(1);"/>
+		</div>
+	</body>
+</html>

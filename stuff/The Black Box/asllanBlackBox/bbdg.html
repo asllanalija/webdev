@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Data Gallery</title>
+		<style>
+			body
+			{
+				text-align:center;
+				background-color:#333333;
+			}
+			
+			.thumb
+			{
+				margin-top:3%;
+				margin-left:1%;
+				width:12%;
+				border:1px solid white;
+			}
+			
+			.arrow
+			{
+				width:8%;
+			}
+			
+			#mainimg
+			{
+				width:75%;
+				border:2px solid white;
+			}
+			
+			#caption
+			{
+				font-size:24pt;
+				font-weight:bold;
+				background-color: #A9A9A9;
+				width:15%;
+				color:black;
+				margin-left:28%;
+				margin-bottom: 1%;
+				border-radius:25px;
+				border: 2px solid white;
+			}
+			.scroll
+			{
+				margin-top:2%;
+			}
+			.thumb:hover
+			{
+				transform:scale(1.2);
+				transition:all 0.2s;
+				z-index: 50;
+			}
+			#pagetitle
+			{
+				background-color: #A9A9A9;
+				text-align:center;
+				width:20%;
+				font-size: 32pt;
+				color:black;
+				margin-left: 40%;
+				border-radius:25px;
+				border: 2px solid white;
+			}
+			#info
+			{
+				font-weight:bold;
+				color:black;
+				font-size:22pt;
+				position:absolute;
+				top:25%;
+				width:40%;
+				padding:25px;
+				background-color:white;
+				border-radius:25px;
+				border: 2px solid black;
+			}
+			.thumbnails
+			{
+				margin-bottom:2%;
+				left:25%;
+			}
+			.imginfo
+			{
+				position:absolute;
+				margin:auto;
+			}
+		</style>
+		
+		<script src = "itemdata.js"></script>
+		<script>
+			function initialize()
+			{
+				mainImage = document.getElementById("mainimg");
+				captionOutput = document.getElementById("caption");
+				infoOutput = document.getElementById("info");
+				itemThumbs = document.getElementsByClassName("thumb");
+				
+				itemList = [];
+				currentItemIdx = 0;
+				offset = 0;
+				
+				document.getElementById("pagetitle").innerHTML = pageTitle;
+				buildData();
+				setThumbnails();
+				display();
+			}
+			
+			
+			function buildData()
+			{
+				itemArray = items.split(";");
+				for (i = 0; i < itemArray.length; i++)
+				{
+					item = {};
+					itemParts = itemArray[i].split(":");
+					item.itemName = itemParts[NAME];
+					item.itemInfo = itemParts[INFO];
+					item.itemImage = itemParts[IMAGE];
+					itemList.push(item);
+				}
+			}
+			
+			function selectitem(idx)
+			{
+				currentItemIdx = idx + offset;
+				display()
+			}
+			
+			function moveOffset(mod)
+			{
+				offset += mod;
+				if (offset < 0)
+					offset = 0;
+				if (offset > itemList.length - 3)
+					offset = itemList.length - 3;
+				setThumbnails();
+				display();
+			}
+		
+			function setThumbnails()
+			{
+				for (i = 0; i < itemThumbs.length; i++)
+					itemThumbs[i].src = 'images/' + itemList[i + offset].itemImage;
+				
+			}
+			
+			function display()
+			{
+				mainImage.src = "images/" + itemList[currentItemIdx].itemImage;
+				captionOutput.innerHTML = itemList[currentItemIdx].itemName;
+				infoOutput.innerHTML = itemList[currentItemIdx].itemInfo;
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<h1 id = "pagetitle"></h1>
+		<hr />
+		<div class = "thumbnails">
+			<img class = "arrow" src = "images/backward.png" onclick = "moveOffset(-1);"/>
+			<img class = "thumb" onclick = "selectitem(0);" />
+			<img class = "thumb" onclick = "selectitem(1);" />
+			<img class = "thumb" onclick = "selectitem(2);" />
+			<img class = "arrow" src = "images/forward.png" onclick = "moveOffset(1);"/>
+		</div>
+		<div id = "caption"></div>
+		<div class = "imginfo">
+			<img id = "mainimg"  />
+			<span id = "info"></span>
+		</div>
+
+	</body>
+</html>

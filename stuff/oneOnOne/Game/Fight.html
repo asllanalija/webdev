@@ -1,0 +1,526 @@
+<!-- Asllan Alija Pd 1-->
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>
+			Fight
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				fmovebutton = "";
+				winner = "";
+				fatality = false;
+				comFatality = false;
+				playerSTR = Math.floor(Math.random()*16)+3;
+				playerSPD = Math.floor(Math.random()*16)+3;
+				playerCUN = Math.floor(Math.random()*16)+3;
+				plyrStartSTR = playerSTR;
+				plyrStartSPD = playerSPD;
+				plyrStartCUN = playerCUN;
+				playerFatigue = Math.floor(Math.random()*58)+3;
+				plyrDefend = false;
+				plyrAttack = false;
+				playerDefense = playerSPD + Math.floor(Math.random()*6)+1;
+				comDefend = false;
+				comAttack = false;
+				comFatigue = Math.floor(Math.random()*58)+3;
+				comFatigueStart = comFatigue;
+				comSTR = Math.floor(Math.random()*16)+3;
+				comSPD = Math.floor(Math.random()*16)+3;
+				comCUN = Math.floor(Math.random()*16)+3;
+				comStartSTR = comSTR;
+				comStartSPD = comSPD;
+				comStartCUN = comCUN;
+				plyrStatLost = false;
+				playerWin = false;
+				computerWin = false;
+				comDefense = comSPD + Math.floor(Math.random()*6)+1;
+				winnerOut = document.getElementById("winout");
+				winnerOut.innerHTML = "";
+				finishingMoveOut = document.getElementById("fmove");
+				finishingMoveOut.innerHTML = "";
+				playerFatigueOut = document.getElementById("plyrout");
+				playerFatigueOut.innerHTML = playerFatigue;
+				comFatigueOut = document.getElementById("comout");				
+				comFatigueOut.innerHTML = comFatigue;
+				plyrAnimation = document.getElementById("playerAnimation");
+				plyrAnimation.src = "images/idle.gif";
+				plyrAnimation.style.textAlign = "left";
+				comAnimation = document.getElementById("computerAnimation");
+				comAnimation.src = "images/comIdle.gif";
+				comAnimation.style.textAlign = "right";
+				plyrFatigueStrt = playerFatigue;
+				comFatigueStrt = comFatigue;
+				resetgame = document.getElementById("resetGame");
+				resetgame.innerHTML = "";
+			}
+			function playerAttack()
+			{
+				if (plyrAnimation.style.textAlign == "left")
+				{
+					var randValue = Math.floor(Math.random()*6)+1
+					playerATK = Math.floor((playerSTR + playerSPD + playerCUN)/randValue);
+					plyrAttack = true;
+					plyrDefend = false;
+					fatality = false;
+					plyrAnimation = document.getElementById("playerAnimation");
+					determineplyrAnimation();
+					computerMove();	
+				}
+			
+			}
+			function playerDefend()
+			{
+				
+				if (plyrAnimation.style.textalign == "left")
+				{
+					playerDefense = playerSPD + playerCUN;
+					plyrDefend = true;
+					plyrAttack = false;
+					fatality = false;
+					determineplyrAnimation();
+					computerMove();
+				}
+
+			}
+			function determineplyrAnimation()
+			{
+				if  (playerWin == false && computerWin == false)
+				{
+					var pos = 100;
+					var move = 210;
+					var start = 100;
+					var id = setInterval(frame, 10)
+					function frame()
+					{
+						if (pos == move)
+						{
+							back = setInterval(moveBack, 500)
+							clearInterval(id);
+						}
+						else
+						{
+							pos += 2.5;
+							plyrAnimation.style.marginLeft = pos + '%';
+						}
+					}
+					function moveBack()
+					{
+						if (pos == move)
+						{
+							if (plyrDefend == true)
+							{
+								plyrAnimation.src = "images/kendefend.jpg";
+							}
+							else
+							{
+								if (plyrAttack == true)
+								{
+									plyrAnimation.src = "images/kenattack.jpg";								
+								}
+								else
+								{
+									plyrAnimation.src = "images/finalAttack.gif";
+								}
+							}
+							pos -= 2;
+						}					
+						else
+						{
+							if (winner == "")
+							{
+								plyrAnimation.src = "images/idle.gif";
+								pos = start;
+								plyrAnimation.style.marginLeft = pos + '%';
+								if (pos == 100)
+								{
+									clearInterval(back);
+								}
+							}
+							else
+							{
+								if (winner == "PLAYER 1 WINS")
+								{
+									plyrAnimation.src = "images/victoryPose.jpg";
+								}
+								else
+								{
+									plyrAnimation.src = "images/defeat.png";
+								}
+								showResetButton();
+							}
+						}
+					}	
+				}
+			}
+			function computerMove()
+			{
+				atkOrDef = Math.floor(Math.random()*2)+1
+				if (comFatality == true)
+				{
+					comFinishingMove();
+				}
+				else
+				{
+					if (atkOrDef == 1)
+					{
+						computerAttack();
+					}
+					else
+					{
+						computerDefend();
+					}
+				}
+			}			
+			function computerAttack()
+			{
+				var randValue = Math.floor(Math.random()*6)+1;
+				comATK = Math.floor((comSTR + comSPD + comCUN) / randValue);
+				comAttack = true;
+				comDefend = false;
+				comFatality = false;
+				comAnimation = document.getElementById("computerAnimation");
+				determineComAnimation();
+				endTurn();
+			}
+
+			function computerDefend()
+			{
+				computerDefense = comSPD + comCUN;
+				comAttack = false;
+				comDefend = true;
+				comFatality = false;
+				comAnimation = document.getElementById("computerAnimation");
+				determineComAnimation();
+				endTurn();
+			}
+			function determineComAnimation()
+			{
+				if (playerWin == false && computerWin == false)
+				{
+					var pos = 350;
+					var start = 350;
+					var move = 240;
+					var id = setInterval(frame, 10);
+					function frame()
+					{
+						if (pos == move)
+						{
+							comback = setInterval(moveBack, 500)
+							clearInterval(id);
+						}
+						else
+						{
+							pos -= 2.5;
+							comAnimation.style.marginLeft = pos + '%';
+						}
+					}
+					function moveBack()
+					{
+						if (pos == move)
+						{
+							if (comDefend == true)
+							{
+								comAnimation.src = "images/comdefend.jpg";						
+							}
+							else
+							{
+								if (comAttack == true)
+								{	
+									comAnimation.src = "images/comAttack.jpg";
+								}
+								else
+								{
+									comAnimation.src = "images/comFinalAttack.gif";
+								}
+							}
+							pos -= 2;
+						}
+						else
+						{
+							if (winner == "")
+							{
+								comAnimation.src = "images/comIdle.gif";
+								pos = start;
+								comAnimation.style.marginLeft = pos + '%';
+								if (pos == start)
+								{
+									clearInterval(comback);
+								}
+							}
+							else
+							{
+								if (winner == "COMPUTER WINS")
+								{
+									comAnimation.src = "images/victoryPose.jpg";
+								}
+								else
+								{
+									comAnimation.src = "images/defeat.png";
+								}
+								showResetButton();
+							}
+						}
+					}	
+				}
+			}
+			function endTurn()
+			{
+				if (playerWin == false && computerWin == false)
+				{
+					var playerFatigueStart = playerFatigue;
+					var comFatigueStart = comFatigue;
+					if (plyrDefend == false)
+					{
+						playerDefense = playerSPD + Math.floor(Math.random()*6)+1;
+					}
+					if (comDefend == false)
+					{
+						comDefense = comSPD + Math.floor(Math.random()*6)+1;
+					}
+					if (comDefend == true && plyrDefend == true)
+					{
+						playerFatigue += Math.floor(Math.random()*6)+1;
+						comFatigue += Math.floor(Math.random()*6)+1;
+
+					}				
+					if (plyrAttack == true)
+					{
+						if (playerATK > comDefense)
+						{
+							comFatigue -= playerATK - comDefense
+						}
+						else
+						{
+							if (comDefend == true)
+							{
+								comFatigue += Math.floor(Math.random()*6)+1;
+							}
+						}
+					}
+					if (comAttack == true)
+					{
+						if (comATK > playerDefense)
+						{
+							playerFatigue -= comATK - playerDefense
+						}
+						else
+						{
+							if (plyrDefend == true)
+							{
+								playerFatigue += Math.floor(Math.random()*6)+1;
+							}
+						}
+					}
+					if (playerFatigue > 60)
+					{
+						playerFatigue = 60;
+					}			
+					if (comFatigue > 60)
+					{
+						comFatigue = 60;
+					}				
+					if (playerFatigue / comFatigue > 2 || comFatigue < 0)
+					{
+						fmovebutton = "<button onclick = 'FinishingMove();'> Finishing Move </button>";
+					}
+					else
+					{
+						fmovebutton = "";
+						fatality = false;
+					}
+					if (comFatigue / playerFatigue > 2 || playerFatigue < 0)
+					{
+						comFatality = true;
+					}
+					else
+					{
+						comFatality = false;
+					}
+					playerSTR = plyrStartSTR;
+					playerSPD = plyrStartSPD;
+					playerCUN = plyrStartCUN;
+					comSTR = comStartSTR;
+					comSPD = comStartSPD;
+					comCUN = comStartCUN;					
+					statDecay(comFatigueStart, comFatigue);
+					statDecay(plyrFatigueStrt, playerFatigue);				
+					comFatigueOut.innerHTML = comFatigue;
+					playerFatigueOut.innerHTML = playerFatigue;
+					finishingMoveOut.innerHTML = fmovebutton;
+				}
+			}
+			function statDecay(fatigueStart, currentFatigue)
+			{
+				var difference = fatigueStart - currentFatigue
+				if (difference >= 30)
+				{
+					StatsLost = 3;
+				}
+				else
+				{
+					if (difference >= 20)
+					{
+						StatsLost = 2;
+					}
+					else 
+					{
+						if (difference >= 10)
+						{
+							StatsLost = 1;
+						}
+						else
+						{
+							StatsLost = 0;
+						}
+					}
+				}	
+				if (currentFatigue == playerFatigue)
+				{
+					playerSTR -= StatsLost
+					playerSPD -= StatsLost
+					playerCUN -= StatsLost
+				}
+				else
+				{
+					comSTR -= StatsLost
+					comSPD -= StatsLost
+					comCUN -= StatsLost
+				}
+			}
+			function calcWinner()
+			{
+				if (fatality == true)
+				{
+					if (playerATK > comDefense)
+					{
+						winner = "PLAYER 1 WINS";
+						playerWin = true;
+						winnerOut.innerHTML = winner;
+					}		
+				}
+				if (comFatality == true)
+				{
+					if (comATK > playerDefense)
+					{
+						winner = "COMPUTER WINS";						
+						computerWin = true;
+						winnerOut.innerHTML = winner;
+					}
+				}				
+			}
+			function FinishingMove()
+			{		
+				if (plyrAnimation.style.marginLeft == "100%")
+				{
+					playerATK = Math.floor((playerSTR + playerSPD)/(Math.floor(Math.random()*5)+1));
+					fatality = true;
+					plyrAttack = false;
+					plyrDefend = false;
+					computerMove();					
+					determineplyrAnimation();
+					calcWinner();					
+				}		
+			}
+			function comFinishingMove()
+			{
+				comATK = Math.floor((comSTR + comSPD)/(Math.floor(Math.random()*5)+1));
+				comAttack = false;
+				comDefend = false;
+				comFatality = true;
+				determineComAnimation();
+				calcWinner();				
+				endTurn();
+			}	
+			function showResetButton()
+			{
+				resetgame.innerHTML = "<button onclick = 'initialize();'> Reset Game </button>";
+			}
+		</script>
+		<style>
+			#arena
+			{
+				width : 400px;
+				height: 400px;
+				position: relative;	
+				color : yellow;
+			}
+			#playerAnimation 
+			{
+				width: 100px;
+				height: 150px;
+				position: absolute;
+			}
+			p
+			{
+				text-align:center;
+				color:white;
+			}
+			#computerAnimation
+			{
+				width: 100px;
+				height: 150px;
+				position: absolute;
+			}
+			h3
+			{
+				text-align:center;
+				color:white;
+			}
+			body
+			{
+				background-color:black;
+			}
+			button
+			{
+				background-color:red;
+				border:none;
+				color:black;
+				text-align:center;
+				text-decoration:none;
+				display: inline-block:
+				font-size: 16px;
+				font-weight:bolder;
+				padding: 15px 32px;
+			}
+			h6
+			{
+				text-align:center;
+			}
+			h5
+			{
+				text-align:center;
+			}
+			#HASH
+			{
+				display:flex;
+				justify-content: space-between;
+				color:white;
+				font-size: 25px;
+			}
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div id = "HASH">
+			<span> Player 1 </span>
+			<span> Computer </span></div>
+		<h6> <button onclick = "playerAttack();"> Attack </button>
+		<button onclick = "playerDefend();"> Defend </button>
+		<span id = "fmove"></span></h6>
+		<h5> <span id = "resetGame"></span> </h5>
+		<p>Player Fatigue : <span id = "plyrout"></span> /
+		Computer Fatigue : <span id = "comout"></span></p>
+		<h3> <span id = "winout"></span> </h3>
+		<div id = "arena">
+			<img id = "playerAnimation"/>
+			<img id = "computerAnimation"/>
+		</div>
+		
+	</body>
+</html>
+
+

@@ -1,0 +1,50 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html onmousedown = "select(event);" onmouseup = "unselect(event);" onmousemove = "move(event);">
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				image = document.getElementById("img");
+				//TEMP = 1, TEMP2 = 2;
+				currentImg = null;
+				interval = setInterval(select, 1000);
+			}
+			function select(e)
+			{
+				currentImg = e.target;
+			}
+			function move(e)
+			{
+				if (currentImg != null)
+				{
+					currentImg.style.left = e.clientX - (image.clientWidth/2) + "px";
+					currentImg.style.top = e.clientY - (image.clientHeight/2) + "px";
+				}
+			}-
+			function unselect()
+			{
+				currentImg = null;
+			}
+		</script>
+		<style>
+			#img
+			{
+				position:absolute;
+			}
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<img src = "icon-flame.png" id = "img" onmousedown = "return false"/>	
+	</body>
+</html>
+
+

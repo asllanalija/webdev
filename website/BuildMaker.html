@@ -1,0 +1,407 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script src = "utilities.js">
+		</script>
+		<script>
+			function initialize()
+			{
+				img1 = document.getElementById("item1");
+				img2 = document.getElementById("item2");		
+				img3 = document.getElementById("item3");		
+				img4 = document.getElementById("item4");
+				img5 = document.getElementById("item5");
+				img6 = document.getElementById("item6");
+				imgArray = ["", img1, img2, img3, img4, img5, img6];
+				resetItems();
+			}
+			function resetItems()
+			{
+				ad = 108;
+				ap = 0;
+				crit = 0;
+				cdr = 0;
+				atkSpeed = 0.77;
+				armor = 81;
+				mr = 50;
+				lethality = 0;
+				armorpen = 0;				
+				mpen = 0;
+				mpenPercent = 0;
+				lifesteal = 0;
+				numItems = 0;
+				mana = 1089;
+				health = 2016;
+				movementspeed = 350;
+				mpenUsed = false;
+				apen = false;
+				rabadons = false;
+				adout = document.getElementById("ad");
+				apout = document.getElementById("ap");
+				critout = document.getElementById("crit");
+				cdrout = document.getElementById("cdr");
+				atkSpeedOut = document.getElementById("atkSpeed");
+				armorout = document.getElementById("armor");
+				mrout = document.getElementById("mr");
+				lethalityout = document.getElementById("lethality");
+				armorpenout = document.getElementById("armorpen");
+				mpenout = document.getElementById("mpen");
+				mpenPercentout = document.getElementById("mpenPercent");
+				lifestealout = document.getElementById("lifesteal");
+				manaout = document.getElementById("mana");
+				healthout = document.getElementById("health");
+				movementSpeedOut = document.getElementById("ms");
+				img1.src = "texture.jpg"
+				img2.src = "texture.jpg"
+				img3.src = "texture.jpg"
+				img4.src = "texture.jpg"
+				img5.src = "texture.jpg"
+				img6.src = "texture.jpg"		
+				display();
+			}
+			function test(idx)
+			{
+				if (numItems >= 6)
+				{
+					return
+				}
+				var itemStr = ITEMS[idx].toString();
+				itemStr = itemStr.split(",");
+				name = itemStr[0];
+				img = itemStr[1];
+				statStr = STATS[idx].toString();
+				statStr = statStr.split(",");			
+				for (i = 0; i < statStr.length; i++)
+				{
+					var temp3 = statStr[i];
+					temp3 = temp3.split(" ");
+					var m = parseInt(temp3[0]);				
+					if (temp3[1] == "AP")
+					{
+						ap += m;
+					}
+					if (temp3[1] == "AD")
+					{
+						ad += m;
+					}
+					if (temp3[1] == "%CRIT")
+					{
+						crit += m;
+						if (crit > 100)
+						{
+							crit = 100;
+						}
+					}
+					if (temp3[1] == "CDR")
+					{
+						cdr += m;
+						if (cdr > 40)
+						{
+							cdr = 40;
+						}
+					}
+					if (temp3[1] == "%AS")
+					{
+						atkSpeed *= 1 + m/100;
+						atkSpeed = atkSpeed.toFixed(2);
+						if (atkSpeed > 2.5)
+						{
+							atkSpeed = 2.5;
+						}
+					}
+					if (temp3[1] == "Armor")
+					{
+						armor += m;
+					}
+					if (temp3[1] == "MR")
+					{
+						mr += m;
+					}
+					if (temp3[1] == "LTH")
+					{
+						lethality += m;
+					}
+					if (temp3[1] == "%APEN")
+					{
+						if (apen == false)
+						{
+							armorpen += m;
+							apen = true;
+						}
+					}
+					if (temp3[1] == "MP")
+					{
+						mpen += m;
+					}
+					if (temp3[1] == "%MP")
+					{
+						if (mpenUsed == false)
+						{
+							mpenPercent += m;
+							mpenUsed = true;													
+						}
+
+					}
+					if (temp3[1] == "Mana")
+					{
+						mana += m;
+					}	
+					if (temp3[1] == "HP")
+					{
+						health += m;
+					}
+					if (temp3[1] == "%AP")
+					{
+						rabadons = true;
+					}
+					if (temp3[1] == "%MS")
+					{
+						movementspeed *= 1 + m/100;
+						movementspeed = Math.round(movementspeed);
+					}
+					if (temp3[1] == "%LS")
+					{
+						lifesteal += m;
+					}
+					calcAP();
+				}
+				numItems++
+				imgArray[numItems].src = img;
+				display();
+			}
+			function calcAP(mod)
+			{
+				if (rabadons)
+				{
+					var x = (35/100)*ap;
+					displayAP = ap + x;
+				}
+
+
+			}
+			function display()
+			{
+				adout.innerHTML = ad;
+				if (rabadons)
+				{
+					apout.innerHTML = displayAP;
+				}
+				else
+				{
+					apout.innerHTML = ap;
+				}
+				critout.innerHTML = crit;
+				cdrout.innerHTML = cdr;
+				atkSpeedOut.innerHTML = atkSpeed;
+				armorout.innerHTML = armor;
+				mrout.innerHTML = mr;
+				lethalityout.innerHTML = lethality;
+				armorpenout.innerHTML = armorpen;
+				mpenout.innerHTML = mpen;
+				mpenPercentout.innerHTML = mpenPercent;
+				lifestealout.innerHTML = lifesteal;
+				manaout.innerHTML = mana;
+				healthout.innerHTML = health;
+				movementSpeedOut.innerHTML = movementspeed;				
+			}
+		</script>
+		
+		<style>
+			img.title
+			{
+				height:50px;
+				text-align:left;
+			}
+			body
+			{
+				background-image: url("background.jpg");
+				position: sticky;
+			
+			}
+			.hyperlink, .hyperlink-current
+			{
+				font: bold 14px Arial;
+				text-decoration: none;
+				background-color: #00001a;
+				color: #c9aa71;
+				margin-left: 1%;
+			}
+			div.buttons
+			{			
+				text-align:left;
+				padding: 1%;
+				background-color:#00001a
+				
+			}
+			div.outline
+			{
+				background-color: #00001a;
+				margin-left: 13%;
+				height:100%;
+				width:75%;
+			}
+			a.icon
+			{
+				float:left;
+				margin-top: -1%;
+			}
+			.hyperlink-current
+			{
+				color: white;
+				padding-bottom: 12px;
+				border-bottom: 2px solid #c9aa71;
+			}
+			a.hyperlink:hover
+			{
+				color: #e2ca9c;
+			}
+			div.logo
+			{
+				text-align:center;
+			}
+			img.logo
+			{
+				height:25%;
+			}
+			#item1, #item2, #item3, #item4, #item5, #item6
+			{
+				border: 1px solid #c9aa71;
+				width: 5%;
+				height:7%;
+			}
+			div.itemcontainer
+			{
+				padding-top:5%;
+				padding-left:5%;
+			}
+			div.itemchooser
+			{
+				text-align:right;
+			}
+			.name
+			{
+				color: #c9aa71;
+			}
+			div.text
+			{
+				color:white;
+				display: inline-block;
+				padding-left:2%;
+			}
+			#health
+			{
+				color:green;
+			}
+			#mana
+			{
+				color:blue;
+			}
+			.button
+			{
+				background-color: blue;
+				font-size: 16pt;
+				border: none;
+				color:white;
+				padding: 15px 32px;
+			}
+			.hyperlink
+			{
+				transition-duration: 0.4s;
+			}
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div class = "buttons">
+			<a class = "icon" href = "index.html">
+				<img class = "title" src = "icon.png">	
+			</a>
+			<div class = "test">
+				<a class = "hyperlink" href = "majorChanges.html"> MAJOR CHANGES </a>	
+				<a class = "hyperlink" href = "Resources.html"> RESOURCES </a>
+				<a class = "hyperlink-current" href = "BuildMaker.html"> BUILD MAKER </a>
+			</div>
+		</div><br /><br />	
+		<div class = "logo">
+			<img src = "lol.png" class = "logo"/>
+		</div>
+		<div class = "outline">
+			<div class = "itemcontainer">
+				<img id = "item1"/>
+				<img id = "item2"/>
+				<img id = "item3"/>
+				<img id = "item4"/>
+				<img id = "item5"/>
+				<img id = "item6"/>
+			</div>
+			<div class = "itemchooser">
+				<img src = "items/rabadons.png" onclick = "test(0);">
+				<img src = "items/morellos.png" onclick = "test(1);">
+				<img src = "items/Liandry.png" onclick = "test(2);">
+				<img src = "items/Lich.png" onclick = "test(3);">
+				<img src = "items/Ludens.png" onclick = "test(4);">
+				<img src = "items/Void.png" onclick = "test(5);">
+			</div>
+			<div class = "itemchooser">
+				<img src = "items/Zhonyas.png" onclick = "test(6);">
+				<img src = "items/IE.png" onclick = "test(7);">
+				<img src = "items/shiv.png" onclick = "test(8);">
+				<img src = "items/rfc.png" onclick = "test(9);">
+				<img src = "items/BT.png" onclick = "test(10);">
+				<img src = "items/Youmuus.png" onclick = "test(11);">
+			</div>
+			<div class = "itemchooser">
+				<img src = "items/Duskblade.png" onclick = "test(12);">
+				<img src = "items/deathsDance.png" onclick = "test(13);">
+				<img src = "items/bork.png" onclick = "test(14);">
+				<img src = "items/guinsoos.png" onclick = "test(15);">
+				<img src = "items/LDR.png" onclick = "test(16);">
+				<img src = "items/Maw.png" onclick = "test(17);">				
+			</div>
+			<div class = "itemchooser">
+				<img src = "items/Essence.png" onclick = "test(18);">
+				<img src = "items/PD.png" onclick = "test(19);">
+
+			</div>
+			<div class = "row">
+				<div class = "text">
+					<span class = "name">Health </span>= <span id = "health"> </span><br />
+				</div>
+				<div class = "text">
+					<span class = "name">Mana </span>= <span id = "mana"> </span><br />
+				</div>
+			</div><br />
+			<div class = "row">
+				<div class = "text">
+					<span class = "name">Attack Damage </span>= <span id = "ad"> </span><br />
+					<span class = "name"> Armor </span> = <span id = "armor"> </span> <br />
+					<span class = "name"> Attack Speed </span> = <span id = "atkSpeed"> </span><br />
+					<span class = "name"> Critical Strike </span> = <span id = "crit"> </span>%
+				</div>
+				<div class = "text">
+					<span class = "name"> Ability Power </span> = <span id = "ap"> </span><br />
+					<span class = "name"> Magic Resist </span> = <span id = "mr"> </span><br />
+					<span class = "name"> Cooldown Redution </span> = <span id = "cdr"> </span>%<br />
+					<span class = "name"> Movement Speed </span> = <span id = "ms"> </span>
+				</div>
+			</div> <br />
+			<div class = "row">
+				<div class = "text">
+					<span class = "name">Lethality </span>= <span id = "lethality"> </span><br />
+					<span class = "name"> Armor Penetration </span> = <span id = "armorpen"> </span>% <br />
+					<span class = "name"> Magic Penetration </span> = <span id = "mpen"> </span><br />
+					<span class = "name"> % Magic Penetration </span> = <span id = "mpenPercent"> </span>%<br />
+					<span class = "name"> Lifesteal </span> = <span id = "lifesteal"> </span>%
+				</div>
+
+			</div><br />
+			<button class = "button" onclick = "resetItems();"> Reset </button>			
+		</div>
+	</body>
+</html>

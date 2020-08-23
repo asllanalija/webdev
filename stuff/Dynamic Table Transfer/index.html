@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title></title>
+		<style></style>
+		<script>
+			function initialize()
+			{
+				CAPTIONS = ["Character", "Show/Film", "Actor"];
+				NAMES = ["character", "show", "actor"];
+			
+				characterForm = document.getElementById("characterform");
+				numCharactersBox = document.getElementById("numcharacters");
+				characterIdx = 1;
+			}
+			
+			function addCharacters(e, el)
+			{
+				var numEntries = parseInt(numCharactersBox.value);
+				
+				if (isNaN(numEntries))
+					return;
+
+				for (var i = 0; i < numEntries; i++)
+				{
+					var newDiv = document.createElement("div");
+					
+					for (var j = 0; j < CAPTIONS.length; j++)
+					{
+						newDiv.appendChild(new Text(CAPTIONS[j] + ": "));
+						var newElement = document.createElement("input");
+						newElement.type = "text";
+						newElement.name = NAMES[j] + characterIdx;
+						newDiv.appendChild(newElement);
+						newDiv.appendChild(new Text(" "));
+					}
+					
+					characterForm.appendChild(newDiv);
+				}
+			}
+		</script>
+	</head>
+	<body onload = "initialize();">
+		<button onclick = "addCharacters();">Add</button> <input type = "text" id = "numcharacters" /> character inputs.
+		<hr />
+		<form method = "get" action = "destination.html" id = "characterform">
+			<input type = "submit" />
+			<div>
+				Character: <input type = "text" name = "character" />
+				Show/Film: <input type = "text" name = "show" />
+				Actor: <input type = "text" name = "actor" />
+			</div>
+		</form>
+	</body>
+</html>

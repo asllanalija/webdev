@@ -1,0 +1,99 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script src = "story.js"></script>
+		<script>
+			function initialize()
+			{
+				form = document.getElementById("form");
+				inputs = document.getElementById("inputs");
+				text = document.getElementById("text");
+				storyInput = document.getElementById("story");
+				
+				wordTypes = ["noun", "adjective", "adverb", "verb", "verb-ending-in-ing", "verb-past-tense"];
+				
+				storyIdx = getRandomInteger(0, STORIES.length - 1);
+				storyInput.value = storyIdx;
+				story = STORIES[storyIdx].split(DELIMITER);
+				
+				numIterated = 0;
+				
+				createInputs();
+			}
+			function createInputs()
+			{
+				for (i = 0; i < story.length; i++)
+				{
+						if (story[i].indexOf(" ") < 0 && story[i].length > 1)
+						{
+							var input = document.createElement("input");
+							var brk = document.createElement("br");
+							text.appendChild(new Text(story[i] + ":"));
+							input.type = "text";
+							input.name = story[i] + " " + numIterated;
+							inputs.appendChild(input);	
+							text.appendChild(brk);
+							var brk = document.createElement("br");
+							inputs.appendChild(brk);	
+							numIterated++;
+						}
+					
+				}
+			}
+		</script>
+		<style>
+			form
+			{
+				background-color: #222222;
+				color:white;	
+				width:auto;
+				position:absolute;
+				left: 39%;
+				top: 15%;
+				padding: 1%;
+			}
+			.column
+			{
+				width:auto;
+				display:inline-block;
+				font-size:13.5pt;
+			}
+			.submit
+			{
+				text-align:center;
+				padding-bottom: 1%;
+				background-color: white;
+				text-decoration:none;
+			}
+			body
+			{
+				background-color:black;
+			}
+			h1
+			{
+				color:white;
+				font-size:52pt;
+				text-align:center;
+			}
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<h1> Mad Libs </h1>
+		<form id = "form" method = "get" action = "destination.html">
+			<input class = "submit" type = "submit"/> <br />
+			<input type = "hidden" id = "story" name = "storyIndex"> </input>
+			<div id = "text" class = "column"> </div>
+			<div class = "column" id = "inputs"> </div>
+		</form>
+		
+	</body>
+</html>
+
+

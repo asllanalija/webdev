@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title></title>
+		<link rel = "stylesheet" href = "columns.css" />
+		<link rel = "stylesheet" href = "roster.css" />
+		<style></style>
+		<script src = "utilities.js"></script>
+		<script src = "namedata.js"></script>
+		<script>
+		
+			function initialize()
+			{
+				applicants = document.getElementById("newgroup");
+				groupA = document.getElementById("A");
+				groupB = document.getElementById("B");
+				groupC = document.getElementById("C");
+				groupD = document.getElementById("D");
+				applicantArray = [];
+				groupAarray = [];
+				groupBarray = [];
+				groupCarray = [];
+				groupDarray = [];
+				numApplicants = 0;
+				numGroupA = 0;
+				// groupArray = [groupA, groupB, groupC, groupD];
+				GENDER = 0, NAME = 1, MAXPEOPLE = 30;
+				interval = setInterval(getPerson, 1000);				
+			}
+			function getPerson()
+			{
+				if (numApplicants > MAXPEOPLE)
+					return;
+				var temp = getRandomInteger(0, allPeople.length - 1);
+				pInfo = allPeople[temp];
+				pInfo = pInfo.split(",");
+				pObj = {};
+				pObj.gender = pInfo[GENDER];
+				pObj.name = pInfo[NAME];
+				pObj.ID = getId(0, 9, 7);
+				person = document.createElement("li");
+				person.addEventListener("click", function()
+				{
+					if (numGroupA >= 12)
+					{
+						return;
+					}
+					groupA.appendChild(this);				
+					var idx = applicantArray.indexOf(this);
+					groupAarray.push(applicantArray[idx]);						
+					applicantArray.splice(idx, 1);
+					numApplicants--;
+					numGroupA++;
+					
+				});
+				person.innerHTML = pObj.name + " " + pObj.ID;
+				applicantArray.push(person);
+				applicants.appendChild(applicantArray[numApplicants]);
+				numApplicants++;
+				
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<span class = "columncontainer">
+			<div class = "column">
+				<ol id = "newgroup"><h1>Prospective Applicants</h1><hr /></ol>
+			</div>
+			<div class = "column">
+				<ol id = "A"><h1>Add to Group A</h1><hr /></ol>
+				<ol id = "B"><h1>Add to Group B</h1><hr /></ol>
+				<ol id = "C"><h1>Add to Group C</h1><hr /></ol>
+				<ol id = "D"><h1>Add to Group D</h1><hr /></ol>
+			</div>
+		</span>
+	</body>
+</html>

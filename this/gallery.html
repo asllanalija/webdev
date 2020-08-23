@@ -1,0 +1,57 @@
+<!doctYpe html>
+<html>
+	<head>
+		<title>Transition</title>
+		<style>
+			img 
+			{
+				width: 10%;
+			}
+			#chosenImg
+			{
+				width:75%;
+			}
+			div
+			{
+				text-align:center;
+			}
+		</style>
+		<script>
+			function initialize()
+			{
+				imgArray = ["images/Ash copy.png", "images/Barnabas copy.png", "images/Drake copy.png", "images/Endisun copy.png", "images/Lunar copy.png", "images/Rax copy.png"];
+				idx = 0;
+				imageone = document.getElementById("img1");
+				imagetwo = document.getElementById("img2");
+				imagethree = document.getElementById("img3");
+				display();
+			}
+			function changeImg(mod)
+			{
+				if (idx < 0 || newidx >= imgArray.length))
+				{
+					return
+				}
+				
+				idx += mod;
+				newidx = idx + 2;
+				display();
+			}
+			function display()
+			{
+				imageone.src = imgArray[idx];
+				imagetwo.src = imgArray[idx + 1];
+				imagethree.src = imgArray[idx + 2];
+			}
+			
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<button onclick = "changeImg(-1);"> back </button>
+		<img id = "img1">
+		<img id = "img2">
+		<img id = "img3">	
+		<button onclick = "changeImg(1);"> forward </button>		
+	</body>
+</html>

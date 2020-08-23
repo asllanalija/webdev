@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<!-- Andrew Pan , Sandra Ho, Asllan Aliga-->
+<html>
+	<title>
+
+	</title>
+	<style>
+	
+		h1
+		{
+			font-size: 50px;
+			font-family: fantasy;
+			text-align: center;
+		}
+
+		img
+		{
+			display:inline-block;
+			text-align: center;
+		}
+
+
+		div.alphabetGuess
+		{
+			display: inline-block;
+			text-align: center;
+		}
+		body
+		{
+			background-color: red;
+		}
+
+		div.playerGuess
+		{
+			font-size: 40px;
+		}
+
+		button.submit
+		{
+			background-color: black;
+			color: red;
+			padding: 10px 10px 10px 10px;
+			border-radius: 12px;
+			box-shadow: 8px 8px 5px darkgrey;
+			font-size: 20px;
+			font-style: bold;
+			font-family: papyrus;
+		}
+
+
+	</style>
+	<script src = "LazyShortCuts.js"></script>
+	
+	<script>
+		// The startUp function will simply set all the variables for the code and choose a random word from the WORDS array.
+		function startUp()
+		{
+			// These are the  variables we'll be using for the rest of the code.
+			chosenWord = null;
+			chosenWordArray = [];
+			playerGuess = "";
+			playerGuessArray = [];
+			fails = 0;
+			
+			
+			// This will get a random word from the WORDS array and put it in choseWord.
+			chosenWord = WORDS[getRandomInteger(0, WORDS.length - 1)];
+			
+			// This will convert the chosenWord to an array.
+			for (var i = 0; i < chosenWord.length; i++)
+			{
+				chosenWordArray.push(chosenWord.charAt(i));
+			}
+			
+			// This will set the guess display up.
+			for (var i = 0; i < chosenWord.length; i++)
+			{
+				playerGuessArray.push("_");
+				if (i == 0)
+				{
+					playerGuess += playerGuessArray[i];
+				}
+				else
+				{
+					playerGuess += " " + playerGuessArray[i];
+				}
+				display();
+			}
+		}
+		
+		// The playerGuess function will be the function that detects the player's input.
+		function playerClick(letter)
+		{
+		// Function for replacing the playerGuess variable so we can have a proper display.
+			function changePlayerGuess()
+			{
+				playerGuess = "";
+				for (var i = 0; i < chosenWord.length; i++)
+				{
+						if (i == 0)
+					{
+						playerGuess += playerGuessArray[i];
+					}
+					else
+					{
+						playerGuess += " " + playerGuessArray[i];
+					}
+				}
+			}
+			// Variable letterHere will be used to determine if the letter chosen is present in chosen word.
+			var letterHere = 0;
+			
+			
+			// This is a for loop that will simply check if the letter is in the chosenWordArray and displays it on playerGuessArray if it is
+			for (var i = 0; i < chosenWord.length; i++)
+			{
+				if (chosenWordArray[i] == letter)
+				{
+					letterHere++
+					playerGuessArray[i] = letter;
+					changePlayerGuess();
+					display();
+				}
+			}
+			
+			// This will detect if the letter is not present in the word with the letterHere variable and disable the button if it isn't.
+			if (letterHere == 0)
+			{
+				fails++;
+			}
+		}
+		
+		
+		// This is the display function that'll display everything in the front-end for the user to see.
+		function display()
+		{
+			// Storing document.getElementById("_") as variables for this function only.
+			var playerGuessDisplayID = document.getElementById("playerGuessDisplay")
+			
+			playerGuessDisplayID.innerHTML = playerGuess;
+			
+			document.getElementById("testHelp").innerHTML = chosenWord;
+		}
+		
+		
+		// Missing most of the Alphabet button inputs, proper CSS, Victory checking, and punishment for guessing wrong. Word bank is small.
+	</script>
+	<body onload = "startUp()">
+		<h1> Hangman </h1>	
+		
+		
+			<div> <img src = "hangman.png"></div>
+			<div class = “alphabetGuess”>
+
+		<button id = "A" onclick = "playerClick('A')">A</button>
+		<button id = "B" onclick = "playerClick('B')">B</button>
+		<button id = "C" onclick = "playerClick('C')">C</button>
+		<button id = "D" onclick = "playerClick('D')">D</button>
+		<button id = "E" onclick = "playerClick('E')">E</button>
+		<button id = "F" onclick = "playerClick('F')">F</button>
+		<button id = "G" onclick = "playerClick('G')">G</button>
+		<button id = "H" onclick = "playerClick('H')">H</button>
+		<button id = "I" onclick = "playerClick('I')">I</button> <br>
+		<button id = "J" onclick = "playerClick('J')">J</button>
+		<button id = "K" onclick = "playerClick('K')">K</button>
+		<button id = "L" onclick = "playerClick('L')">L</button>
+		<button id = "M" onclick = "playerClick('M')">M</button>
+		<button id = "N" onclick = "playerClick('N’)">N</button>
+		<button id = "O" onclick = "playerClick('O')">O</button>
+		<button id = "P" onclick = "playerClick('P')">P</button>
+		<button id = "Q" onclick = "playerClick('Q')">Q</button>
+		<button id = "R" onclick = "playerClick('R')">R</button> <br>
+		<button id = "S" onclick = "playerClick('S')">S</button>
+		<button id = "T" onclick = "playerClick('T')">T</button>
+		<button id = "U" onclick = "playerClick('U')">U</button>
+		<button id = "V" onclick = "playerClick('V')">V</button>
+		<button id = "W" onclick = "playerClick('W')">W</button>
+		<button id = “X" onclick = "playerClick('X’)">X</button>
+		<button id = “Y" onclick = "playerClick('Y')">Y</button>
+		<button id = "Z" onclick = "playerClick('Z')">Z</button>	
+</div>	
+<div class = "playerGuess"><span id = "playerGuessDisplay"></span></div>
+		
+		<span id = "testHelp"></span>	
+			
+		<div class= "textbox">
+		<input type = "text" name = "fullGuess" id = "fullGuess">
+		<button class = "submit" onclick = "checkGuess();"> Submit </button>
+
+	</body>
+</html>

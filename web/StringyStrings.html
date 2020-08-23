@@ -1,0 +1,70 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				userMsg = "";
+				userMsgOutput = document.getElementById("userout");	
+				display()
+			}
+			function updateString(mod)
+			{
+				userMsg += mod
+				display()
+			}
+			function display()
+			{
+				userMsgOutput.innerHTML = userMsg;
+			}
+		
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		Message : <span id = "userout">  </span><hr />
+		<button onclick = "updateString('Q');">Q</button>
+		<button onclick = "updateString('W');">W</button>
+		<button onclick = "updateString('E');">E</button>
+		<button onclick = "updateString('R');">R</button>
+		<button onclick = "updateString('T');">T</button>
+		<button onclick = "updateString('Y');">Y</button>
+		<button onclick = "updateString('U');">U</button>
+		<button onclick = "updateString('I');">I</button>
+		<button onclick = "updateString('O');">O</button>
+		<button onclick = "updateString('P');">P</button><br />
+		<button onclick = "updateString('A');">A</button>
+		<button onclick = "updateString('S');">S</button>
+		<button onclick = "updateString('D');">D</button>
+		<button onclick = "updateString('F');">F</button>
+		<button onclick = "updateString('G');">G</button>
+		<button onclick = "updateString('H');">H</button>
+		<button onclick = "updateString('J');">J</button>
+		<button onclick = "updateString('K');">K</button>
+		<button onclick = "updateString('L');">L</button><br />
+		<button onclick = "updateString('Z');">Z</button>
+		<button onclick = "updateString('X');">X</button>
+		<button onclick = "updateString('C');">C</button>
+		<button onclick = "updateString('V');">V</button>
+		<button onclick = "updateString('B');">B</button>
+		<button onclick = "updateString('N');">N</button>
+		<button onclick = "updateString('M');">M</button><br />
+		<button onclick = "updateString(' ');">Space</button><br />
+		<button onclick = "initialize();"> Reset </button>
+
+	
+	</body>
+</html>
+
+

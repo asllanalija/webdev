@@ -1,0 +1,322 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script src = "javascript.js">
+		</script>
+		<script>
+			function initialize()
+			{
+				ITEMS = ["lockpick" , "dynamite", "lawyer", "smallbag", "mediumbag", "largebag", "magnet", "stealthsuit", "henchman"];
+				PRICE = [1000, 5000, 50000, 7000, 14000, 28000, 3000, 20000, 75000];
+				IN_PROGRESS = 0;
+				OVER = 1;
+				ALARM = 2;
+				ARRESTED = 3;
+				page = document.getElementById("everything");
+				shop = document.getElementById("shop");
+				info = document.getElementById("info");
+				shop.style.display = "none";
+				NOBAG = 1, SMALLBAG = 2, LARGEBAG = 7;
+				bagtype = NOBAG;
+				
+				round = 1;
+				money = 0;
+				randNumRange = 1;
+				digitRange = 3;
+				numDigits = 3;
+				attempts = 0;
+				baseTime = 5;
+				roundState = IN_PROGRESS;
+				bag = [];
+				feedback = document.getElementById("feedback");
+				moneydisplay = document.getElementById("money");
+				moneydisplay.innerHTML = "$" + money;
+				startGame();
+			}
+			function startGame()
+			{
+				info.innerHTML = "Click the image to buy an item";
+				for (i = 0; i < feedback.childNodes.length; i++)
+					feedback.removeChild(feedback.childNodes[i]);
+				makeBag();
+				reset = false;
+				roundState = IN_PROGRESS;
+				feedback.innerHTML = "The round has started";
+				if (round < 9 && round > 5)
+				{
+					numDigits = 4;
+				}
+				if (round < 12 && round > 9)
+				{
+					numDigits = 5;
+				}
+				if (round < 15 && round > 12)
+				{
+					numDigts = 6;
+				}
+				if (round < 18 && round > 15)
+				{
+					numDigits = 7;
+				}
+				if (round < 20 && round > 18)
+				{
+					numDigits = 8;
+				}
+				if (round == 20)
+				{
+					numDigits = 9;
+				}
+				if (round > 20)
+				{
+					var additive = round - 20;
+					numDigits = 9 + additive;
+					digitRange = 9;
+				}
+				if (round == 2 || round == 5)
+				{
+					digitRange = 4;
+				}
+				if (round == 3 || round == 6 || round == 9)
+				{
+					digitRange = 5;
+				}
+				if (round == 4 || round == 7 || round == 10 || round == 12)
+				{
+					digitRange = 6;
+				}
+				if (round == 8 || round == 11 || round == 13 || round == 15)
+				{
+					digitRange = 7;
+				}
+				if (round == 14 || round == 16 || round == 18)
+				{
+					digitRange = 8;
+				}
+				if (round == 17 || round == 19 || round == 20)
+				{
+					digitRange = 9;
+				}
+				if (round < 7)
+				{
+					time = round + 4;
+				}
+				else
+				{
+					if (round < 17)
+					{
+						var temp = round - 2;
+						time = round + temp;
+					}
+					else
+					{
+						var temp = round - 6;
+						time = temp * 3;
+					}
+				}
+				rndTime = getRandomInteger(0, round);
+				time = time + rndTime;
+				vault = getVaultCombo(1, digitRange, numDigits);				
+			}
+			function makeBag()
+			{
+				for (i = 0; i < bagtype; i++)
+				{
+					
+					var img = document.createElement("IMG");
+					var pic = "items/" + bag[i] + ".jpg";
+					if (bag[i] == undefined)
+					{
+						return
+					}
+					img.setAttribute("src", pic);
+					img.setEventListener("click", function()
+					{
+						useItem(bag[i]);
+					});
+					document.getElementById("bag").appendChild(img);
+				}
+			}
+			function useItem()
+			{
+				
+			}
+			function checkGuess()
+			{
+				if (roundState == ARRESTED)
+				{
+					return
+				}
+				if (roundState == IN_PROGRESS)
+				{
+					compute();
+				}
+				if (roundState == ALARM)
+				{
+					if (!reset)
+					{
+						attempts = 0;
+						reset = true;
+					}				
+					compute();
+					if (attempts == 3)
+					{
+						feedback.innerHTML = "You were arrested! Game over! The combination was  " + vault;
+						roundState = ARRESTED;
+						return
+					}
+					time = 0;
+				}
+					
+			}		
+			function compute()
+			{
+				guess = document.getElementById("guess").value;
+				vault = vault.toString();
+				if (isNaN(parseInt(guess)))
+				{
+					feedback.innerHTML = "That is not a Number!"
+					return
+				}
+				if (guess.length > vault.length)
+				{
+					feedback.innerHTML = "The number you guessed has too many digits";
+					return
+				}
+				else
+				{
+					if (guess.length < vault.length)
+					{
+						feedback.innerHTML = "The number you guessed doesn't have enough digits";
+						return
+					}
+					guess = parseInt(guess);
+					vault = parseInt(vault);
+					if (guess == vault)
+					{
+						feedback.innerHTML = "Your guess is correct!";
+						roundState = OVER;
+						var multiplier = getRandomInteger(1,6);
+						money += round*multiplier*100
+						moneydisplay.innerHTML = "$" + money;
+						round++;
+						id = setInterval(endRound(), 1000);
+						return
+					}
+					if (guess > vault)
+					{
+						feedback.innerHTML = "Your guess is too big!";
+						attempts++;
+						var timeTaken = getRandomInteger(0, attempts);
+						time = time - timeTaken;
+						if (time < 0)
+						{
+							feedback.innerHTML = "Your guess is too big! The alarm went off! You only have 3 more attempts!" 
+							roundState = ALARM;
+						}						
+					}
+					if (guess < vault)
+					{
+						feedback.innerHTML = "Your guess is too small!";
+						attempts++;
+						var timeTaken = getRandomInteger(0, attempts);
+						time = time - timeTaken;
+						if (time < 0)
+						{
+							feedback.innerHTML = "Your guess is too small! The alarm went off! You only have 3 more attempts!" 
+							roundState = ALARM;
+						}						
+					}
+				}				
+			}
+			function endRound()
+			{
+				page.style.display = "block";
+				shop.style.display = "none";
+				feedback.innerHTML = "<button onclick = 'startGame();'> Next Round </button> <button onclick = 'store();'> Go to shop </button>";	
+			}
+			function store()
+			{
+				page.style.display = "none";
+				shop.style.display = "inline-block";
+			}
+			function buy(mod)
+			{
+				for (i = 0; i < ITEMS.length; i++)
+				{
+					if (mod == ITEMS[i])
+					{
+						if (money >= PRICE[i])
+						{
+							if (bagtype == NOBAG && bag.length >= 1)
+							{
+								info.innerHTML = "Not enough space!"
+								return
+							}
+							money -= PRICE[i];
+							info.innerHTML = "You have bought an item!";
+							bag.push(mod);
+						}
+						else
+						{
+							info.innerHTML = "NOT ENOUGH MONEY!";
+						}
+					}
+				}
+			}
+		</script>
+		<style>
+			div.gameArea
+			{
+				text-align:center;
+				font-size: 32pt;
+			}
+			div.money
+			{
+				text-align:left;
+				font-size: 32pt;
+				font-style:bold;
+			}
+			img
+			{
+				height: 10%;
+				width: 5%;
+			}
+			#bag
+			{
+				margin-top:10%;
+			}
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div id = "everything">
+			<div class = "gameArea">
+				<input type = "text" id = "guess">
+				<button onclick = "checkGuess();"> Submit </button>	<br / >
+				<div id = "feedback"></div><br />
+			</div>
+			<div class = "money">
+				<span id = "money"> </span>
+			</div>
+			<div id = "bag">
+				BAG: <br />
+			</div>
+		</div>
+		<div id = "shop">
+			<div>
+				<span id = "info"> Click on the image to buy the item. </span><br />
+				<img onclick = "buy('lockpick');" src = "items/lockpick.jpg"/>
+				$1,000	A lockpick has 1 use only and will reveal 1 random digit from the vault number.
+			</div>
+			<button onclick = "endRound();"> Go Back </button>
+		</div>
+	</body>
+</html>
+
+

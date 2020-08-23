@@ -1,0 +1,111 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<style>
+			.computer
+			{
+				margin-left:75%;
+				margin-top: -8%;
+			}
+		</style>
+		<script src = "data.js"></script>
+		<script>
+			function initialize()
+			{
+				feedback = document.getElementById("feedback");
+				player = document.getElementById("playercard");
+				computer = document.getElementById("computercard");
+				playerdeck = document.getElementById("playerdeck");
+				NUMCARDS = 26;
+				ACE = 100, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7, EIGHT = 8, NINE = 9, TEN = 10, JACK = 11, QUEEN = 12, KING = 13;
+				CARDS = ["", "ACE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "JACK", "QUEEN", "KING"];			
+				CARDSVALUE = [];
+				CARDSUIT = ["SPADES", "DIAMONDS", "HEARTS", "CLUBS"];
+				shuffledArray = [];
+				imgArray = [];
+				comDeck = [];
+				playerDeck = [];
+				makeArrays();
+				shuffledArray = shuffleCards(imgArray);					
+				splitCards();
+			}
+			function makeArrays()
+			{
+				for (var i = 1; i < 14; i++)
+				{
+					for (var n = 0; n < 4; n++)
+					{
+						var object = {};
+						object.image = "images/" + i + "-" + n + ".png";
+						object.type = CARDS[i];
+						object.suit = CARDSUIT[n];
+						object.power = i;
+						imgArray.push(object);
+					}
+				}
+				for (var i = 1; i < CARDS.length; i++)
+				{
+					for (var n = 0; n < 4; n++)
+					{	
+						CARDSVALUE.push(CARDS[i]);
+					}
+				}
+			}
+			function shuffleCards(deck)
+			{
+				var tmp = [];
+				while (deck.length > 0)
+				{
+					var rand = getRandomInteger(0, deck.length - 1);
+					tmp.push(deck.splice(rand, 1)[0]);
+				}
+				
+				return tmp;
+				
+			}
+			function splitCards()
+			{
+				for (var i = 0; i < NUMCARDS; i ++)
+				{
+					playerDeck.push(dealCard(shuffledArray));
+					comDeck.push(dealCard(shuffledArray));
+				}
+			}
+			function dealCard(deck)
+			{
+				return deck.shift();
+			}
+			function playGame()
+			{
+				playerCard = dealCard(playerDeck);
+				playerimg = document.createElement("img");
+				playerimg.src = playerCard.image;
+				playerdeck.appendChild(playerimg);
+			}
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div id = "playerdeck">
+			<img onclick = "playGame();" src = "images/back-blue-75-1.png"/>
+		</div>
+		<div class = "computer">
+			<img id = "computercard"/>
+		</div>
+		<span id = "feedback"> </span>
+	
+	</body>
+</html>
+
+

@@ -1,0 +1,258 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script src = "utilities.js"></script>
+		<script>
+			function initialize()
+			{
+				RED = 0, BLACK = 1;
+				PLAYER = 2, COMPUTER = 3;
+				playerTokens = [10, 10];
+				computerTokens = [10, 10];
+				
+				IN_PROGRESS = false;
+				
+				plyrRedTokens = document.getElementById("playerRed");
+				plyrBlackTokens = document.getElementById("playerBlack");
+				comRedTokens = document.getElementById("computerRed");
+				comBlackTokens = document.getElementById("computerBlack");
+				
+				playerHistory = document.getElementById("playerHistory");
+				computerHistory = document.getElementById("computerHistory");
+				startButton = document.getElementById("start");
+				
+				playerTurn = document.getElementById("playerTurn");
+				computerTurn = document.getElementById("computerTurn");
+				
+				playerTurn.style.display = "none";
+				computerTurn.style.display = "none";
+				
+				buttons = document.getElementById("buttons");
+				
+				input = buttons.getElementsByTagName("BUTTON");
+				feedback = document.getElementById("feedback");
+				computerActions = ["removed red tokens from their pile and added black tokens to your pile.", "added red tokens to their pile and removed black tokens from your pile.", "removed black tokens from their pile and added red tokens to your pile.", "added black tokens to their pile and removed red tokens from your pile."];
+				roundNumber = 1;
+				
+				
+			}
+			function startGame()
+			{
+				IN_PROGRESS = true;
+				startButton.style.display = "none";
+				playerTurn.style.display = "block";
+			}
+			function choose(mod)
+			{
+				if (!IN_PROGRESS)
+					return
+				if (mod == 0)
+				{
+					playerTokens[RED] -= redRoll;
+					computerTokens[BLACK] += blackRoll;
+				}
+				if (mod == 1)
+				{
+					playerTokens[RED] += redRoll;
+					computerTokens[BLACK] -= blackRoll;
+				}
+				if (mod == 2)
+				{
+					playerTokens[BLACK] -= blackRoll;
+					computerTokens[RED] += redRoll;
+				}
+				if (mod == 3)
+				{
+					playerTokens[BLACK] += blackRoll;
+					computerTokens[RED] -= redRoll;
+				}
+				
+				
+				display();
+				
+				computerTurn.style.display = "block";
+				for (i = 0; i < input.length; i++)
+				{
+					input[i].disabled = true;
+				}
+				checkVictory();
+			}
+			function takeTurn(who)
+			{
+				if (!IN_PROGRESS)
+					return;
+				if (who == PLAYER)
+				{
+					for (i = 0; i < input.length; i++)
+					{
+						input[i].disabled = false;
+					}
+					playerTurn.style.display = "none";
+					redRoll = getRandomInteger(1,6);
+					blackRoll = getRandomInteger(1,6);
+					playerHistory.innerHTML = "You rolled " + redRoll + " for red, and " + blackRoll + " for black";
+				}
+				else
+				{
+					computerTurn.style.display = "none";
+					redRoll = getRandomInteger(1,6);
+					blackRoll = getRandomInteger(1,6);
+					computerHistory.innerHTML += "Round " + roundNumber + ": Computer rolled " + redRoll + " for red, and " + blackRoll + " for black";
+					var which = getRandomInteger(0, computerActions.length - 1);
+					computerChoose(which);
+				}
+			}
+			function computerChoose(mod)
+			{
+				if (mod == 0)
+				{
+					playerTokens[RED] -= redRoll;
+					computerTokens[BLACK] += blackRoll;
+				}
+				if (mod == 1)
+				{
+					playerTokens[RED] += redRoll;
+					computerTokens[BLACK] -= blackRoll;
+				}
+				if (mod == 2)
+				{
+					playerTokens[BLACK] -= blackRoll;
+					computerTokens[RED] += redRoll;
+				}
+				if (mod == 3)
+				{
+					playerTokens[BLACK] += blackRoll;
+					computerTokens[RED] -= redRoll;
+				}
+				computerHistory.innerHTML += " and " + computerActions[mod] + "<br />";
+				display();
+				
+				playerTurn.style.display = "block";
+				roundNumber++;
+				checkVictory();
+			}
+			function display()
+			{
+				plyrRedTokens.innerHTML = playerTokens[RED];
+				plyrBlackTokens.innerHTML = playerTokens[BLACK];
+				comRedTokens.innerHTML = computerTokens[RED];
+				comBlackTokens.innerHTML = computerTokens[BLACK];
+			}
+			function checkVictory()
+			{
+				if (playerTokens[BLACK] <= 0 || computerTokens[BLACK] <= 0)
+				{
+					IN_PROGRESS = false;
+					if (playerTokens[RED] > computerTokens[RED])
+					{
+						feedback.innerHTML = "PLAYER WINS";
+					}
+					else
+					{
+						if (playerTokens[RED] < computerTokens[RED])
+						{
+							feedback.innerHTML = "COMPUTER WINS";
+						}
+						else
+						{
+							feedback.innerHTML = "NO ONE WINS";
+						}
+					}
+				}
+			}
+		</script>
+		<style>
+			.historyContainer
+			{
+				float:right;
+			}
+			#playerHistory
+			{
+				text-align:center;
+
+			}
+			#computerHistory
+			{
+				position:relative;
+				display:inline-block;
+				float: right;
+			}
+			
+			#buttons
+			{
+				position:absolute;
+				text-align:center;
+				width:auto;
+				top:50%;
+				left:25%;
+			}
+			.scorecontainer
+			{
+				text-align:center;
+			}
+			.score
+			{
+				display : inline;
+				padding:5%;
+			}
+			.turnButtons
+			{
+				position:absolute;
+				left:46%;
+				top:60%;
+			}
+			#feedback
+			{
+				text-align:center;
+			}
+			.title
+			{
+				display:block;
+				text-align:center;
+				border:1px solid black;
+			}
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div class = "scorecontainer">
+			<div class = "score">
+				Your red tokens: <span id = "playerRed"> 10 </span>
+				Your black tokens : <span id = "playerBlack"> 10 </span>
+			</div>
+			<div class = "score">
+				Opponent red tokens: <span id = "computerRed"> 10 </span>
+				Opponent black tokens : <span id = "computerBlack"> 10 </span>
+			</div>
+		</div>
+		
+		<div id = "feedback"> </div><br />
+		<div id = "playerHistory"></div>		
+		<div class = "historyContainer">
+			<div class = "title"> COMPUTER HISTORY </div><br />
+			<div id = "computerHistory"> </div>
+		</div>
+		
+		<div id = "buttons">
+			<button onclick = "choose(0);"> Remove red tokens from your pile and add black tokens to your opponent. </button>
+			<button onclick = "choose(1);"> Add red tokens to your pile and remove black tokens from your opponent. </button><br />
+			<button onclick = "choose(2);"> Remove black tokens from your pile and add red tokens to your opponent. </button>
+			<button onclick = "choose(3);"> Add black tokens to your pile and remove red tokens from your opponent. </button>
+		</div>
+		
+		<div class = "turnButtons">		
+			<button id = "start" onclick = "startGame();"> Start Game </button>
+			<button id = "computerTurn" onclick = "takeTurn(COMPUTER);"> Computer Turn </button>
+			<button id = "playerTurn" onclick = "takeTurn(PLAYER);"> Your Turn </button>
+		</div>
+
+	</body>
+</html>
+
+

@@ -1,0 +1,93 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script src = "javascript.js">
+		</script>
+		<script>
+			function initialize()
+			{
+				round = 1;
+				money = 0;
+				randNumRange = 1;
+				digitRange = 3;
+				numDigits = 3;
+				attempts = 0;
+				baseTime = 5;
+				startGame();
+			}
+			function startGame()
+			{
+				if (round < 9 && round > 5)
+				{
+					numDigits = 4;
+				}
+				if (round < 12 && round > 9)
+				{
+					numDigits = 5;
+				}
+				if (round < 15 && round > 12)
+				{
+					numDigts = 6;
+				}
+				if (round < 18 && round > 15)
+				{
+					numDigits = 7;
+				}
+				if (round < 20 && round > 18)
+				{
+					numDigits = 8;
+				}
+				if (round == 20)
+				{
+					numDigits = 9;
+				}
+				if (round > 20)
+				{
+					var additive = round - 20;
+					numDigits = 9 + additive;
+					digitRange = 9;
+				}
+				if (round == 2 || round == 5)
+				{
+					digitRange == 4;
+				}
+				if (round == 3 || round == 6 || round == 9)
+				{
+					digitRange == 5;
+				}
+				if (round == 4 || round == 7 || round == 10 || round == 12)
+				{
+					digitRange == 6;
+				}
+				if (round == 8 || round == 1 || round == 13 || round == 15)
+				{
+					digitRange == 7;
+				}
+				if (round == 14 || round == 16 || round == 18)
+				{
+					digitRange == 8;
+				}
+				if (round == 17 || round == 19 || round == 20)
+				{
+					digitRange == 9;
+				}				
+				vault = getVaultCombo(1, digitRange, numDigits);				
+			}
+		</script>
+		<style>
+
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+
+	</body>
+</html>
+
+

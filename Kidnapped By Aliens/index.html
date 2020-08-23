@@ -1,0 +1,353 @@
+<!DOCTYPE HTML>
+<!--
+	KIDNAPPED BY ALIENS!!!!!!
+
+	The code below outlines a simple program about a party of explorers who have been kidnapped by aliens.  Trapped in the alien tunnels, the explorers are trying to dig their way through 100 meters of alien terrain in order to escape.  Unfortuanately, the aliens keep coming and taking one of them away!  Each round, the explorers must plan to fight in case the aliens come or plan to dig in the hopes that they do not.  If they plan to fight, they have a greater chance of beating back the aliens if they come.  If they plan to dig, they have a better chance of digging further if the aliens do not come.
+	
+	Familiarize yourself with the code below.  Ask questions if you have them.  Once you are comfortable with the code, choose and work on one of the activities listed.
+	
+	/****************************************************************************/
+	
+	ACTIVITES - DO NOT READ UNTIL YOU HAVE FAMILIARIZED YOURSELF WITH THE CODE
+	
+	Items:	There is a 5% chance that the party will find some items when they are digging.
+			If an item is found, it will automatically be assigned to a random character of the correct type.  A character may only hold one item.  If there are no spaces for the item, it is thrown away.
+			Adjust the output so that the player can see which items are held by which explorers.
+	
+		Power Shovel (Digger) - a power shovel will dig an extra 1-3 * the digger's skill per turn.
+		Ray Gun (Fighter) - a ray gun will add 1-3 * the fighter's skill to the explorers's total during a fight.
+		Head Lamp (Planner) - a head lamp will add 1 - 6 to the digging or fighting total when the planner comes into play.
+		
+	/***************************************************************************/
+	
+	Aliens:	Create different types of aliens, just like there are different types of explorers.
+			This means that there is no random number of aliens attacking.  It is always the same party of aliens.  Use the same formula for determining the number of aliens in an attack to determine the number of aliens in the party.
+			You'll need to update the display to show what aliens are in the alien party.
+	
+		Overlord - There is a 10% chance that there is an overlord in the alien party.  There can only be one overlord.  If there is an overlord, the base probability that the aliens will attack is increased by .1.
+		Warriors - There is a 25% chance that a warrior will be added to the party each time an alien is created.  When determining the alienSkill during an attack, count the warriors twice.
+		Drone - Every alien that is not an Overlord or a warrior is a drone.  Drones have no special powers.
+		
+		Because there are specific aliens now, they can die, too.  If the explorers should best the aliens during an attack, remove 1 alien.  The drones will die first, then the warriors, and finally the overlord (if there is one).
+	
+	/***************************************************************************/
+	
+	Events:	Every round, there os a 5% chance of some extra event occurring in the tunnels.
+	
+	Cave In - Part of the tunnel collapses, increasing the number of meters remaining by betweeen 1 and 10 meters (note that there can never be more than TUNNEL_METERS meters remaining).
+	Cave Spider - A giant spider comes hunting.  If there is an alien attack, the spider will drive them off and retreat (it kills one if you've completed the Aliens activity because aliens are tastier than humans).  Otherwise, it will take an explorer.
+	Survivor - Someone thought lost from the expedition shows up and helps.  Use the same probabilities that are used at the beginning of program to deternine whether the survivor is a digger, dighter, or a planner.
+	Hollow Space (only if digging has taken place) - The diggers have cut through to an empty space in the tunnel,  decreasing the number of meters remaining by 1 and 10.
+-->
+<html>
+	<head>
+		<title>Kidnapped By Aliens!!!!!!</title>
+		
+		<link rel = "stylesheet" href = "columns.css" />
+		<link rel = "stylesheet" href = "dressing.css" />
+		
+		<style>
+			body
+			{
+				color:white;
+			}
+		
+			.column
+			{
+				border:thick double cornflowerblue;
+				border-radius:20px;
+				position:relative;
+			}
+			
+			.colcontent
+			{
+				font:18pt comic sans ms;
+				
+			}
+			
+			.bgrnd
+			{
+				opacity:0.45;
+			}
+			
+			.titlecontent
+			{
+				font:36pt arial;
+				font-weight:bold;
+				border:10px double cornflowerblue;
+				border-radius:20px;
+			}
+			
+			.columncontainer
+			{
+				margin-top:75px;
+			}
+			
+			button
+			{
+				font:18pt arial;
+				background-color:cornflowerblue;
+			}
+		</style>
+		
+		<script src = "utilities.js"></script>
+		<script>
+		
+			function initialize()
+			{
+				IN_PROGRESS = 0, ESCAPED = 1, DESTROYED = 2;
+				DIGGER_CHANCE = 1, FIGHTER_CHANCE = .6, PLANNER_CHANCE = .2;
+				CHARACTER_NAMES = ["Digger", "Fighter", "Planner"];
+				DIGGER = 0, FIGHTER = 1, PLANNER = 2;
+				DIG = 0, FIGHT = 1;
+				TUNNEL_METERS = 100;
+				ALIENS = .6, ALIEN_PARTY = 6;
+				DIFFERENTIAL = 2;
+				ITEM_FOUND = .95;
+				PowerShovel = 0, RayGun = 1, HeadLamp = 2;
+				ITEMS_NAME = ["Power Shovel", "Ray Gun", "Head Lamp"];
+				
+				items = [];
+				characters = [];
+				skills = [];
+				roundChoice = DIG;
+				aliensComing = ALIENS;
+				gameState = IN_PROGRESS;
+				roundMessage = "";
+				
+				metersRemaining = TUNNEL_METERS;
+				
+				messageOut = document.getElementById("round");
+				rosterOut = document.getElementById("party");
+				metersOut = document.getElementById("distance");
+				
+				buildCharacters(getRandomInteger(6,10));
+				display();
+			}
+			
+			function buildCharacters(howMany)
+			{
+				for (var i = 0; i < howMany; i++)
+				{
+					characters.push(getRandomInteger(DIGGER, PLANNER));
+					skills.push(getRandomInteger(1, 3));
+				}
+			}
+			
+			function aliensAttack()
+			{
+				if (Math.random() > aliensComing)
+				{
+					aliensComing += .1;
+					if (aliensComing > ALIENS)
+						aliensComing = ALIENS;
+						
+					return 0;
+				}
+				else
+				{
+					var numAliens = ALIEN_PARTY + getRandomInteger(0, aliensComing * 10);
+					aliensComing -= .1;
+					return numAliens;
+				}
+			}
+			
+			function getCharacterSkill(cType)
+			{
+				skill = 0;
+				for (var i = 0; i < characters.length; i++)
+				{
+					if (characters[i] == cType)
+						skill += skills[i];
+				}
+				
+				return skill;
+			}
+			
+			function runAttack(numAliens)
+			{
+				var fighterSkill = getCharacterSkill(FIGHTER);
+				if (roundChoice == FIGHT)
+				{
+					fighterSkill += getCharacterSkill(PLANNER);
+					for (i = 0; i < characters.length i++)
+					{
+						if (characters[i] == PLANNER && items[i] == HeadLamp)
+						{
+							fighterSkill += getRandomInteger(1, 6);
+						}
+					}
+				}
+				else
+				{
+					fighterSkill /= DIFFERENTIAL;
+				}
+				for (i = 0; i < characters.length; i++)
+				{
+					if (characters[i] == FIGHTER && items[i] == RayGun)
+					{
+						fighterSkill *= getRandomInteger(1, 3);
+					}
+				}
+				var alienSkill = numAliens + getRandomInteger(0, ALIEN_PARTY);
+				if (alienSkill > fighterSkill)
+				{
+					var deadCharacterIdx = getRandomInteger(0, characters.length - 1);
+					characters.splice(deadCharacterIdx, 1);
+					items.splice(deadCharacterIdx, 1);
+					skills.splice(deadCharacterIdx, 1);
+					return "You were overwhelmed by " + numAliens + " of them and lost a character";
+				}
+				
+				return "You beat back " + numAliens + " aliens!"
+			}
+			
+			function runDig()
+			{
+				var diggerSkill = getCharacterSkill(DIGGER);
+				if (roundChoice == DIG)
+				{
+					diggerSkill += getCharacterSkill(PLANNER);
+					for (i = 0; i < characters.length i++)
+					{
+						if (characters[i] == PLANNER && items[i] == HeadLamp)
+						{
+							diggerSkill += getRandomInteger(1, 6);
+						}
+					}					
+				}
+				else
+				{
+					diggerSkill /= DIFFERENTIAL;
+				}
+				for (i = 0; i < characters.length; i++)
+				{
+					if (characters[i] == DIGGER && items[i] == PowerShovel)
+					{
+						diggerSkill *= getRandomInteger(1, 3) 
+					}
+				}
+				diggerSkill = Math.round(diggerSkill);
+				if (diggerSkill <= 1)
+					diggerSkill = 1;
+				if (ITEM_FOUND < Math.random())
+				{
+					var random = getRandomInteger(DIGGER, PLANNER);
+					if (random == DIGGER)
+					{
+						item = PowerShovel;
+					}
+					else
+					{
+						if (random == FIGHTER)
+						{
+							item = RayGun;
+						}
+						else
+						{
+							item = HeadLamp;
+						}
+					}
+				}
+				itemOwner(random);
+				metersRemaining -= diggerSkill;
+				return diggerSkill;
+			}
+			function itemOwner(chtr)
+			{
+				for (i = 0; i < characters.length; i++)
+				{
+					if (characters[i] == chtr)
+					{
+						if (items[i] != item)
+						{
+							items[i] = item;
+							return;
+						}
+					}
+				}				
+			}
+			
+			function runRound(plan)
+			{
+				if (gameState != IN_PROGRESS)
+					return;
+					
+				roundChoice = plan;
+				numAliens = aliensAttack();
+				
+				if (numAliens > 0)
+				{
+					roundMessage = "The aliens are attacking!";
+					roundMessage += "  " + runAttack(numAliens);
+				}
+				else
+				{
+					roundMessage = "You dug through " + runDig() + " meters.";
+				}
+				
+				checkGameOver();
+				
+				display();
+			}
+			
+			function checkGameOver()
+			{
+				if (characters.length == 0)
+					gameState = DESTROYED;
+					
+				if (metersRemaining <= 0)
+					gameState = ESCAPED;
+			}
+			
+			function display()
+			{
+				rosterOut.innerHTML = "";
+				for (var i = 0; i < characters.length; i++)
+				{
+					if (ITEMS_NAME[items[i]] == undefined)
+					{
+						ITEMS_NAME[items[i]] = "";
+					}
+					rosterOut.innerHTML += CHARACTER_NAMES[characters[i]] + " (" + skills[i] + ")" + ITEMS_NAME[items[i]] + "<br />";
+				}
+				metersOut.innerHTML = metersRemaining;
+				messageOut.innerHTML = roundMessage + "<br />";
+				
+				if (gameState == DESTROYED)
+					messageOut.innerHTML += "You were destroyed!";
+					
+				if (gameState == ESCAPED)
+					messageOut.innerHTML += "You made it to freedom!";
+			}
+		
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<img class = "bgrnd" src = "alien tunnels.png" />
+		<h1 class = "titlecontainer">
+			<span class = "titlecontent">Kidnapped By Aliens!!!!!!</span>
+		</h1>
+		<div class = "columncontainer">
+			<div class = "column">
+				<img class = "bgrnd" src = "alien walls.jpg" />
+				<div class = "contentbox">
+					<h1 class = "coltitle">Your Party</h1>
+					<div class = "colcontent" id = "party"></div>
+				</div>
+			</div>
+			<div class ="column">
+				<img class = "bgrnd" src = "alien walls.jpg" />
+				<div class = "contentbox">
+					<h1 class = "coltitle">Control Board</h1>
+					<button onclick = "runRound(DIG);">Plan to Dig</button>
+					<button onclick = "runRound(FIGHT);">Plan to Fight</button>
+					<hr />
+					<div class = "colcontent"><span id = "distance">100</span> meters remaining.</div>
+					<hr />
+					<div class = "colcontent" id = "round"></div>
+				</div>
+		</div>
+	</body>
+</html>

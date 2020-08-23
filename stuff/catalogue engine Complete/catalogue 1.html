@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title></title>
+		<link rel = "stylesheet" href = "columns.css" />
+		<link rel = "stylesheet" href = "dressing.css" />
+		
+		<style>
+			body
+			{
+				background-color:black;
+			}
+			
+			.titlecontainer
+			{
+				margin-top:50px;
+			}
+			
+			.titlecontent
+			{
+				border:thick double black;
+				border-radius:12px;
+				background-color:lightgrey;
+			}
+			
+			.columncontainer
+			{
+				border:thin solid black;
+				border-radius:25px;
+				background-color:lightgrey;
+				width:90%;
+			}
+
+			.column
+			{
+				width:25%;
+			}
+			
+			#ctrl
+			{
+				text-align:center;
+			}
+			
+			#ctrl img
+			{
+				width:100px;
+				cursor:pointer;
+			}
+			
+			.column img
+			{
+				width:100%;
+			}
+
+			.price
+			{
+				font-size:14pt;
+				font-weight:bold;
+				color:green;
+			}
+
+			.item_name
+			{
+				font-size:18pt;
+				font-weight:bold;
+			}
+			
+			.other
+			{
+				font-size:14pt;
+			}
+		</style>
+		
+		<!-- Expects a file with all of the sample data inside of it -->
+		<script src = "datafile.js"></script>
+		<script>
+			/*
+				initialize
+			*/
+			function initialize()
+			{
+				OFFSET = 2;
+			
+			    /*
+			         The itemContainer is a div that holds all of the columns of information.
+			
+			          allSections becomes an array of all of the HTML Elements inside of itemContainer that have been given the "column" class.  The elements are loaded into the array in the order in which they appear in the code.
+			
+			          There is also a getElementsByTagName functions which does the same thing as getElementsByClassName, but takes an HTML tag (as a string) as an argument.
+			    */
+				itemContainer = document.getElementById("itmcontainer");
+				allSections = itemContainer.getElementsByClassName("column");
+				categoryOut = document.getElementById("category");
+			
+				items = [];
+				currentIdx = 0;
+				
+				//load up the data.
+				loadItems(sampleData);
+				display();
+			}
+			
+			/*
+				loadItems
+				
+				Converts all of the data from the data string into a 2 dimensional array.
+				
+				Parameters
+					dataString - the string with all of the data.
+			*/
+			function loadItems(dataString)
+			{
+				var itmArray = dataString.split(";");
+				for (var i = 0; i < itmArray.length; i++)
+				{
+					items.push(itmArray[i].split(","));
+				}
+			}
+			
+			/*
+				shiftImages
+				
+				Handles the scrolling of the images using all back end variables.
+				
+				Parameters
+					mod - the change in the currentIdx.
+			*/
+			function shiftImages(mod)
+			{
+				currentIdx += mod;
+				
+				if (currentIdx < 0)
+					currentIdx = 0;
+				
+				/*
+					Prevents the current index from moving too far toward the end.  The OFFSET makes sure there's always something to show in the last image slots.
+				*/
+				if (currentIdx >= items.length - OFFSET)
+					currentIdx = items.length - (OFFSET + 1);
+					
+				display();
+			}
+			
+			/*
+				display
+			*/
+			function display()
+			{
+				categoryOut.innerHTML = items[0][CATEGORY] + " Catalogue";
+				for (var i = 0; i < allSections.length; i++)
+				{
+					if (currentIdx + i >= items.length)
+						break;
+						
+					allSections[i].getElementsByTagName("img")[0].src = "images/" + items[currentIdx + i][IMAGE];
+					allSections[i].getElementsByClassName("item_name")[0].innerHTML = items[currentIdx + i][ITEM_NAME];
+					allSections[i].getElementsByClassName("price")[0].innerHTML = items[currentIdx + i][PRICE];
+					
+					var itemOutput = "";
+					for (var j = PRICE + 1; j < items[currentIdx + i].length; j++)
+					{
+						itemOutput += items[currentIdx + i][j] + "<br />";
+					}
+					allSections[i].getElementsByClassName("other")[0].innerHTML = itemOutput;
+				}
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<h1 class = "titlecontainer"><span id = "category" class = "titlecontent">Catalogue</span></h1>
+		<div id = "itmcontainer" class = "columncontainer">
+			<div class = "column">
+				<img src = "" />
+				<div class = "item_name"></div>
+				<div class = "item_id"></div>
+				<div class = "price"></div>
+				<div class = "other"></div>
+			</div>
+			<div class = "column">
+				<img src = "" />
+				<div class = "item_name"></div>
+				<div class = "item_id"></div>
+				<div class = "price"></div>
+				<div class = "other"></div>
+			</div>
+			<div class = "column">
+				<img src = "" />
+				<div class = "item_name"></div>
+				<div class = "item_id"></div>
+				<div class = "price"></div>
+				<div class = "other"></div>
+			</div>
+		</div>
+		<div id = "ctrl">
+			<img src = "images/backward.png" onclick = "shiftImages(-1);" /> <img src = "images/forward.png" onclick = "shiftImages(1);" />
+		</div>
+	</body>
+</html>

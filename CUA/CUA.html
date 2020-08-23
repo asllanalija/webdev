@@ -1,0 +1,121 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html onclick = "compute();">
+	<head>
+		<title>
+		
+		
+		</title>
+		<script src = "datafile.js"></script>
+		<script>
+			function initialize()
+			{
+				text = document.getElementById("text");
+				text.innerHTML = "Click anywhere to receive incoming transmission.";
+			}
+			function choose()
+			{
+				temp = CODED_MESSAGES.split(";");
+				chosenMsg = temp[getRandomInteger(0, temp.length - 1)];
+				chosenMsgArray = chosenMsg.split(" ");
+				number = parseInt(chosenMsg);
+				numItems = chosenMsgArray.length;
+				chosenMsgOut = chosenMsg.replace(number, "");
+				color = checkColor();			
+			}
+			function checkColor()
+			{
+				numcolors = 0;
+				for (i = 0; i < chosenMsgArray.length; i++)
+				{
+					temp4 = chosenMsgArray[i].toUpperCase();
+					if (temp4 == "GREEN" || temp4 == "RED" || temp4 == "YELLOW" || temp4 == "BLUE")
+					{
+						numcolors++;
+						var color = temp4;
+						if (numcolors > 1)
+						{
+							return "FAKE";
+						}
+						else
+						{
+							if (i = chosenMsgArray.length - 1)
+							{
+								return color
+							}
+						}
+
+					}
+				}
+				return "FAKE"
+			}
+			function compute()
+			{
+				choose();
+				if (color == "GREEN")
+				{
+					text.innerHTML = chosenMsgOut;
+				}
+				if (color == "RED")
+				{
+					if (number = numItems)
+					{
+						text.innerHTML = chosenMsgOut;
+					}
+					else
+					{
+						text.innerHTML = "Incorrect Message Format.  UTI Incursion.";
+					}
+				}
+				if (color == "YELLOW")
+				{
+					if (number > numItems)
+					{
+						text.innerHTML = chosenMsgOut;
+					}
+					else
+					{
+						text.innerHTML = "Incorrect Message Format.  UTI Incursion.";
+					}
+				}
+				if (color == "BLUE")
+				{
+					if (number < numItems)
+					{
+						text.innerHTML = chosenMsgOut;
+					}
+					else
+					{
+						text.innerHTML = "Incorrect Message Format.  UTI Incursion.";
+					}
+				}	
+				if (color == "FAKE")
+				{
+					text.innerHTML = "Incorrect Message Format.  UTI Incursion.";
+				}
+			}
+			
+		</script>
+		<style>
+		body 
+		{
+			background-color: gray;
+		}
+		#text
+		{
+			font-size: 30pt;
+			text-align:center;
+			
+		}
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div id = "text"> </div>
+	
+	</body>
+</html>
+
+

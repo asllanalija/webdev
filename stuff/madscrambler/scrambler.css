@@ -1,0 +1,52 @@
+textarea
+{
+	width:95%;
+	font:bold 14pt courier new;
+	border:16pt solid black;
+	background-color:black;
+	color:#00b300;
+}
+
+button
+{
+	font:bold 16pt arial;
+}
+
+.storytext
+{
+	font:12pt arial;
+	margin:auto;
+	width:80%;
+	border:thin solid grey;
+	border-radius:20px;
+	padding:10px;
+	background-color:rgba(200, 200, 255, .75);
+	height:200px;
+	overflow_y:scroll;
+}
+
+.column
+{
+	width:45%;
+}
+
+.bgrnd
+{
+	opacity:0.4;
+}
+
+.titlecontent 
+{
+	border:thin solid white;
+	border-radius:10px;
+	background-color:rgba(200, 200, 255, .75);
+}
+
+#clues
+{
+	font: bold 16pt calibri;
+	border:thin solid grey;
+	border-radius:20px;
+	padding:10px;
+	background-color:rgba(200, 200, 255, .75);
+}

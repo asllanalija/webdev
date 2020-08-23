@@ -1,0 +1,132 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<link rel = "stylesheet" href = "columns.css" />
+		<script>
+			function initialize()
+			{
+				NUMGROUPS = 3;
+				fatGrams = 0;
+				proteinGrams = 0;
+				carbGrams = 0;
+				number = "";
+				stage = 0;
+				
+				foods = ["Add to Appetizers", "Add to Entree", "Add to Dessert"];
+				
+				grams = document.getElementById("grams");
+				feedback = document.getElementById("feedback");
+				groups = document.getElementById("groups");
+				total = document.getElementById("total");
+				createGroups();
+				display();
+				check();
+			}
+			function createGroups()
+			{
+				for (i = 0; i < NUMGROUPS; i++)
+				{
+					var temp = document.createElement("ol");
+					temp.addEventListener("click", function()
+					{
+						selected = this;
+					});
+					groups.appendChild(temp);
+					var temp2 = document.createElement("h1");
+					temp2.innerHTML = foods[i];
+					temp.appendChild(temp2);
+				}
+			}
+			function createNum(num)
+			{
+				number += num;
+				display();
+			}
+			function submit()
+			{
+				number = parseInt(number);
+				stage++;
+				check();
+				number = "";
+				display();
+			}
+			function finalSubmit()
+			{
+				var temp = document.createElement("li");
+				temp.innerHTML = fatCalories + proteinCalories + carbCalories + "Calories";
+				selected.appendChild(temp);
+			}
+			function reset()
+			{
+				number = "";
+				display();
+			}
+			function check()
+			{
+				if (stage == 1)
+				{
+					feedback.innerHTML = "Enter the grams of fat";
+					fatCalories = number*9;
+					fatGrams += number;
+				}
+				if (stage == 2)
+				{
+					feedback.innerHTML = "Enter the grams of protein";
+					proteinCalories = number*4;
+					proteinGrams += number
+				}
+				if (stage == 3)
+				{
+					feedback.innerHTML = "Enter the grams of carbs";
+					carbCalories = number*4;
+					carbGrams += number;
+				}
+				if (stage == 4)
+				{
+					feedback.innerHTML = "Submit your food";
+					stage = 0;
+				}
+			}
+			function display()
+			{
+				grams.innerHTML = number;
+				try
+				{
+					totalCalories = proteinCalories + carbCalories + fatCalories;
+					total.innerHTML = totalCalories;
+				}catch(err)
+				{
+				}
+			}
+		</script>
+	</head>
+
+	<body onload = "initialize();">
+		<div id = "feedback"></div>
+		<span id = "grams"> </span> grams<br />
+		<button onclick = "createNum('0');">0</button>
+		<button onclick = "createNum('1');">1</button>
+		<button onclick = "createNum('2');">2</button>
+		<button onclick = "createNum('3');">3</button>
+		<button onclick = "createNum('4');">4</button>
+		<button onclick = "createNum('5');">5</button>
+		<button onclick = "createNum('6');">6</button>
+		<button onclick = "createNum('7');">7</button>
+		<button onclick = "createNum('8');">8</button>
+		<button onclick = "createNum('9');">9</button><br />
+		<button onclick = "reset();"> Reset </button>
+		<button onclick = "submit();">Submit grams</button>
+		<button onclick = "finalSubmit();"> Submit food </button>
+		<div id = "groups" class = "column">
+		</div>
+		Total Calories: <span id = "total"> </span>
+	
+	</body>
+</html>
+
+

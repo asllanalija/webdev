@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title></title>
+		<style>
+			body
+			{
+				text-align: center;
+				font-family: Comic Sans MS;
+			}
+			.background
+			{
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				z-index: -1;
+			}
+			h1
+			{
+				font-size: 80px;
+			}
+			#storyText
+			{	
+				position: relative;
+				border: solid;
+				color: #08046e;
+				background-color: white;
+				opacity: 80%;
+				width: 600px;
+				margin: auto;
+				text-align: center;
+				padding: 50px;
+				font-size: 22px;
+			}
+		</style>
+		<script src = "story.js"></script>
+		<script>
+			function initialize()
+			{
+				storyOutput = document.getElementById("storyText");
+				str = location.search.substring(1);
+				str2 = str.split("&");
+				list = [];
+				display();
+			}
+			function breakUp()
+			{
+				for(var i = 0; i < str2.length; i++)
+				{
+					var word = str2[i].split("=");
+					storyOutput.innerHTML += word[1];
+					list.push(word[1]);
+				}
+			}
+			
+			function go()
+			{
+				if(num == 1)
+				{
+					storyNew = storyLine.replace(storyLine.slice(dem1 , dem2 +2), list[num]);
+				}
+				else
+				{
+					storyNew = storyNew.replace(storyLine.slice(dem1 , dem2 +2), list[num]);
+				}
+				
+			}
+			
+			function mashUp()
+			{
+				breakUp();
+				var storyLine = STORIES[list[0]];
+				var storyNew = "";
+				var num = 1;
+				var i = 1;
+				while(i < storyLine.length && storyLine.indexOf(DELIMITER, i) != -1)
+				{
+					var dem1 = storyLine.indexOf(DELIMITER, i);
+					i = dem1 + 1;
+					var dem2 = storyLine.indexOf(DELIMITER, i);
+					i = dem2 + 1;
+					if(num == 1)
+					{
+						storyNew = storyLine.replace(storyLine.slice(dem1 , dem2 +2), list[num]);
+					}
+					else
+					{
+						storyNew = storyNew.replace(storyLine.slice(dem1 , dem2 +2), list[num]);
+					}
+					num ++;
+				}
+				
+				return storyNew;
+			}
+			function display()
+			{
+				storyOutput.innerHTML = mashUp();
+			}
+		</script>
+	</head>
+	<body onload = "initialize()">
+		<img src = "background.jpg" class = "background"/>
+		<h1>MAD LIBS</h1>
+		<div id = "storyText" ></div>
+	</body>
+</html> 

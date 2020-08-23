@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title></title>
+		<style>
+			body
+			{
+				text-align: center;
+				font-family: Comic Sans MS;
+			}
+			.background
+			{
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				z-index: -1;
+			}
+			h1
+			{
+				font-size: 80px;
+			}
+			form 
+			{
+				position: relative;
+				border: solid;
+				color: #08046e;
+				background-color: white;
+				opacity: 80%;
+				width: 600px;
+				margin: auto;
+				text-align: center;
+				padding: 50px;
+				font-size: 22px;
+			}
+		</style>
+		<script src = "story.js"></script>
+		<script src = "Utilities1.js"></script>
+		<script>
+			function initialize()
+			{
+				divdiv = document.getElementById("string");
+				ran = getRandomInteger(0, 2);
+				narrative = STORIES[ran];
+				document.getElementById("storynum").value = ran;
+				str = [];
+				searchWord();
+				categorize();
+			}
+			function searchWord()
+			{
+				var i = 0;
+				while(i < narrative.length && narrative.indexOf(DELIMITER, i) != -1)
+				{
+					var dem1 = narrative.indexOf(DELIMITER, i);
+					i = dem1 + 1;
+					var dem2 = narrative.indexOf(DELIMITER, i);
+					i = dem2 + 1;
+					str.push(narrative.slice(dem1 + 2, dem2));
+				}
+			}
+			function categorize()
+			{
+				format = document.getElementById("fillIn");
+				for(var i = 0; i < str.length; i++)
+				{
+					var box = document.createElement("div");
+					var wordLabel = document.createElement("div");
+					wordLabel.innerHTML = str[i] + ":";
+					box.appendChild(wordLabel);
+					var output = document.createElement("input");
+					output.type = "text";
+					output.name = "word" + i;
+					box.appendChild(output);
+					format.appendChild(box);
+				}
+			}
+		</script>
+	</head>
+	<body onload = "initialize()">
+		<img src = "background.jpg" class = "background"/>
+		<h1>MAD LIBS</h1>
+		<form method = "get" action = "destination.html">
+			<input type = "hidden" id = "storynum" name = "story" />
+			<ol id = "fillIn"></ol>
+			<input type = "submit">
+		</form>
+	</body>
+</html>
+

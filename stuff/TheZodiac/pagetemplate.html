@@ -1,0 +1,109 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				monthchosen = false;
+				daychosen = false;
+				bday = "";
+				numDigits = 0;
+				sign = null;
+				uniValue = 0;
+			}
+			function month(mod)
+			{
+				if (monthchosen == false || bday != mod && daychosen == false)
+				{
+					bday = mod
+					monthchosen = true;
+				}
+			}
+			function day(mod)
+			{
+				if (monthchosen == true)
+				{
+					if (daychosen ==  false)
+					{
+						bday += " " + mod;
+						daychosen = true;
+						numDigits++;
+						getDay();
+					}
+					else
+					{
+						bday += mod;
+						getDay();
+						numDigits++;
+						if (parseInt(x) > 31)
+						{
+							bday = bday.slice(0, bday.length - numDigits - 1);
+							numDigits = 0;
+							return
+						}
+						
+					}
+				}
+			}
+			function getDay()
+			{
+				for (i = 0; i < bday.length; i++)
+				{
+					if (bday[i] == " ")
+					{
+						x = bday.slice(i);
+					}
+				}
+				getSign();
+			}
+			function getSign()
+			{
+				value = 0;
+				month = bday.slice(0, bday.search(" "));
+				day = bday.slice(" ");
+				//if (month == "January")
+				//{
+					
+				//}
+			}
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<button onclick = "month('January');"> January </button>
+		<button onclick = "month('February');"> February </button>
+		<button onclick = "month('March');"> March </button>
+		<button onclick = "month('April');"> April </button>
+		<button onclick = "month('May');"> May </button>
+		<button onclick = "month('June');"> June </button>
+		<button onclick = "month('July');"> July </button>
+		<button onclick = "month('August');"> August </button>
+		<button onclick = "month('September');"> September </button>
+		<button onclick = "month('October');"> October </button>
+		<button onclick = "month('November');"> November </button>
+		<button onclick = "month('December');"> December </button><br />
+		<button onclick = "day(0);"> 0 </button>
+		<button onclick = "day(1);"> 1 </button>
+		<button onclick = "day(2);"> 2 </button>
+		<button onclick = "day(3);"> 3 </button>
+		<button onclick = "day(4);"> 4 </button>
+		<button onclick = "day(5);"> 5 </button>
+		<button onclick = "day(6);"> 6 </button>
+		<button onclick = "day(7);"> 7 </button>
+		<button onclick = "day(8);"> 8 </button>
+		<button onclick = "day(9);"> 9 </button>
+	</body>
+</html>
+
+

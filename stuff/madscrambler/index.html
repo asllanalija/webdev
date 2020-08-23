@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<!--
+	The player will have a book of clues.
+	
+	Each time the player gets a clue, (s)he can add it to the list of clues.  In order to properly add it, the player needs to code the addition properly.
+-->
+<html>
+	<head>
+		<title>Pursuit of the Scrambler</title>
+		<link rel = "stylesheet" href = "columns.css" />
+		<link rel = "stylesheet" href = "dressing.css" />
+		<link rel = "stylesheet" href = "scrambler.css" />
+		<style></style>
+		<script src = "formatchecker.js"></script>
+		<script src = "utilities.js"></script>
+		<script src = "storyblocks.js"></script>
+		<script>
+			function initialize()
+			{
+				messageOut = document.getElementById("msg");
+				cluesOut = document.getElementById("clues");
+				codeInput = document.getElementById("codein");
+				styleTag = document.getElementsByTagName("style")[0];
+				noiseImage = document.getElementById("noise");
+				dataButton = document.getElementById("databtn");
+				
+				noiseCounter = 0;
+				player = {page:0, clues:[], assets:[]};
+				display();
+			}
+			
+			function checkCode(code)
+			{
+				if (checkHTMLFormat(code))
+				{
+					var clue = storyblocks[player.page].clue;
+					if (clueDeciphered(clue))
+					{
+						cluesOut.innerHTML = "Great Job!<br /><br />";
+						player.clues.push(storyblocks[player.page].clue);
+						player.page = storyblocks[player.page].nextPage;
+						if (clue.indexOf(":") > 0)
+							updateCSS(clue);
+					}
+					else
+					{
+						cluesOut.innerHTML = "The list is fine, but you haven't deciphered the clue.<br /><br />"
+					}
+				}
+				else
+				{
+					cluesOut.innerHTML = "Try again.<br /><br />";
+				}
+				
+				display();
+			}
+			
+			function clueDeciphered(clue)
+			{
+				return codeInput.value.indexOf(clue) >= 0;
+			}
+			
+			function detonate()
+			{
+				noiseCounter++;
+				if (noiseCounter > 20)
+				{
+					messageOut.innerHTML = "You did it again, Agent Zota.  What would we do without you?"
+					noiseImage.src = "images/2_noise0.png";
+					noiseImage.style.opacity = "0.4";
+					return;
+				}
+				
+				dataButton.disabled = "true";
+				noiseImage.src = "images/2_noise" + getRandomInteger(0, 9) + ".png";
+				noiseImage.style.opacity = "1.0";
+				noiseChanger = setTimeout("detonate();", 200);
+			}
+			
+			function display()
+			{
+				messageOut.innerHTML = storyblocks[player.page].story;
+				cluesOut.innerHTML += codeInput.value;
+			}
+			
+			function updateCSS(css)
+			{
+				styleTag.innerHTML += "ul, ol{" + css + ";}";
+			}
+		</script>
+	</head>
+	<body onload = "initialize();">
+		<img id = "noise" class = "bgrnd" src = "images/2_noise0.png" />
+		<h1 class= "titlecontainer"><span class = "titlecontent">In Pursuit of the Mad Scrambler</span></h1>
+		
+		<div class = "storytext" id = "msg">Message</div>
+
+		<div class = "columncontainer">
+			<div class = "column">
+				<button id = "databtn" onclick = "checkCode(codeInput.value);">Send Data</button>
+				<hr />
+				<div id = "clues">Clues</div>
+			</div>
+			
+			<div class = "column">
+				<textarea id = "codein" rows = "20"></textarea>
+			</div>
+		</div>
+	</body>
+</html>

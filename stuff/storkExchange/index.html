@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<!--
+	STORK EXCHANGE
+	
+	Included with this file is the stork.js file and the utilities.js file.
+	
+	The Duke and Duchess of Windsammerjampolia have just had their first child.  In order to properly protect the new family, the name is being transferred to Royal Securities as a scrambled set of characters.  Your job is to unscramble those characters and figure out the new baby's name so that it can be properly registered.
+	
+	Much of the code is provided for you.  The stork.js file has the lists of all possible names and does all of the scrambling for you.  You need to write the unscrambleName function and any helper functions it might need.
+	
+	Read through the comments and understand the code that is there before beginning.
+	
+	This exercise will challenge both your use of strings and arrays.
+-->
+<html>
+	<head>
+		<title>Stork Exchange</title>
+		<style>
+			div
+			{
+				font:36pt copperplate gothic;
+				font-weight:bold;
+				text-align:center;
+				margin-top:100px;
+			}
+		</style>
+		<script src = "utilities.js"></script>
+		<script src = "stork.js"></script>
+		<script>
+			/*
+				initialize
+				
+				Runs the program.
+			*/
+			function initialize()
+			{
+				scrambledNameOut = document.getElementById("scrambled");
+				unscrambledNameOut = document.getElementById("unscrambled");
+				
+				scrambledName = getNewBaby();
+				unscrambledName = unscrambleName();
+				
+				display();
+			}
+			
+			/*
+				unscrambleName
+				
+				Takes the global scrambledName parameter and figures out the correct baby name.
+				
+				Returns
+					The unscrambled baby name OR "UNKNOWN" if it can't find it.
+			*/
+			function unscrambleName()
+			{
+				var equal = false;
+				name = "";
+				var babyArray = scrambledName.split("");				
+				while (equal == false)
+				{
+					var unscrambledBaby = "";
+					while (babyArray.length > 0)
+					{
+						var idx = getRandomInteger(0, babyArray.length - 1);
+						unscrambledBaby += babyArray.splice(idx, 1)[0];
+					}
+				}
+				//No name was found.
+				return "UNKNOWN";
+			}
+			function check(idx)
+			{
+				return name == idx;
+			}
+			function display()
+			{
+				scrambledNameOut.innerHTML = scrambledName;
+				unscrambledNameOut.innerHTML = unscrambledName;
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<div id = "scrambled"></div>
+		<div id = "unscrambled"></div>
+	</body>
+</html>

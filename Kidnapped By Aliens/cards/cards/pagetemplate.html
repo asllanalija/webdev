@@ -1,0 +1,126 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<style>
+			.computer
+			{
+				margin-left:75%;
+				margin-top: -8%;
+			}
+		</style>
+		<script src = "data.js"></script>
+		<script>
+			function initialize()
+			{
+				feedback = document.getElementById("feedback");
+				player = document.getElementById("playercard");
+				computer = document.getElementById("computercard");
+				NUMCARDS = 26;
+				ACE = 100, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7, EIGHT = 8, NINE = 9, TEN = 10, JACK = 11, QUEEN = 12, KING = 13;
+				CARDS = ["", ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING];			
+				CARDSVALUE = [];
+				CARDSUIT = [0, 1, 2, 3];
+				imgArray = [];
+				playerFrequency = [];
+				comFrequency = [];
+				makeArrays();
+				splitCards();
+			}
+			function makeArrays()
+			{
+				for (var i = 1; i < 14; i++)
+				{	
+					var temp = i
+					for (var n = 0; n < 4; n++)
+					{
+						var temp2 = n;
+						var image = "images/" + temp + "-" + temp2 + ".png";
+						imgArray.push(image);
+					}
+				}
+				for (var i = 1; i < CARDS.length; i++)
+				{
+					for (var n = 0; n < 4; n++)
+					{	
+						CARDSVALUE.push(CARDS[i]);
+					}
+				}
+				for (i = 0; i < imgArray.length; i++)
+				{
+					playerFrequency.push(0);
+					comFrequency.push(0);
+				}
+			}
+
+			function splitCards()
+			{
+				cards = NUMCARDS;
+				for (i = 0; i < cards; i++)
+				{
+					var temp = getRandomInteger(0, 51);
+					playerFrequency[temp] += 1;
+					if (playerFrequency[temp] > 1)
+					{
+						playerFrequency[temp] = 1;
+						cards++;
+					}
+				}
+				cards = NUMCARDS;
+				for (i = 0; i < cards; i++)
+				{
+					var temp = getRandomInteger(0, 51);
+					if (playerFrequency[temp] + comFrequency[temp] < 1)
+						comFrequency[temp] += 1
+					else
+						cards++;
+				}
+			}
+			function playGame()
+			{
+				var temp = getRandomInteger(0, 51);
+				while (playerFrequency[temp] = 0)
+				{
+					var temp = getRandomInteger(0, 51);
+				}
+				playerCard = imgArray[temp];
+				playerStrength = CARDSVALUE[temp];
+				player.src = playerCard;
+				playerFrequency[temp] = 0;
+				var temp = getRandomInteger(0, 51);
+				while (comFrequency[temp] = 0)
+				{
+					var temp = getRandomInteger(0, 51);
+				}
+				comCard = imgArray[temp];
+				comStrength = CARDSVALUE[temp];
+				computer.src = comCard;
+				comFrequency[temp] = 0;
+			}
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div class = "playerdeck">
+			<img onclick = "playGame();" src = "images/back-blue-75-1.png"/>
+			<img id = "playercard"/>
+		</div>
+		<div class = "computer">
+			<img id = "computercard"/>
+		</div>
+		<span id = "feedback"> </span>
+	
+	</body>
+</html>
+
+

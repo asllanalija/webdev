@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title></title>
+		<style></style>
+		<script src = "utilities.js"></script>
+		<script src = "card deck.js"></script>
+		<script>
+			/*
+				initialize
+				
+				Sets up the page.
+			*/
+			function initialize()
+			{
+				flippedCardsContainer = document.getElementById("flipped");
+			
+				//Build a standard deck of cards.
+				deck = generateStandardDeck();
+			}
+			
+			/*
+				flipCard
+				
+				Responds to a click event.
+				This function pulls a card off of the deck and puts its image on screen.
+			*/
+			function flipCard()
+			{
+				/*
+					If the deck is empty, do nothing.
+				*/
+				if (deck.length == 0)
+					return;
+				
+				/*
+					Pull the top card off of the deck.
+					Create the image element.
+					Set the src of the image element.
+					Add the new image to the page.
+				*/
+				var card = dealCard(deck);
+				var cardImage = document.createElement("img");
+				cardImage.src = "cardimages/" + card.imgFile;
+				flippedCardsContainer.appendChild(cardImage);
+			}
+		</script>
+	</head>
+	<body onload = "initialize();">
+		<img src = "cardimages/back-blue-75-3.png" onclick = "flipCard();" />
+		<div id = "flipped"></div>
+	</body>
+</html>

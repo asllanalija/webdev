@@ -1,0 +1,94 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			
+			function initialize()
+			{
+				string = "The quick brown fox jumps over the lazy dog.";
+				ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+				allLetters = checkForAllLetters(string);
+				//missingLetters = findMissingLetters(string);
+				freq = [];
+				//frequency = countLetters(string);				
+			}
+			//checkForAllLetters
+			function checkForAllLetters(mod)
+			{
+				var str = mod.toUpperCase();
+				temp = ALPHABET;
+				for (i = 0; i < str.length; i++)
+				{
+					var letter = str[i];
+					for (i = 0; i < ALPHABET.length; i++)
+					{
+						if (letter == temp[i])
+						{
+							temp = temp.splice(i - 1, 1);
+						}
+					}
+				}
+				if (temp.length == 0)
+				{
+					return true
+				}
+				else
+				{
+					return false
+				}
+			}
+			function findMissingLetters(mod)
+			{
+				var str = mod.toUpperCase();			
+				var temp = ALPHABET;
+				for (i = 0; i < str.length; i++)
+				{
+					var letter = str[i];
+					for (i = 0; i < str.length; i++)
+					{
+						if (letter == temp[i])
+						{
+							temp = temp.splice(i - 1, 1);
+						}
+					}
+				}
+				return temp
+			}
+			function countLetters(mod)
+			{
+				var str = mod.toUpperCase();			
+				temp = ALPHABET;
+				for (i = 0; i < str.length; i++)
+				{
+					var letter = str[i];
+					for (i = 0; i < str.length; i++)
+					{
+						if (letter == temp[i])
+						{
+							freq[i] += 1
+						}
+					}
+				}	
+				return temp
+			}
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+
+	
+	</body>
+</html>
+
+

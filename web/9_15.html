@@ -1,0 +1,96 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title> </title>
+		<script> 
+			function initialize()
+			{
+				num = 0;
+				numToo = 0;
+				ans = "Nothing Yet";
+				
+				numOutput = document.getElementById("numout");
+				numTooOutput = document.getElementById("numtooout");
+				ansOutput = document.getElementById("ansout");
+				
+				display();
+			//numout-argument(string)- providing the proper id
+			//getelementbyid- function call- belongs to document
+			//document- object - owns getElementByID
+			//numOutput - variable - HTML element 
+			}
+
+			function add()
+			{
+				ans = num+numToo;	
+				display();
+			}
+			function display()
+			{
+				numOutput.innerHTML = num;
+				numTooOutput.innerHTML = numToo;
+				ansOutput.innerHTML = ans;
+			
+			}
+			function subtract()
+			{	
+				ans = num-numToo;
+				display();
+			}
+			function multiply()
+			{	
+				ans = num*numToo;
+				display();
+			}
+			function divide()
+			{
+				ans = num/numToo;
+				display();
+			}
+			function modifyNum(mod)
+			{
+				num += mod;
+				display();
+			}
+			function modifyNumToo(mod)
+			{
+				numToo += mod;
+				display();
+			}
+			
+		</script>
+		<style> </style>
+
+	</head>
+
+	<body onload = "initialize();"> 
+		<button onclick = "add();">
+			add
+		</button>
+		<button onclick = "subtract();">
+			subtract
+		</button>
+		<button onclick = "multiply();"> 
+			multiply
+		</button>
+		<button onclick = "divide();">
+			divide
+		</button>
+		
+		<hr />
+		
+		<button onclick = "modifyNum(1);">add 1 to num</button>
+		<button onclick = "modifyNum(-1);">subtract 1 from num</button>
+		<button onclick = "modifyNumToo(1);">add 1 to numToo</button>
+		<button onclick = "modifyNumToo(-1);">	subtract 1 from numToo</button>
+		<hr />
+		
+		Num: <span id = "numout">0</span><br /><br />
+		NumToo: <span id = "numtooout">0</span><br /><br />
+		Answer: <span id = "ansout"></span>
+		
+	</body>
+
+</html>
+

@@ -1,0 +1,40 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				numClicks = 0;
+				numClickOut = document.getElementById("clickout");
+			}
+			function addClick()
+			{
+				numClicks++;
+				display()
+			}
+			function display()
+			{
+				numClickOut.innerHTML = numClicks;
+			}
+			
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		The button has been clicked <span id = "clickout">0</span> times
+		<button onclick = "addClick();">Click me!</button>
+	</body>
+</html>
+
+

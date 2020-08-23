@@ -1,0 +1,3 @@
+IMAGE = 0, CATEGORY = 1, ITEM_ID = 2, ITEM_NAME = 3, PRICE = 4;
+
+sampleData = "star trek.jpg,Socks,socks001,Star Trek Command,$9.99;wonder woman.jpg,Socks,socks002,Wonder Woman,$9.99;steelers.jpg,Socks,socks003,Pittsburgh Steelers,$9.99;bazinga.jpg,Socks,socks004,Big Bang Theory Bazinga,$9.99;harry potter.jpg,Socks,socks005,Griffyndor,$9.99;psyduck.jpg,Socks,socks006,Pokemon Psyduck,$9.99;rainbow dash.jpg,Socks,socks006,My Little Pony Rainbow Dash,$9.99;r2d2.jpg,Socks,socks006,R2-D2,$9.99;spiderman.jpg,Socks,socks006,Spider-Man,$9.99;coke.jpg,Socks,socks006,Coke Classic,$9.99;diet coke.jpg,Socks,socks006,Diet Coke,$9.99;doctor who.jpg,Socks,socks006,Doctor Who,$9.99;family Guy.jpg,Socks,socks006,Family Guy Mug Shots,$9.99";

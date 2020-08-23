@@ -1,0 +1,109 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				num = 0;
+				inRange = "in range";
+				msg = "";
+				minThreshold = 0;
+				maxThreshold = 10;
+				minThresholdOut = document.getElementById("minout");
+				maxThresholdOut = document.getElementById("maxout");
+				rangeOutput = document.getElementById("rangeout");
+				msgOutput = document.getElementById("msgout");
+				numOutput = document.getElementById("numout");
+				display()
+			}
+			function modifyNum(mod)
+			{
+				num += mod;
+				if (num < minThreshold || num > maxThreshold)
+				{
+					inRange = "not in range";
+				}
+				else
+				{
+					inRange = "in range";
+				}
+				display()
+			}
+			function display()
+			{
+				rangeOutput.innerHTML = inRange;
+				numOutput.innerHTML = num;
+				minThresholdOut.innerHTML = minThreshold;
+				maxThresholdOut.innerHTML = maxThreshold;
+				if (Math.abs(num % 2) == 1)
+				{
+					msg = "Your number is odd";
+				}
+				else
+				{
+					msg = "Your number is even";
+				}
+				msgOutput.innerHTML = msg;
+			}
+			function modifyMinThreshold(mod)
+			{
+				if (minThreshold < maxThreshold)
+				{
+					minThreshold += mod;
+				}
+				else
+				{
+					if (mod == -1)
+					{
+						minThreshold += mod;
+					}
+				}
+				
+				display()
+			}
+			function modifyMaxThreshold(mod)
+			{
+				if (maxThreshold > minThreshold)
+				{
+					maxThreshold += mod;
+				}
+				else
+				{
+					if (mod == 1)
+					{
+						maxThreshold +=mod;
+					} 
+				}
+				display()
+			}
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<button onclick = "modifyNum(1);"> +1 to Number </button>
+		<button onclick = "modifyNum(-1);"> -1 to Number </button><br /> <br />
+		<button onclick = "modifyMinThreshold(1);"> +1 to minimum threshold </button>
+		<button onclick = "modifyMinThreshold(-1);"> -1 to minimum threshold</button>
+		<button onclick = "modifyMaxThreshold(1);"> +1 to maximum threshold </button>
+		<button onclick = "modifyMaxThreshold(-1);"> -1 to maximum threshold </button><br />
+		Minimum threshold = <span id = "minout"></span>
+		Maximum threshold = <span id = "maxout"></span><br />
+		Number = <span id = "numout"></span><br />
+		<span id = "msgout"></span> and is <span id ="rangeout"></span>
+
+	
+	</body>
+</html>
+
+

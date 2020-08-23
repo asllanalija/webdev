@@ -1,0 +1,455 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Kidnapped By Aliens!!!!!!</title>
+		
+		<link rel = "stylesheet" href = "columns.css" />
+		<link rel = "stylesheet" href = "dressing.css" />
+		
+		<style>
+			body
+			{
+				color:white;
+			}
+		
+			.column
+			{
+				border:thick double cornflowerblue;
+				border-radius:20px;
+				position:relative;
+				width:40%;
+			}
+			
+			.colcontent
+			{
+				font:18pt comic sans ms;
+				
+			}
+			
+			.bgrnd
+			{
+				opacity:0.45;
+			}
+			
+			.titlecontent
+			{
+				font:36pt arial;
+				font-weight:bold;
+				border:10px double cornflowerblue;
+				border-radius:20px;
+			}
+			
+			.columncontainer
+			{
+				margin-top:75px;
+			}
+			
+			button
+			{
+				font:18pt arial;
+				background-color:cornflowerblue;
+			}
+		</style>
+		
+		<script src = "utilities.js"></script>
+		<script>
+		
+			/*
+				initialize
+			*/
+			function initialize()
+			{
+				//CONSTANTS
+				IN_PROGRESS = 0, ESCAPED = 1, DESTROYED = 2;
+				DIGGER_CHANCE = 1, FIGHTER_CHANCE = .6, PLANNER_CHANCE = .2;
+				ITEM_CHANCE = .2;
+				CHARACTER_NAMES = ["", "Digger", "Fighter", "Planner"];
+				DIGGER = 1, FIGHTER = 2, PLANNER = 3;
+				ITEM_NAMES = ["Nothing", "Power Shovel", "Raygun", "Headlamp"];
+				NO_ITEM = 0, SHOVEL = 1, RAYGUN = 2, LAMP = 3;
+				CAVE_IN = 1, SPIDER = 2, NEW_CHARACTER = 3, HOLLOW = 4;
+				DIG = 0, FIGHT = 1;
+				TUNNEL_METERS = 100;
+				ALIENS = .6, ALIEN_PARTY = 6;
+				DIFFERENTIAL = 2;
+			
+				//Global Variables
+				characters = [];
+				skills = [];
+				items = [];
+				roundChoice = DIG;
+				aliensComing = ALIENS;
+				gameState = IN_PROGRESS;
+				roundMessage = "";
+				
+				metersRemaining = TUNNEL_METERS;
+				
+				//HTML Elements
+				messageOut = document.getElementById("round");
+				rosterOut = document.getElementById("party");
+				metersOut = document.getElementById("distance");
+				
+				//Build out the explorer party.
+				buildCharacters(getRandomInteger(6,10));
+				display();
+			}
+			
+			/*
+				buildCharacters
+				
+				Builds a party of explorers and fills the arrays.
+				
+				Parameters
+					howMany - The number of characters in the party.
+			*/
+			function buildCharacters(howMany)
+			{
+				for (var i = 0; i < howMany; i++)
+				{
+					/*
+						Based on the constants, determine whether the new character is a Planner, Fighter, or Digger.
+					*/
+					var rndCh = Math.random();
+					if (rndCh < PLANNER_CHANCE)
+						characters.push(PLANNER);
+					else
+						if (rndCh < FIGHTER_CHANCE)
+							characters.push(FIGHTER);
+						else
+							characters.push(DIGGER);
+							
+					skills.push(getRandomInteger(1, 3));
+					items.push(0);
+				}
+			}
+			
+			/*
+				aliensAttack
+				
+				Determines whether or not there is an alien attack against the explorers.
+				
+				Returns
+					The number of aliens attacking (0 if there's no attack).
+			*/
+			function aliensAttack()
+			{
+				/*
+					If the aliens are not attacking, increase the chance that they will attack next round and return 0.
+				*/
+				if (Math.random() > aliensComing)
+				{
+					aliensComing += .1;
+					if (aliensComing > ALIENS)
+						aliensComing = ALIENS;
+						
+					return 0;
+				}
+				else
+				{
+					/*
+						If the aliens are attacking, figure out how many aliens are attacking, reduce the chance that they'll attack again next turn, and return the number of aliens attacking.
+					*/
+					var numAliens = ALIEN_PARTY + getRandomInteger(0, aliensComing * 10);
+					aliensComing -= .1;
+					return numAliens;
+				}
+			}
+			
+			/*
+				checkItemAdjustments
+				
+				Determines the impact a particular item has on the round.
+				
+				Returns
+					The adjusted skill of the character with the item.
+			*/
+			function checkItemAdjustment(idx)
+			{
+				/*
+					Return the adjusted skill, but DO NOT alter the base skill.
+				*/
+				if (items[idx] == RAYGUN || items[idx])
+					return skills[idx] * getRandomInteger(1, 3);
+					
+				if (items[idx] == LAMP);
+					return skills[idx] + getRandomInteger(1, 6);
+
+				return skills[idx];
+			}
+			
+			/*
+				getCharacterSkill
+				
+				Adds up the skill levels of all of the characters of a certain type.
+				
+				Parameters
+					cType - the type of character for which the skills are being summed.
+				
+				Returns
+					The sum of the skills of all of the characters of type cType.
+			*/
+			function getCharacterSkill(cType)
+			{
+				/*
+					Loop through all of the characters.
+				*/
+				var skill = 0;
+				for (var i = 0; i < characters.length; i++)
+				{
+					if (characters[i] == cType)
+					{
+						/*
+							Certain skills are affected by the presence of an item.
+						*/
+						skill += checkItemAdjustment(i);
+					}
+				}
+				
+				return skill;
+			}
+			
+			/*
+				runAttack
+				
+				Handles all of the calculations necessary for resolving an alien attack.
+				
+				Parameters
+					numAliens = the number of aliens attacking
+					
+				Returns
+					A message for ultimate display of the results.
+			*/
+			function runAttack(numAliens)
+			{
+				/*
+					Get the total fighting skill for the explorers.
+					If they planned to attack, 
+						add in the planners' skills.
+					Otherwise
+						Divide the skills in half.
+				*/
+				var fighterSkill = getCharacterSkill(FIGHTER);
+				if (roundChoice == FIGHT)
+				{
+					fighterSkill += getCharacterSkill(PLANNER);
+				}
+				else
+				{
+					fighterSkill = Math.ceil(fighterSkill / DIFFERENTIAL);
+				}
+				
+				/*
+					The aliens' attack skill is based solely on their numbers.
+				*/
+				var alienSkill = numAliens + getRandomInteger(0, ALIEN_PARTY);
+				
+				returnMsg = "Your attack skill was " + fighterSkill + ".<br />The aliens hit you back with a skill of " + alienSkill + ".<br />";
+				
+				/*
+					If the aliens have won the battle, then one explorer is removed from the party.  Since the skills and items are in parallel arrays, they have to be stripped of the items at the same index.
+				*/
+				if (alienSkill > fighterSkill)
+				{
+					var deadCharacterIdx = getRandomInteger(0, characters.length - 1);
+					characters.splice(deadCharacterIdx, 1);
+					items.splice(deadCharacterIdx, 1);
+					skills.splice(deadCharacterIdx, 1);
+					returnMsg += "You were overwhelmed and lost a character.";
+				}
+				else
+				{
+					returnMsg += "You beat back " + numAliens + " aliens!";
+				}
+				return returnMsg;
+			}
+			
+			/*
+				runDig
+				
+				Handles all of the calculations necessary for a round of digging.
+				
+				Returns
+					The digging skill (the number of meters dug).
+			*/
+			function runDig()
+			{
+				/*
+					Get the total digging skill for the explorers.
+					If they planned to dig, 
+						add in the planners' skills.
+					Otherwise
+						Divide the skills in half.
+				*/
+				var diggerSkill = getCharacterSkill(DIGGER);
+				
+				if (roundChoice == DIG)
+				{
+					diggerSkill += getCharacterSkill(PLANNER);
+				}
+				else
+				{
+					diggerSkill = Math.ceil(diggerSkill / DIFFERENTIAL);
+				}
+				
+				//The diggers will always dig at least 1 meter.
+				diggerSkill = Math.round(diggerSkill);
+				if (diggerSkill <= 1)
+					diggerSkill = 1;
+				
+				//Subtract the number of meters dug out.
+				metersRemaining -= diggerSkill;
+				if (metersRemaining < 0)
+					metersRemaining = 0;
+				return diggerSkill;
+			}
+			
+			/*
+				findItem
+				
+				Checks to see if an item was found.
+				
+				Returns
+					The item found or NO_ITEM if nothing was found.
+			*/
+			function findItem()
+			{
+				if (Math.random() < ITEM_CHANCE)
+					return getRandomInteger(SHOVEL, LAMP);
+					
+				return NO_ITEM;
+			}
+			
+			/*
+				assignItem
+				
+				Assigns an item to a specific character.
+				
+				Parameters
+					itm - the item to assign.
+					
+				Returns
+					true if the item was successfully assigned or falso otherwise.
+			*/
+			function assignItem(itm)
+			{
+				/*
+					Go through the list of explorers and assign the item to the first explorer whose type matches the item.  If that explorer already has an item, keep searching.
+				*/
+				for (var i = 0; i < characters.length; i++)
+				{
+					if (itm == characters[i] && items[i] == NO_ITEM)
+					{
+						items[i] = itm;
+						return true;
+					}
+				}
+				
+				return false;
+			}
+			
+			/*
+				runRound
+				
+				Goes through the parts of a round, determining the results based on player actions and random events.
+				
+				Parameters
+					plan - the user's planning choice for the round.
+			*/
+			function runRound(plan)
+			{
+				//If the game is over, just return.
+				if (gameState != IN_PROGRESS)
+					return;
+					
+				roundChoice = plan;
+				numAliens = aliensAttack();
+				
+				/*
+					If there's an attack, run it, otherwise, DIG!
+				*/
+				if (numAliens > 0)
+				{
+					roundMessage = "The aliens are attacking!<br />";
+					roundMessage += "  " + runAttack(numAliens);
+				}
+				else
+				{
+					roundMessage = "You dug through " + runDig() + " meters.<br />";
+					
+					itm = findItem();
+					if (itm != NO_ITEM)
+					{
+						if (assignItem(itm))
+							roundMessage += "You found a " + ITEM_NAMES[itm];
+					}
+				}
+				checkGameOver();
+				display();
+			}
+			
+			/*
+				checkGameOver
+				
+				Alters the game state if need be.
+			*/
+			function checkGameOver()
+			{
+				//If all of the characters are gone, you lose.
+				if (characters.length == 0)
+					gameState = DESTROYED;
+					
+				//If all of the meters are gone, you win.
+				if (metersRemaining <= 0)
+					gameState = ESCAPED;
+			}
+			
+			/*
+				display
+			*/
+			function display()
+			{
+				rosterOut.innerHTML = "";
+				for (var i = 0; i < characters.length; i++)
+					rosterOut.innerHTML += CHARACTER_NAMES[characters[i]] + " (skill: " + skills[i] + ") - " + ITEM_NAMES[items[i]] + "<br />";
+				
+				metersOut.innerHTML = metersRemaining;
+				messageOut.innerHTML = roundMessage + "<br />";
+				
+				if (gameState == DESTROYED)
+					messageOut.innerHTML += "You were destroyed!";
+					
+				if (gameState == ESCAPED)
+					messageOut.innerHTML += "You made it to freedom!";
+			
+			}
+		
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<img class = "bgrnd" src = "alien tunnels.png" />
+		<h1 class = "titlecontainer">
+			<span class = "titlecontent">Kidnapped By Aliens!!!!!!</span>
+		</h1>
+		<div class = "columncontainer">
+			<div class = "column">
+				<img class = "bgrnd" src = "alien walls.jpg" />
+				<div class = "contentbox">
+					<h1 class = "coltitle">Your Party</h1>
+					<div class = "colcontent" id = "party"></div>
+				</div>
+			</div>
+			<div class ="column">
+				<img class = "bgrnd" src = "alien walls.jpg" />
+				<div class = "contentbox">
+					<h1 class = "coltitle">Control Board</h1>
+					<button onclick = "runRound(DIG);">Plan to Dig</button>
+					<button onclick = "runRound(FIGHT);">Plan to Fight</button>
+					<hr />
+					<div class = "colcontent"><span id = "distance">100</span> meters remaining.</div>
+					<hr />
+					<div class = "colcontent" id = "round"></div>
+				</div>
+		</div>
+	</body>
+</html>

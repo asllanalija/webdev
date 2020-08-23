@@ -1,0 +1,122 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script src = "javascript.js"></script>
+		<script>
+			function initialize()
+			{
+				localStorage.clear();
+				
+				titleEle = document.getElementById("title");
+				imageEle = document.getElementById("image");
+				optionContainer = document.getElementById("optionContainer");
+				descriptionEle = document.getElementById("description");
+				priceEle = document.getElementById("price");
+				
+				cartNum = 0;
+				
+				createElements();
+				displayElements();
+			}
+			function displayElements()
+			{
+				item = ITEMS[0].split(DELIMITER);
+				obj = {"title" : item[TITLE], "image" : item[IMAGE], "description" : item[DESCRIPTION], "price" : item[PRICE]};
+				titleEle.innerHTML = obj.title;
+				imageEle.src = obj.image;
+				descriptionEle.innerHTML = obj.description;
+				priceEle.innerHTML = obj.price;
+				for (var i = ELEMENT; i < item.length; i++)
+				{
+					optionContainer.appendChild(window[item[i]]);
+				}
+			}
+			function addCart()
+			{
+				cartNum++;
+				for (i = 0; i < item.length - ELEMENT; i++)
+				{
+					obj[PROPERTIES[i]] = propertyElements[i].value;
+				}
+				localStorage.setItem("cart" + cartNum, JSON.stringify(obj));
+			}
+			function purchase()
+			{
+				localStorage.clear();
+			}
+		</script>
+		<style>
+
+		div
+		{
+			display:inline-block;
+		}
+		img
+		{
+			width:35%;		
+			margin-left:auto;
+			margin-right:auto;
+			display:block;
+		}
+
+		#title
+		{
+			margin-left:auto;
+			margin-right:auto;
+			display:block;
+			text-align:center;
+			font-size: 32pt;
+		}
+		.container
+		{
+			position:absolute;
+			top:20%;
+		}
+		.priceContainer, #optionContainer, #description, .cartadd
+		{
+			margin-left:auto;
+			margin-right:auto;
+			display:block;
+			text-align:center;
+		}
+		.purchasearea
+		{
+			position:absolute;
+			width:35%;
+			top:40%;
+			left:63%;
+		}
+		#description
+		{
+			width:auto;
+		}
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div class = "container">
+			<div id = "title"> </div><br />
+			<img id = "image"/>
+		</div>
+		<div class = "purchasearea">
+			<div class = "priceContainer">
+				<span> Price:  </span>
+				<div id = "price"></div>
+			</div>
+			<div id = "description"> </div>			
+			<div id = "optionContainer"></div>
+			<div class = "cartadd">
+				<button onclick = "addCart();"> Add to Cart </button>
+			</div>
+		</div>
+		<button onclick = "purchase();"> Check out
+	</body>
+</html>
+
+

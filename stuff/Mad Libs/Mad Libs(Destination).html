@@ -1,0 +1,57 @@
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		</title>
+		<link rel = "stylesheet" type = "text/css" href = "Mad Libs CSS.css"/>
+		<script src = "story.js"></script>
+		<script>
+			function initialize()
+			{
+				StoryOutput = document.getElementById("story");
+				var str = location.search;
+				var str2 = str.split("=");
+				tempArray = [];
+				MadLibs = [];
+				for(var i = 0; i < str2.length; i++)
+				{
+					str3 = str2[i].split("&");
+					tempArray.push(str3);
+					MadLibs.push(tempArray[i][0]);
+				}
+				MadLibs.splice(0,1);
+				console.log("MadLibs",MadLibs);
+				Story = "";
+				StoryChosen = MadLibs[0];
+				MadLibs.splice(0,1);
+				StoriesArray = [];
+				for(var i = 0; i < STORIES.length; i++)
+				{
+					var temp = STORIES[i].split(DELIMITER);
+					StoriesArray.push(temp);
+				}
+				StoryParts = [];
+				for(var i = 0; i < StoriesArray[StoryChosen].length; i = i + 2)
+				{
+					StoryParts.push(StoriesArray[StoryChosen][i]);
+				}
+				Story = [];
+				console.log("StoryParts",StoryParts);
+				for(var i = 0; i < StoryParts.length - 1; i++)
+				{
+					Story.push(StoryParts[i]);
+					Story.push(MadLibs[i]);
+				}
+				StoryOutput.innerHTML = Story;
+			}
+		</script>
+		<style>
+		</style>
+	</head>	
+	<body onload = "initialize();">
+		<div id = "story">
+		</div>
+	</body>	
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title></title>
+		<link rel = "stylesheet" href = "columns.css" />
+		<link rel = "stylesheet" href = "roster.css" />
+		<style></style>
+		<script src = "utilities.js"></script>
+		<script src = "namedata.js"></script>
+		<script>
+			/*
+				initialize
+			*/
+			function initialize()
+			{
+				groupsDisplay = document.getElementById("groups");
+			
+				/*
+					My back end groups are stored in a 2D array for ease of adding and removing groups.
+				*/
+				groups = [[],[],[],[],[]];
+				currentGroup = 1;
+				currentId = 0;
+				
+				assignGroups();
+				
+				/*
+					This timer controls the insertion of people into the Prospective Applicants group.  It occurs every 2 seconds.
+				*/
+				newPersonTimer = setInterval(function()
+				{
+					//Do not allow more than 30 people
+					if (groups[0].length >= 30)
+						return;
+						
+					/*
+						This chooses a random person from the data file and builds an object from it.
+						The object is pushed into the back end variable (groups[0] is the Prospective Applicants group).
+						The object is then added to the display.
+					*/
+					var selPerson = allPeople[getRandomInteger(0, allPeople.length - 1)];
+					selPerson = selPerson.split(",");
+					selPerson = {"gender":selPerson[0], "name":selPerson[1], "id":currentId};
+					currentId++;
+					groups[0].push(selPerson);
+					addToGroupDisplay(0, selPerson);
+				}, 2000);
+				
+				display();
+			}
+			
+			/*
+				addToGroupDisplay
+				
+				Handles the front end representation of a new group member.
+				
+				Parameters:
+					groupIdx - the index of the group receiving the person.
+					selPerson - the person going into the group.
+			*/
+			function addToGroupDisplay(groupIdx, selPerson)
+			{
+				/*
+					Create a list item and set its display.
+				*/
+				listItem = document.createElement("li");
+				listItem.style.cursor = "pointer";
+				listItem.innerHTML = selPerson.id + ": " + selPerson.name;
+				
+				/*
+					The event listener handles the movement of the person from its group to the selected group.
+				*/
+				listItem.addEventListener("click", function() 
+				{
+					/*
+						Pull the person out of its group and move it into the new group, designated by the currentGroup global index.
+						Set up the list item and the innerHTML.
+						Append it to the new group display.
+						Remove it from the old group display.
+						
+						The timing of this function is extremely important.  The local variables (selPerson and groupIdx) are specific to this instance of this function and therefore retain their values for whenever the event is triggered.  The currentGroup, which is global, will have a value set by the user on the moment rather than being set here during creation.  That way, the user has total control over where items are moved to.
+					*/
+					groups[groupIdx].splice(groups[groupIdx].indexOf(selPerson), 1);
+					groups[currentGroup].push(selPerson);
+					groupItem = document.createElement("li");
+					groupItem.innerHTML = selPerson.id + ": " + selPerson.name + " (" + selPerson.gender[0] + ")";
+					groupLists[currentGroup].appendChild(groupItem);
+					groupLists[groupIdx].removeChild(this);
+				});
+
+				groupLists[groupIdx].appendChild(listItem);
+			}
+			
+			/*
+				changeGroup
+				Sets the current group.
+				
+				Parameters:
+					idx - the index of the new current group in the groups array.
+			*/
+			function changeGroup(idx)
+			{
+				currentGroup = idx;
+				display();
+			}
+			
+			/*
+				addGroup
+				Adds a new group to the page.
+			*/
+			function addGroup()
+			{
+				//Add a back end group.
+				groups.push([]);
+				
+				/*
+					The group displays are built from <h1> and <hr /> tags inside of <ol> tags.  This recreates those exactly.
+				*/
+				var newGroupDisplay = document.createElement("ol");
+				newGroupDisplay.appendChild(document.createElement("h1"));
+				newGroupDisplay.appendChild(document.createElement("hr"));
+				groupsDisplay.appendChild(newGroupDisplay);
+				
+				assignGroups();
+			}
+			
+			/*
+				removeGroup
+				Takes a group away from the page.
+			*/
+			function removeGroup()
+			{
+				/*
+					Move all of the people from the group being removed back into the Prospective Applicants group.
+				*/
+				for (var i = 0; i < groups[currentGroup].length; i++)
+				{
+					groups[0].push(groups[currentGroup][i]);
+					addToGroupDisplay(0, groups[currentGroup][i]);
+				}
+				
+				/*
+					Take the group out of the array and remove its front end representation from the page.
+				*/
+				groups.splice(currentGroup, 1);
+				groupsDisplay.removeChild(groupLists[currentGroup]);
+				assignGroups();
+			}
+			
+			/*
+				assignGroups
+				This function dynamically assigns and reassigns groups to the screen based on their positions in the array.
+				
+				Designers Note - The groups were originally labelled with letters.  This was changed to numbers in order to easily accommodate their changing indices in the array.
+			*/
+			function assignGroups()
+			{
+				groupLists = document.getElementsByTagName("ol");
+				for (var i = 1; i < groupLists.length; i++)
+				{
+					//Set the on screen name of the group.
+					header = groupLists[i].getElementsByTagName("h1")[0];
+					header.innerHTML = "Add to Group " + i;
+					groupLists[i].groupIdx = i;
+					
+					/*
+						This event listener calls the changeGroup function on a click so that the group can be set as the currentGroup.
+					*/
+					groupLists[i].addEventListener("click", function() {changeGroup(this.groupIdx);});
+				}
+				
+				display();
+			}
+			
+			/*
+				display
+				Sets the background color of the current group to 100% opaque, which all of the other groups are only 80% opaque.
+				
+				The rgba color setting stands for red, green, blue, alpha, where the alpha is the setting for opacity.  This can be used for any color setting in CSS.
+			*/
+			function display()
+			{
+				for (var i = 0; i < groupLists.length; i++)
+				{
+					if (i == currentGroup)
+						groupLists[i].style.backgroundColor = "rgba(255,255,255,1.0)";
+					else
+						groupLists[i].style.backgroundColor = "rgba(255,255,255,0.6)";
+				}
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<span class = "columncontainer">
+			<div class = "column">
+				<ol id = "newgroup"><h1>Prospective Applicants</h1><hr /></ol>
+			</div>
+			<div id = "groups" class = "column">
+				<button onclick = "addGroup();">Create a New Group</button>
+				<button onclick = "removeGroup();">Remove the Selected Group</button>
+				<ol><h1>Add to Group 1</h1><hr /></ol>
+				<ol><h1>Add to Group 2</h1><hr /></ol>
+				<ol><h1>Add to Group 3</h1><hr /></ol>
+				<ol><h1>Add to Group 4</h1><hr /></ol>
+			</div>
+		</span>
+	</body>
+</html>

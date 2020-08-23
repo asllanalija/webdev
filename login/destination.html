@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<title>Sample Page</title>
+		<script>
+			function initialize()
+			{
+				greet = document.getElementById("greet");
+				if (data != null)
+					greet.innerHTML = "Welcome " + data.first + " " + data.last;
+				else
+				{
+					greet.innerHTML = "Username or Password is incorrect.";
+				}
+			}
+		</script>
+	</head>
+	<body onload = "initialize();">
+		<span id = "greet"></span>
+	</body>
+</html>

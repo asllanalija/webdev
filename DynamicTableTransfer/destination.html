@@ -1,0 +1,47 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				query = location.search;
+				query = query.split("&");
+				numHeaders = document.getElementsByTagName("th").length;
+				numRows = query.length/numHeaders;
+				numIterated = 0;
+				for (i = 0; i < numRows; i++)
+				{
+					var row = document.createElement("tr");
+					for (i = 0; i < numHeaders; i++)
+					{
+						var data = document.createElement("td");
+					}
+				}
+			}
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<table>
+			<tr>
+				<th> Food </th>
+				<th> Type of food </th>
+				<th> Calories </th>
+			</tr>
+		</table>
+	
+	</body>
+</html>
+
+

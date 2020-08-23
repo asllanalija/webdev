@@ -1,0 +1,84 @@
+<!-- Asllan Alija Pd 1-->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				imgOutPut = document.getElementById("myImg");
+				textOutPut = document.getElementById("myTxt");
+			}
+			function selectImg(mod)
+			{
+				imgOutPut.src = mod
+				if (mod == 'ambiance.png')
+				{
+					text = "Candles!";
+				}
+				if (mod == 'bathroom.png')
+				{
+					text = "It's rusty..";
+				}
+				if (mod == 'jones.png')
+				{
+					text = "Weird cat";
+				}
+				if (mod == 'kit.png')
+				{
+					text = "What is this thing?";
+				}
+				if (mod == 'light.png')
+				{
+					text = "It's bright!";
+				}
+				if (mod == 'it.png')
+				{
+					text = "????";
+				}
+				if (mod == 'camera.png')
+				{
+					text = "Cheese!";
+				}
+				textOutPut.innerHTML = text;
+			}
+		</script>
+		<style>
+			img
+			{
+				width : 150px;
+			}
+			h6
+			{
+				text-align:center;
+			}
+			div
+			{
+				text-align:center;
+			}
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<h6> <img id = "myImg"/> <br /> <span id ="myTxt"></span> </h6>
+		<div>
+			<img src = "ambiance.png" onclick = "selectImg('ambiance.png');"/>
+			<img src = "bathroom.png" onclick = "selectImg('bathroom.png');"/>
+			<img src = "jones.png" onclick = "selectImg('jones.png');"/>
+			<img src = "kit.png" onclick = "selectImg('kit.png')"/>
+			<img src = "light.png" onclick = "selectImg('light.png');"/>
+			<img src = "it.png" onclick = "selectImg('it.png')"/>
+			<img src = "camera.png" onclick = "selectImg('camera.png');"/>
+			
+		</div>
+		
+	
+	</body>
+</html>
+
+

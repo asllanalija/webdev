@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title></title>
+		<style></style>
+		<script src = "utilities.js"></script>
+		<script src = "card deck.js"></script>
+		<script>
+			/*
+				initialize
+				
+				Sets up the page.
+			*/
+			function initialize()
+			{
+				flippedCardsContainer = document.getElementById("flipped");
+			
+				//Build a standard deck of cards.
+				deck = generateStandardDeck();
+			}
+			
+			/*
+				flipCard
+				
+				Responds to a click event.
+				This function pulls a card off of the deck and puts its image on screen.
+			*/
+			function flipCard()
+			{
+				/*
+					If the deck is empty, do nothing.
+				*/
+				if (deck.length == 0)
+					return;
+					
+				/*
+					Pull the top card off of the deck.
+					Create the image element.
+					Set the src of the image element.
+					Create a property of the image that holds the card object.
+					Add the click event to the new image.
+					Add the new image to the page.
+				*/
+				var card = dealCard(deck);
+				var cardImage = document.createElement("img");
+				cardImage.src = "cardimages/" + card.imgFile;
+				
+				/*
+					In order to preserve the object, I have chosen to create a property of the image that will store it.
+				*/
+				cardImage.card = card;
+				
+				/*
+					In order to retrieve the card object when the image is clicked, I need to be able to access the image element.  Since cardImage has a specific LOCAL value when the function is created, that value is associated with the function object.
+				*/
+				cardImage.addEventListener("click", function() 
+				{
+					deck.push(cardImage.card);
+					flippedCardsContainer.removeChild(cardImage);
+				});
+				flippedCardsContainer.appendChild(cardImage);
+			}
+		</script>
+	</head>
+	<body onload = "initialize();">
+		<img src = "cardimages/back-blue-75-3.png" onclick = "flipCard();" />
+		<div id = "flipped"></div>
+	</body>
+</html>

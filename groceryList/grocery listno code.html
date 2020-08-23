@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+	<!--
+	
+		You have been given a page with a list of grocery items.  By clicking on those items, the user will be able to fill up a shopping cart with items.
+		
+		Each time the user clicks on one of the items in the list, the program will store that item in an array and display all of the items in the cart (see the screen shot).
+		
+		When displaying the items in the cart, you should not display any item more than once.  Instead, you will put the quantity of that item in parentheses next to the item image.
+		
+		The cart is displayed in the <span> with the id of "cart".
+		
+		Refer to the screen shot for an idea of how it's supposed to look.  Note that there is a 3 in the parentheses next to the cheese, meaning that the user clicked on cheese 3 times.
+	
+	-->
+	<head>
+		<title>Grocery List</title>
+		
+		<style>
+			h1 
+			{
+				text-align:center;
+				font:36pt calibri bold; 
+				margin-top:20px;
+			}
+		
+			ul 
+			{
+				margin-left:50px; 
+				margin-top:50px; 
+				list-style-type:none; 
+				text-align:center; 
+				display:inline-block; 
+				width:40%;
+			}
+			
+			li 
+			{
+				font:18pt calibri black; 
+				border:thick outset grey; 
+				width:300px; 
+				background-color:lightgrey; 
+				cursor:pointer; 
+				margin-top:10px;
+			}
+			
+			img 
+			{
+				width:110px;
+			}
+			
+			div 
+			{
+				display:inline-block; 
+				width:48%; 
+				font:18pt comic sans ms; 
+				vertical-align:top; 
+				margin-top:50px; 
+				text-align:center;
+			}
+			
+			.bground 
+			{
+				width:100%; 
+				position:fixed; 
+				top:-40px; 
+				left:0px; 
+				text-align:center; 
+				z-index:-1; 
+				opacity:0.25;
+			}
+			
+		</style>
+		
+		<script type = "text/javascript">
+			function initialize()
+			{
+				cart = [];
+				cartOut = document.getElementById("cart");
+			}
+			function addItem(mod)
+			{
+				for (i = 0, cart[i] == mod, i++)
+				{
+					cart.push(mod + "(" 
+				}
+			}
+
+			function display()
+			{
+				cartOut.innerHTML = cart;
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<img class = "bground" src = "supermarket.jpg" /></div>
+		<h1>Shopping List</h1>
+		<ul>
+			<li onclick = "addItem('Bread')">Bread</li>
+			<li onclick = "addItem('Milk')">Milk</li>
+			<li onclick = "addItem('Cheese')">Cheese</li>
+			<li onclick = "addItem('Juice')">Juice</li>
+			<li onclick = "addItem('Fruit')">Fruit</li>
+			<li onclick = "addItem('Vegetables')">Vegetables</li>
+			<li onclick = "addItem('Ice Cream')">Ice Cream</li>
+			<li onclick = "addItem('Cookies')">Cookies</li>
+			<li onclick = "addItem('Laundry Detergent')">Laundry Detergent</li>
+			<li onclick = "addItem('Dish Detergent')">Dish Detergent</li>
+			<li onclick = "addItem('Paper Towels')">Paper Towels</li>
+			<li onclick = "addItem('Napkins')">Napkins</li>
+		</ul>
+		<div>
+			<h2>Shopping Cart</h2>
+			<span id = "cart"></span>
+		</div>
+	</body>
+</html>

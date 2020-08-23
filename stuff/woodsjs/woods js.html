@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Into The Woods</title>
+		<link rel = "stylesheet" href = "woods js.css" />
+		<style>
+		</style>
+		<script>
+			function initialize()
+			{
+				forestImages = ["images/Usal-Redwood-Forest.jpg", "images/bamboo.jpg", "images/panda_thumb.jpg"];
+				forestImg = document.getElementById("forest");
+			}
+			
+			function showImage(idx)
+			{
+				forestImg.src = forestImages[idx];
+				forestImg.style.display = "inline";
+			}
+			
+			function hideImage(idx)
+			{
+				forestImg.style.display = "none";
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<!-- Background image -->
+		<img class = "bgrnd" src = "images/bamboo-forest.jpg" />
+
+		<!-- 
+			By putting the title into a span inside the h1, we can style just the title words, leaving the rest of the line invisible.
+		-->
+		<h1><span>Welcome to the Bamboo Forest</span></h1><br />
+		
+		<!--
+			The nesting of the individual elements on the page allows us to use CSS selectors to change the styling of individual elements.
+		-->
+		<ul>
+			<li onmouseover = "showImage(0);" onmouseout = "hideImage(0);">
+				<img src = "images/panda wide eyes.png" /> 
+				About Forests
+			</li><br />
+			<li onmouseover = "showImage(1);" onmouseout = "hideImage(1);">
+				<img src = "images/panda wide eyes.png" /> 
+				About Bamboo
+			</li><br />
+			<li onmouseover = "showImage(2);" onmouseout = "hideImage(2);">
+				<img src = "images/panda wide eyes.png" /> 
+				About Pandas
+			</li><br />
+			<img id = "forest" src = "" />
+		</ul>
+	</body>
+</html>

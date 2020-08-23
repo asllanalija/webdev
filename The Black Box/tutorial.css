@@ -1,0 +1,98 @@
+html
+{
+	background-image:url("images/javascript-featured.png");
+	background-size:contain;
+	background-attachment:fixed;
+}
+
+body
+{
+	font:14pt calibri;
+}
+
+h1.titlecontainer
+{
+	margin-top:50px;
+}
+
+.titlecontent
+{
+	background-color:lightgrey;
+}
+
+#navigation li
+{
+	cursor:pointer;
+}
+
+.columncontainer
+{
+	width:90%;
+}
+
+.column
+{
+	border:15px ridge grey;
+	border-radius:20px;
+	background-color:rgba(255,255,255,0.8);
+	margin-top:100px;
+}
+
+ul.column
+{
+	width:20%;
+	text-align:left;
+	list-style-type:none;
+	list-style-position:outside;
+	font-weight:bold;
+}
+
+li
+{
+	line-height:150%;
+}
+
+ul.column li:hover
+{
+	background-color:black;
+	color:white;
+}
+
+div.column
+{
+	width:65%;
+}
+
+#keypoints
+{
+	padding:10px 0px;
+	width:75%;
+	margin:auto;
+	text-align:left;
+	font-weight:bold;
+}
+
+#pageinfo
+{
+	width:90%;
+	margin:auto;
+	text-align:justify;
+	font-size:20pt;
+}
+
+button
+{
+	font-weight:bold;
+	font-size:24pt;
+}
+
+hr.divider
+{
+	width:80%;
+}
+
+#imgbank
+{
+	width:95%;
+	overflow-y:hidden;
+}

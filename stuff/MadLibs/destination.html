@@ -1,0 +1,125 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script src = "story.js"></script>
+		<script>
+			function initialize()
+			{
+				completeStory = document.getElementById("story");
+				query = location.search.substring(1);
+				uInput = query.split("&");
+				
+				idxReplaced = [];
+				
+				for (i = 0; i < uInput.length; i++)
+				{
+					uInput[i] = uInput[i].split("=");
+					if (i > 0)
+						uInput[i][0] = uInput[i][0].slice(0, uInput[i][0].indexOf("+"));
+				}
+				story = STORIES[uInput[0][1]].split(DELIMITER);
+				
+				wordsPresent = [];
+				for (i = 0; i < story.length; i++)
+				{
+					if (story[i].indexOf(" ") < 0 && story[i].length > 1)
+					{
+						wordsPresent.push(story[i]);
+					}
+					
+				}
+				replaceWords();
+			}
+			function replaceWords()
+			{
+				for (i = 0; i < wordsPresent.length; i++)
+				{
+					for (n = 0; n < story.length; n++)
+					{
+						if (story[n] == wordsPresent[i])
+						{
+							for (j = 0; j < uInput.length; j++)
+							{	
+								if (uInput[j][0] == wordsPresent[i])
+								{
+									var word = uInput[j][1];
+									uInput.splice(j, 1);
+									break;
+								}
+							}
+							word = "<span class = 'word'>" + word + "</span>";
+							story.splice(n, 1, word);
+						}
+					}
+				}
+				display();
+			}
+			function display()
+			{
+				str = "";
+				for (i = 0; i < story.length; i++)
+				{
+					str += story[i];
+				}
+				completeStory.innerHTML = str;
+			}
+		</script>
+		<style>
+			#story
+			{
+				position:absolute;
+				width: 35%;
+				text-align:center;
+				left: 31%;
+				top: 40%;
+				font-size: 16pt;
+				border: 1px solid black;
+				border-radius: 25px;
+				padding: 25px;
+				background-color:white;
+			}
+			body
+			{
+				background-color:gray;
+			}
+			.title
+			{
+				
+				text-align:center;
+				font-size: 72pt;
+			}
+			.word
+			{
+				color: red;
+			}
+			a
+			{
+				text-decoration: none;
+				color:black;
+				position:absolute;
+				font-size: 16pt;
+				left: 46%;
+				background-color:white;
+				border: 1px solid black;
+				border-radius: 25px;
+				padding: 1%;
+			}
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<h1 class = "title"> Mad Libs </h1>
+		<a href = "index.html"> Go back </a>
+		<div id = "story"> </div>
+	
+	</body>
+</html>
+
+

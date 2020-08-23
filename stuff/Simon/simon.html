@@ -1,0 +1,185 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html onkeypress = "makeGuess(event)">
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				redButton = document.getElementById("RED");
+				greenButton = document.getElementById("GREEN");
+				yellowButton = document.getElementById("YELLOW");
+				blueButton = document.getElementById("BLUE");
+				feedback = document.getElementById("feedback");
+				simon = [];
+				buttonArray = [redButton, greenButton, yellowButton, blueButton];
+				// keycodes for both uppercase and lowercase letters
+				keyArray = [81, 87, 69, 82];
+				keyArray2 = [113, 119, 101, 114];
+				
+				RED = 0, GREEN = 1, YELLOW = 2, BLUE = 3, IN_PROGRESS = 4, FAILED = 5;
+				
+				numColors = 1;
+				numCycled = 0;
+				
+				inAnimation = false;
+				gameState = null;
+				
+			}
+			function startGame()
+			{
+				try
+				{
+					clearInterval(colorInterval);
+				}
+				catch(err)
+				{
+				}
+				inAnimation = false;
+				numColors = 1;
+				numCycled = 0;
+				feedback.innerHTML = "";
+				simon = [];
+				gameState = IN_PROGRESS;
+				colorInterval = setInterval(chooseColor, 1000/(numColors/2));
+			}
+			function chooseColor()
+			{
+				if (gameState == FAILED)
+					return;
+				inAnimation = true;
+				var temp = getRandomInteger(RED, BLUE);
+				simon.push(temp);
+				buttonArray[temp].style.opacity = "1";
+				setTimeout(changeOpacity, 500/(numColors/2));
+				numCycled++;
+				if (numCycled >= numColors)
+				{
+					inAnimation = false;
+					clearInterval(colorInterval);
+				}
+				
+			}
+			function changeOpacity()
+			{
+				for (i = 0; i < buttonArray.length; i++)
+					buttonArray[i].style.opacity = "0.5";
+			}
+			function makeGuess(mod)
+			{
+				//window.alert(mod.which);
+				if (gameState == null)
+					return;
+				if (inAnimation)
+					return
+				if (gameState == FAILED)
+					return;
+					
+					
+				if (mod.which == keyArray[RED] || mod == RED || mod.which == keyArray2[RED])
+					color = RED;
+				if (mod.which == keyArray[GREEN] || mod == GREEN || mod.which == keyArray2[GREEN])
+					color = GREEN;
+				if (mod.which == keyArray[YELLOW] || mod == YELLOW || mod.which == keyArray2[YELLOW])
+					color = YELLOW;
+				if (mod.which == keyArray[BLUE] || mod == BLUE || mod.which == keyArray2[BLUE])
+					color = BLUE;
+					
+				var pos = simon.indexOf(color);
+				if (pos == 0)
+				{
+					simon.splice(pos, 1);
+				}
+				else
+				{
+					gameState = FAILED;
+					feedback.innerHTML = "YOU HAVE LOST";
+				}
+				if (simon.length == 0 && gameState != FAILED)
+				{
+					numCycled = 0;				
+					numColors++;
+					colorInterval = setInterval(chooseColor, 1000/(numColors/2));
+				}
+			}
+			function getRandomInteger(lower, upper)
+			{
+				//R = parseInt(rnd * (upper - (lower - 1)) + lower
+				multiplier = upper - (lower - 1);
+				rnd = parseInt(Math.random() * multiplier) + lower;
+	
+				return rnd;
+			}
+
+		</script>
+		<style>
+			#RED
+			{
+				background-color: red;
+			}
+			#GREEN
+			{
+				background-color: green;
+			}
+			#YELLOW
+			{
+				background-color:yellow;
+			}
+			#BLUE
+			{
+				background-color:blue;
+			}
+			div.colors
+			{
+				position:relative;
+				text-align:center;
+				top:50%;
+			}			
+			#RED, #GREEN, #YELLOW, #BLUE
+			{
+				font-size: 20pt;
+				color:black;
+			}
+			button
+			{
+				width:10%;
+				height:10%;
+				opacity: 0.5;
+				border: 1px solid black;
+			}
+			button:active
+			{
+				opacity:1.0;
+			}
+			#feedback
+			{
+				font-size:32pt;
+				text-align:center;
+			}
+			#begin
+			{
+				position:relative;
+				left: 45%;
+				top: 80%;
+			}
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">	
+		<div class = "colors">
+			<button id = "RED" onclick = "makeGuess(RED);"> Q </button>
+			<button id = "GREEN" onclick = "makeGuess(GREEN);"> W </button>
+			<button id = "YELLOW" onclick = "makeGuess(YELLOW);"> E </button>
+			<button id = "BLUE" onclick = "makeGuess(BLUE);"> R </button>
+		</div>	
+		<button id = "begin"  onclick = "startGame();"> BEGIN THE GAME </button>
+		<div id = "feedback"> </div>
+	
+	</body>
+</html>
+
+

@@ -1,0 +1,60 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				rowAdder = document.getElementById("rowAdder");
+				form = document.getElementById("form");
+				inputNames = ["food", "type", "calories"];
+				inputText = ["Food Name:" , "Type of food(vegetarian, meat, vegan, etc):", "Amount of calories:"];
+				NUMINPUTS = inputNames.length;
+				numExtraRows = 0;
+			}
+			function addRows()
+			{
+				var numRows = rowAdder.value;
+				for (i = 0; i < numRows; i++)
+				{
+					numExtraRows++;
+					for (n = 0; n < NUMINPUTS; n++)
+					{
+						var ele = document.createElement("input");
+						var brk = document.createElement("br");
+						var span = document.createElement("span");					
+						ele.type = "text";
+						ele.name = inputNames[n] + numExtraRows.toString();
+						span.innerHTML = inputText[n];
+						form.appendChild(span);
+						form.appendChild(ele);
+					}
+					form.appendChild(brk);
+				}
+			}
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<form method = "get" action = "destination.html" id = "form">
+			<input type = "submit"><br />
+			Food Name: <input type = "text" name = "food"/>
+			Type of food(vegetarian, meat, vegan, etc): <input type = "text" name = "type"/>
+			Amount of calories: <input type = "text" name = "calories"/><br />		
+		</form>
+		<input type = "text" id = "rowAdder"/>
+		<button onclick = "addRows();"> Add row </button>
+	</body>
+</html>
+
+

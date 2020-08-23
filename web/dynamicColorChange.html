@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<!-- 
+	DYNAMIC COLOR CHANGE
+	
+	This program allows the user to adjust the red, green, and blue values of the background color of the page.  Follow the instructions and write the code for this page.
+	
+	STEP 1
+	Create the following back end variables in initialze() and give them appropriate values.
+		- a number that represents the red value
+		- a number that represents the green value
+		- a number that represents the blue value
+		- an HTML Element object to represent the output of the red value
+		- an HTML Element object to represent the output of the green value
+		- an HTML Element object to represent the output of the blue value
+		
+	STEP 2
+	Create 3 modification functions, one each for the colors red, green, and blue.
+	The modifications functions will need a parameter so that the program knows by how much to modify the red, green, or blue value.
+	After the modification function updates the appropriate value, it should call the display function.
+	No value should be allowed above 255 or below 0.
+	
+	STEP 3
+	Create onclick events inside each of the buttons.
+	The onclick events will call the appropriate modification functions and pass in a numeric value that represents by how much the specific color value should be modified.
+	
+	STEP 4
+	Write the display function, which should output the following:
+		- The background color of the screen should change according to the red, green, and blue values.
+		- In order to change the background color of the body, use the following code:
+			document.body.style.backgroundColor = /* whatever value is necessary here */
+			You could, alternately, assign an id to the body and capture it into a variable in initialize, but since the body object already exists in the document, do so would be redundant.
+		- Change the display of each color value as it is changed.
+		
+	BONUS STEP
+	As the background color changes, also change the color of the text on the screen so that it remains legible.
+	You can change the color of all of the text at once by using the following code:
+		document.body.style.color = /* whatever value is necessary here */
+ -->
+<html>
+	<head>
+		<title>Dynamic Color Change</title>
+		
+		<style>
+			body
+			{
+				background-color:rgb(255, 255, 255);
+			}
+		</style>
+		
+		<script>
+			function initialize()
+			{
+				redValue = 255;
+				blueValue = 255;
+				greenValue = 255;
+				redValueOut = document.getElementById("redval");
+				blueValueOut = document.getElementById("blueval");
+				greenValueOut = document.getElementById("greenval");
+				
+				display()
+			}
+			
+			function display()
+			{
+				redValueText = 255-redValue
+				blueValueText = 255-blueValue
+				greenValueText = 255-greenValue
+				redValueOut.innerHTML = redValue;
+				blueValueOut.innerHTML = blueValue;
+				greenValueOut.innerHTML = greenValue;
+				document.body.style.color = "rgb(" + redValueText + ", " + greenValueText + ". " + blueValueText + ")";
+				document.body.style.backgroundColor = "rgb(" + redValue + ", " + greenValue + ", " + blueValue + ")";
+				
+			}
+			function modifyRed(mod)
+			{
+				redValue += mod;
+				if (redValue < 0)
+				{
+					redValue = 0;
+				}
+				if (redValue >= 255)
+				{
+					redValue = 255;
+				}
+				display()
+			}
+			function modifyGreen(mod)
+			{
+				greenValue += mod;
+				if (greenValue < 0)
+				{
+					greenValue = 0;
+				}
+				if (greenValue >= 255)
+				{
+					greenValue = 255;
+				}
+				display()
+			}
+			function modifyBlue(mod)
+			{
+				blueValue += mod;
+				if (blueValue < 0)
+				{
+					blueValue = 0;
+				}
+				if (blueValue >= 255)
+				{
+					blueValue = 255;
+				}
+				display()
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<p>
+			The Red Value is <span id = "redval">255</span><br />
+			<button onclick = "modifyRed(1);">+1</button>
+			<button onclick = "modifyRed(5);">+5</button>
+			<button onclick = "modifyRed(10);">+10</button>
+			<button onclick = "modifyRed(-1);">-1</button>
+			<button onclick = "modifyRed(-5);">-5</button>
+			<button onclick = "modifyRed(-10);">-10</button>
+		</p>
+		
+		<p>
+			The Green Value is <span id = "greenval">255</span><br />
+			<button onclick = "modifyGreen(1);">+1</button>
+			<button onclick = "modifyGreen(5);">+5</button>
+			<button onclick = "modifyGreen(10);">+10</button>
+			<button onclick = "modifyGreen(-1);">-1</button>
+			<button onclick = "modifyGreen(-5);">-5</button>
+			<button onclick = "modifyGreen(-10);">-10</button>
+		</p>
+		
+		<p>
+			The Blue Value is <span id = "blueval">255</span><br />
+			<button onclick = "modifyBlue(1);">+1</button>
+			<button onclick = "modifyBlue(5);">+5</button>
+			<button onclick = "modifyBlue(10);">+10</button>
+			<button onclick = "modifyBlue(-1);">-1</button>
+			<button onclick = "modifyBlue(-5);">-5</button>
+			<button onclick = "modifyBlue(-10);">-10</button>
+		</p>
+	</body>
+</html>

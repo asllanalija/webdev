@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title></title>
+		<style></style>
+		<script src = "datafile.js"></script>
+		<script src = "utilities.js"></script>
+		<script>
+			function initialize()
+			{
+				JANUARY = 1, FEBRUARY = 2, MARCH = 3, APRIL = 4, MAY = 5, JUNE = 6, JULY = 7, AUGUST = 8, SEPTEMBER = 9, OCTOBER = 10, NOVEMBER = 11, DECEMBER = 12;
+				MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+				SIGNS = ["ARIES", "TAURUS", "GEMINI", "CANCER", "LEO", "VIRGO", "LIBRA", "SCORPIO", "SAGITTARIUS", "CAPRICORN", "AQUARIUS", "PISCES"];
+				
+				outputElement = document.getElementById("output");
+				
+				fortunes = [];
+				for (var i = 0; i < 12; i++)
+					fortunes[i] = [];
+					
+				parseData();
+					
+				birthMonth = 0;
+				birthDay = 1;
+				sign = ARIES;
+				fortune = "";
+			}
+			
+			function parseData()
+			{
+				tmp = FORTUNES.split(";");
+				for (var i = 0; i < tmp.length; i++)
+				{
+					var sign = parseInt(tmp[i]);
+					fortunes[sign].push(tmp[i].substring(tmp[i].indexOf(",") + 1));
+				}
+			}
+			
+			function setMonth(month)
+			{
+				birthMonth = month;
+				findEverythingElse();
+			}
+			
+			function setDay(day)
+			{
+				birthDay = day;
+				findEverythingElse();
+			}
+			
+			function findEverythingElse()
+			{
+					
+				sign = findSign();
+				fortune = findFortune();
+				display();
+			}
+			
+			function findSign()
+			{
+				if ((birthMonth == FEBRUARY && birthDay >= 19) || (birthMonth == MARCH && birthDay <= 20))
+					return PISCES;
+				
+				if ((birthMonth == JANUARY && birthDay >= 20) || (birthMonth == FEBRUARY && birthDay <= 18))
+					return AQUARIUS;
+				
+				if ((birthMonth == DECEMBER && birthDay >= 22) || (birthMonth == JANUARY && birthDay <= 19))
+					return CAPRICORN;
+						
+				if ((birthMonth == NOVEMBER && birthDay >= 22) || (birthMonth == DECEMBER && birthDay <= 21))
+					return SAGITTARIUS;
+							
+				if ((birthMonth == OCTOBER && birthDay >= 23) || (birthMonth == NOVEMBER && birthDay <= 21))
+					return SCORPIO;
+								
+				if ((birthMonth == SEPTEMBER && birthDay >= 23) || (birthMonth == OCTOBER && birthDay <= 22))
+					return LIBRA;
+									
+				if ((birthMonth == AUGUST && birthDay >=23 ) || (birthMonth == SEPTEMBER && birthDay <= 22))
+					return VIRGO;
+										
+				if ((birthMonth == JULY && birthDay >= 23) || (birthMonth == AUGUST && birthDay <= 22))
+					return LEO;
+										
+				if ((birthMonth == JUNE && birthDay >= 21) || (birthMonth == JULY && birthDay <= 22))
+					return CANCER;
+											
+				if ((birthMonth == MAY && birthDay >= 21) || (birthMonth == JUNE && birthDay <= 20))
+					return GEMINI;
+												
+				if ((birthMonth == APRIL && birthDay >= 21) || (birthMonth == MAY && birthDay <= 20))
+					return TAURUS;
+													
+				if ((birthMonth == MARCH && birthDay >= 20) || (birthMonth == APRIL && birthDay <= 19))
+					return ARIES;
+			}
+			
+			function findFortune()
+			{
+				var fIdx = getRandomInteger(0, fortunes[sign].length-1);
+				return fortunes[sign][fIdx];
+			}
+			
+			function display()
+			{
+				outputElement.innerHTML = MONTHS[birthMonth] + " " + birthDay + " - " + SIGNS[sign] + " - " + fortune;
+			}
+		</script>
+	</head>
+	<body onload = "initialize();">
+		<div id = "output"></div>
+		<button onclick = "setMonth(1)">January</button>
+		<button onclick = "setMonth(2)">February</button>
+		<button onclick = "setMonth(3)">March</button>
+		<button onclick = "setMonth(4)">April</button>
+		<button onclick = "setMonth(5)">May</button>
+		<button onclick = "setMonth(6)">June</button>
+		<button onclick = "setMonth(7)">July</button>
+		<button onclick = "setMonth(8)">August</button>
+		<button onclick = "setMonth(9)">September</button>
+		<button onclick = "setMonth(10)">October</button>
+		<button onclick = "setMonth(11)">November</button>
+		<button onclick = "setMonth(12)">December</button>
+		<hr />
+		<button onclick = "setDay(1)">1</button>
+		<button onclick = "setDay(2)">2</button>
+		<button onclick = "setDay(3)">3</button>
+		<button onclick = "setDay(4)">4</button>
+		<button onclick = "setDay(5)">5</button>
+		<button onclick = "setDay(6)">6</button>
+		<button onclick = "setDay(7)">7</button>
+		<button onclick = "setDay(8)">8</button>
+		<button onclick = "setDay(9)">9</button>
+		<button onclick = "setDay(10)">10</button>
+		<button onclick = "setDay(11)">11</button>
+		<button onclick = "setDay(12)">12</button>
+		<button onclick = "setDay(13)">13</button>
+		<button onclick = "setDay(14)">14</button>
+		<button onclick = "setDay(15)">15</button>
+		<button onclick = "setDay(16)">16</button>
+		<button onclick = "setDay(17)">17</button>
+		<button onclick = "setDay(18)">18</button>
+		<button onclick = "setDay(19)">19</button>
+		<button onclick = "setDay(20)">20</button>
+		<button onclick = "setDay(21)">21</button>
+		<button onclick = "setDay(22)">22</button>
+		<button onclick = "setDay(23)">23</button>
+		<button onclick = "setDay(24)">24</button>
+		<button onclick = "setDay(25)">25</button>
+		<button onclick = "setDay(26)">26</button>
+		<button onclick = "setDay(27)">27</button>
+		<button onclick = "setDay(28)">28</button>
+		<button onclick = "setDay(29)">29</button>
+		<button onclick = "setDay(30)">30</button>
+		<button onclick = "setDay(31)">31</button>
+	</body>
+</html>

@@ -1,0 +1,41 @@
+h1
+{
+	font-size: 50px;
+	font-family: fantasy;
+	text-align: center;
+}
+
+img
+{
+	display:inline-block;
+	text-align: center;
+}
+
+
+div.alphabetGuess
+{
+	display: inline-block;
+	text-align: center;
+}
+body
+{
+	background-color: red;
+}
+
+div.playerGuess
+{
+	font-size: 40px;
+}
+
+button.submit
+{
+	background-color: black;
+	color: red;
+	padding: 10px 10px 10px 10px;
+	border-radius: 12px;
+	box-shadow: 8px 8px 5px darkgrey;
+	font-size: 20px;
+	font-style: bold;
+	font-family: papyrus;
+}
+

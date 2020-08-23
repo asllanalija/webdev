@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<!--
+     The code below includes the HTML structure for a simple click and respond program.  It's Batman vs. Mario and the outcome has never been more meaningless.
+     
+     Your user will click on the images provides in an effort award points to his or her hero.  The page will respond to a click on an image in two ways.
+     
+     1- The message, which begins as "Click on one of the images to select a hero." will change to, "You clicked on (whichever hero was clicked).
+     
+     2- The number of clicks display for the appropriate hero will update.
+     
+     Update the HTML and write the Javascript to make this program work.
+-->
+<html>
+	<head>
+		<title>Batman vs. Mario</title>
+		<style></style>
+		<script>
+			function initialize()
+			{
+				batman = 0;
+				mario = 0;
+				click = "Click on one of the images to select a hero.";
+				clickOutput = document.getElementById("clickout");
+				batmanOutput = document.getElementById("batmanout");
+				marioOutput = document.getElementById("marioout");
+				display()
+			}
+			function modifyBatman()
+			{
+				batman += 1;
+				click = "You have chosen Batman";
+				display()
+			}
+			function modifyMario()
+			{
+				mario += 1;
+				click = "You have chosen Mario";
+				display()
+			}
+			function display()
+			{
+				batmanOutput.innerHTML = batman;
+				marioOutput.innerHTML = mario;
+				clickOutput.innerHTML = click;
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<div id = "clickout"></div>
+		
+		<hr />
+		
+		<div>Batman has been selected <span id = "batmanout">0</span> time(s)</div>
+		<div>Mario has been selected <span id = "marioout">0</span> time(s)</div>
+		
+		<hr />
+		
+		<img src = "batman.jpg" onclick = "modifyBatman()"	/>
+		<img src = "mario.jpg" onclick = "modifyMario()" />
+	</body>
+</html>

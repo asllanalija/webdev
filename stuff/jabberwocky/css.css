@@ -1,0 +1,16 @@
+h1
+{
+	border: 2px double blue;
+	padding: 15px 75px 15px 75px;
+	font-size: 20pt;
+	width:150px;
+	color:darkred;
+}
+h2
+{
+	color:orange;
+}
+div.reference
+{
+	color:gray;
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<!-- Asllan Alija -->
+<html> 
+	<head>
+		<script>
+		function initialize()
+		{
+			ans = Math.round(Math.random()*100);
+			guess = "none";
+			turns = 5;
+			thirdDigit = "none";
+			secondDigit = "none";
+			firstDigit = "none";
+			degree = 0;
+			preguess = "none";
+			display()
+			Submit()
+			
+		}
+		function Submit()
+		{
+			guess = (firstDigit) + (secondDigit*10) + (thirdDigit*100)
+			if (turns ==0)
+			{
+				alert("YOU LOSE");
+				initialize()
+			}
+			if (Math.abs(ans-guess) >=55)
+			{
+				degree = "Very Cold"
+			}
+			if (Math.abs(ans-guess) <=55)
+			{
+				degree = "Cold"
+			}
+			if (Math.abs(ans-guess) <=40)
+			{
+				degree = "Very Cool"
+			}
+			if (Math.abs(ans-guess) <=30)
+			{
+				degree = "Cool"
+			}
+			if (Math.abs(ans-guess) <=20)
+			{
+				degree = "Warm"
+			}
+			if (Math.abs(ans-guess) <=15)
+			{
+				degree = "Very Warm"
+			}
+			if (Math.abs(ans-guess) <=8)
+			{
+				degree = "Hot"
+			}
+			if (Math.abs(ans-guess) <=5)
+			{
+				degree = "Very Hot"
+			}
+			if (ans == guess)
+			{
+				degree = "CORRECT!"
+				alert("WINNER");
+			}
+			guessOutput = document.getElementById("guessout")
+			degreeOutput = document.getElementById("degreeout");
+			degreeOutput.innerHTML = degree;
+			guessOutput.innerHTML = guess;
+			firstDigit = 0;
+			secondDigit = 0;
+			thirdDigit = 0;
+			turns = turns - 1;
+			display()
+		}
+		function firstDigitInput(mod)
+		{
+			firstDigit +=mod;
+			display()
+		}
+		function secondDigitInput(mod)
+		{
+			secondDigit +=mod;
+			display()
+		}
+		function thirdDigitInput(mod)
+		{
+			thirdDigit += mod;
+			display()
+		}
+		function display()
+		{
+			preguess = (firstDigit) + (secondDigit*10) + (thirdDigit*100);
+			preguessOutput = document.getElementById("preguessout");
+			preguessOutput.innerHTML = preguess;
+		}
+		function reset()
+		{
+			firstDigit = 0;
+			secondDigit = 0;
+			thirdDigit = 0;
+			preguess = 0;
+			guess = 0;
+			display()
+		}
+		
+		
+		</script>
+	
+	</head>
+	<body onload = "initialize();">
+			First digit (ones place) : <br /> 
+		
+		<button onclick = "firstDigitInput(0);"> 0 </button>
+		<button onclick = "firstDigitInput(1);"> 1 </button>
+		<button onclick = "firstDigitInput(2);"> 2 </button>
+		<button onclick = "firstDigitInput(3);"> 3 </button>
+		<button onclick = "firstDigitInput(4);"> 4 </button>
+		<button onclick = "firstDigitInput(5);"> 5 </button>
+		<button onclick = "firstDigitInput(6);"> 6 </button>
+		<button onclick = "firstDigitInput(7);"> 7 </button>
+		<button onclick = "firstDigitInput(8);"> 8 </button>
+		<button onclick = "firstDigitInput(9);"> 9 </button> <br /><br />
+		Second digit (tens place) <br />
+		
+		
+		<button onclick = "secondDigitInput(0);"> 0 </button>
+		<button onclick = "secondDigitInput(1);"> 1 </button>
+		<button onclick = "secondDigitInput(2);"> 2 </button>
+		<button onclick = "secondDigitInput(3);"> 3 </button>
+		<button onclick = "secondDigitInput(4);"> 4 </button>
+		<button onclick = "secondDigitInput(5);"> 5 </button>
+		<button onclick = "secondDigitInput(6);"> 6 </button>
+		<button onclick = "secondDigitInput(7);"> 7 </button>
+		<button onclick = "secondDigitInput(8);"> 8 </button>
+		<button onclick = "secondDigitInput(9);"> 9 </button><br /><br/>
+		Third digit (hundreds place) <br />
+		
+		
+		<button onclick = "thirdDigitInput(1);"> 1 </button>
+		<button onclick = "thirdDigitInput(2);"> 2 </button>
+		<button onclick = "thirdDigitInput(3);"> 3 </button>
+		<button onclick = "thirdDigitInput(4);"> 4 </button>
+		<button onclick = "thirdDigitInput(5);"> 5 </button>
+		<button onclick = "thirdDigitInput(6);"> 6 </button>
+		<button onclick = "thirdDigitInput(7);"> 7 </button>
+		<button onclick = "thirdDigitInput(8);"> 8 </button>
+		<button onclick = "thirdDigitInput(9);"> 9 </button><br /> <br />
+		<button onclick = "Submit();"> Submit </button> <br /> <br />
+		<button onclick = "reset();"> reset </button> <br /> <br />
+		
+		Current number :<span id = "preguessout"></span><br /> <br />
+		Guess History : <br />
+		Guess = <span id = "guessout"></span> Degree = <span id = "degreeout"></span>
+		<br /> <br />
+		
+		
+	</body>
+		
+		

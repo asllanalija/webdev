@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title></title>
+		<link rel = "stylesheet" href = "columns.css" />
+		<link rel = "stylesheet" href = "roster.css" />
+		<style></style>
+		<script src = "utilities.js"></script>
+		<script src = "namedata.js"></script>
+		<script>
+		
+			function initialize()
+			{
+				applicants = document.getElementById("newgroup");
+				groupA = document.getElementById("A");
+				groupB = document.getElementById("B");
+				groupC = document.getElementById("C");
+				groupD = document.getElementById("D");
+				applicantsArray = [];
+				groupAarray = [], groupBarray = [], groupCarray = [], groupDarray = [];
+
+				numApplicants = 0;
+				numGroupA = 0, numGroupB = 0, numGroupC = 0, numGroupD = 0;
+				
+				groupElements = [groupA, groupB, groupC, groupD];
+				groupArrays = [groupAarray, groupBarray, groupCarray, groupDarray];
+				numberArrays = [numGroupA, numGroupB, numGroupC, numGroupD];
+				objectArrays = [];
+				
+				GENDER = 0, NAME = 1, MAXPEOPLE = 30;
+				
+				interval = setInterval(getPerson, 1000);				
+			}
+			function getPerson()
+			{
+				if (numApplicants > MAXPEOPLE)
+					return;
+				var temp = getRandomInteger(0, allPeople.length - 1);
+				pInfo = allPeople[temp];
+				pInfo = pInfo.split(",");
+				pObj = {};
+				pObj.gender = pInfo[GENDER];
+				pObj.name = pInfo[NAME];
+				pObj.ID = getId(0, 9, 7);
+				applicantsArray.push(pObj);
+				person = document.createElement("li");
+				person.addEventListener("click", function()
+				{
+					selected = pObj;					
+				});
+				person.innerHTML = applicantsArray[numApplicants].name + " " + applicantsArray[numApplicants].ID;
+				applicants.appendChild(person);
+				numApplicants++;
+				
+			}
+			function move(group)
+			{
+				if (numberArrays[group] >= 12)
+					return;
+				var idx = applicantsArray.indexOf(selected);
+				Obj = applicantsArray[idx];
+				person.innerHTML = Obj.name + " " + Obj.gender + " " + Obj.ID;
+				groupElements[group].appendChild(person);
+				groupArrays[group].push(Obj); 
+				applicantsArray.splice(idx , 1);
+				
+				numberArrays[group]++;
+				numApplicants--;
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<span class = "columncontainer">
+			<div class = "column">
+				<ol id = "newgroup"><h1>Prospective Applicants</h1><hr /></ol>
+			</div>
+			<div class = "column">
+				<ol id = "A" onclick = "move(0);"><h1>Add to Group A</h1><hr /></ol>
+				<ol id = "B" onclick = "move(1);"><h1>Add to Group B</h1><hr /></ol>
+				<ol id = "C" onclick = "move(2);"><h1>Add to Group C</h1><hr /></ol>
+				<ol id = "D" onclick = "move(3);"><h1>Add to Group D</h1><hr /></ol>
+			</div>
+		</span>
+	</body>
+</html>

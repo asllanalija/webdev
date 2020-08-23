@@ -1,0 +1,295 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<style>
+			.computer
+			{
+				margin-left:75%;
+				margin-top: -8%;
+			}
+			#backcard
+			{
+				position:absolute;
+				bottom:10px;
+				width:100%;
+				text-align:center;
+			}
+			#playerdeck
+			{
+				width:100%;
+				text-align:center;
+				position:absolute;
+				bottom:35%;
+			}
+			#computercard
+			{
+				position:absolute;
+				width:100%;
+				text-align:center;
+				top:25%;
+			}
+			div.score
+			{
+				text-align:center;
+				font-size: 16pt;
+				font-weight: bold;
+			}
+			body
+			{
+				background-color:#273
+			}
+		</style>
+		<script src = "data.js"></script>
+		<script>
+			function initialize()
+			{
+				feedback = document.getElementById("feedback");
+				player = document.getElementById("playercard");
+				computer = document.getElementById("computercard");
+				plyrdeck = document.getElementById("playerdeck");
+				plyrScore = document.getElementById("plyrScore");
+				computerScore = document.getElementById("comscore");
+				NUMCARDS = 26;
+				cardsWon = [];
+				inwar = false;
+				inplay = false;
+				ACE = 100, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7, EIGHT = 8, NINE = 9, TEN = 10, JACK = 11, QUEEN = 12, KING = 13;
+				CARDS = ["", "ACE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "JACK", "QUEEN", "KING"];
+				CARDSPOWER = ["", ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING];					
+				CARDSVALUE = [];
+				CARDSUIT = ["SPADES", "DIAMONDS", "HEARTS", "CLUBS"];
+				shuffledArray = [];
+				imgArray = [];
+				comDeck = [];
+				playerDeck = [];
+				makeArrays();
+				shuffledArray = shuffleCards(imgArray);					
+				splitCards();
+				display();
+			}
+			function makeArrays()
+			{
+				for (var i = 1; i < 14; i++)
+				{
+					for (var n = 0; n < 4; n++)
+					{
+						var object = {};
+						object.image = "images/" + i + "-" + n + ".png";
+						object.type = CARDS[i];
+						object.suit = CARDSUIT[n];
+						object.power = CARDSPOWER[i];
+						imgArray.push(object);
+					}
+				}
+				for (var i = 1; i < CARDS.length; i++)
+				{
+					for (var n = 0; n < 4; n++)
+					{	
+						CARDSVALUE.push(CARDS[i]);
+					}
+				}
+			}
+			function shuffleCards(deck)
+			{
+				var tmp = [];
+				while (deck.length > 0)
+				{
+					var rand = getRandomInteger(0, deck.length - 1);
+					tmp.push(deck.splice(rand, 1)[0]);
+				}
+				
+				return tmp;
+				
+			}
+			function splitCards()
+			{
+				for (var i = 0; i < NUMCARDS; i ++)
+				{
+					playerDeck.push(dealCard(shuffledArray));
+					comDeck.push(dealCard(shuffledArray));
+				}
+			}
+			function dealCard(deck)
+			{
+				return deck.shift();
+			}
+			function playGame()
+			{
+				if (inplay)
+				{
+					plyrdeck.removeChild(playerimg);
+					computer.removeChild(comimg);
+				}
+				if (inwar)
+				{
+					while (plyrdeck.childNodes.length > 1)
+					{
+						plyrdeck.removeChild(plyrdeck.lastChild);
+					}
+					while (computer.childNodes.length > 1)
+					{
+						computer.removeChild(computer.lastChild);
+					}
+				}
+				playerCard = dealCard(playerDeck);
+				playerimg = document.createElement("img");
+				playerimg.src = playerCard.image;
+				plyrdeck.appendChild(playerimg);
+				playerpower = playerCard.power;
+				
+				comCard = dealCard(comDeck);
+				comimg = document.createElement("img");
+				comimg.src = comCard.image;
+				computer.appendChild(comimg);
+				compower = comCard.power;
+				
+				if (playerpower > compower)
+				{
+					playerDeck.push(comCard);
+					playerDeck.push(playerCard);
+					inwar = false;
+				}
+				if (playerpower < compower)
+				{
+					comDeck.push(playerCard);
+					comDeck.push(comCard);
+					inwar = false;
+				}
+				if (playerpower == compower)
+				{
+					war();
+				}
+				inplay = true;
+				display();
+			}
+			function war()
+			{
+				if (!inwar)
+				{
+					cardsWon = [];
+				}
+				playerwar = [];
+				if (playerDeck.length >= 4)
+					var plyrcards = 4;
+				else
+					var plyrcards = playerDeck.length - 1;
+				
+				for (i = 0; i < plyrcards; i++)
+				{
+					var card = dealCard(playerDeck);
+					playerwar.push(card);
+				}
+				var playerWarCard = playerwar[playerwar.length - 1];
+				for (i = 0; i < plyrcards; i++)
+				{
+					if (i < plyrcards - 1)
+					{
+						plyrfacedown = document.createElement("img");
+						plyrfacedown.src = "images/back-blue-75-1.png";
+						plyrdeck.appendChild(plyrfacedown);
+					}
+					else
+					{
+						plyrupcard = document.createElement("img");
+						plyrupcard.src = playerWarCard.image;
+						plyrdeck.appendChild(plyrupcard);
+					}
+				}
+				comwar = [];
+				if (comDeck.length >= 4)
+					var comCards = 4;
+				else
+					var comCards = playerDeck.length - 1;
+				
+				for (i = 0; i < comCards; i++)
+				{
+					var card = dealCard(comDeck);
+					comwar.push(card);
+				}
+				var comWarCard = comwar[playerwar.length - 1];
+				for (i = 0; i < comCards; i++)
+				{
+					if (i < comCards - 1)
+					{
+						comfacedown = document.createElement("img");
+						comfacedown.src = "images/back-blue-75-1.png";
+						computer.appendChild(comfacedown);
+					}
+					else
+					{
+						comupcard = document.createElement("img");
+						comupcard.src = comWarCard.image;
+						computer.appendChild(comupcard);
+					}
+				}
+				var temp = playerwar.concat(comwar);
+				for (i = 0; i < temp.length; i++)
+				{
+					cardsWon.push(temp[i]);
+				}
+				if (!inwar)
+				{
+					cardsWon.push(playerCard);
+					cardsWon.push(comCard);
+				}
+				inwar = true;
+				if (playerWarCard.power > comWarCard.power)
+				{
+					for (i = 0; i < cardsWon.length; i++)
+					{
+						playerDeck.push(cardsWon[i]);
+					}
+				}
+				if (playerWarCard.power < comWarCard.power)
+				{
+					for (i = 0; i < cardsWon.length; i++)
+					{
+						comDeck.push(cardsWon[i]);
+					}
+				}
+				if (playerWarCard.power == comWarCard.power)
+				{
+					war();
+				}
+				display();
+			}
+			function display()
+			{
+				playerScore = playerDeck.length;
+				comScore = comDeck.length;
+				plyrScore.innerHTML = playerScore;
+				computerScore.innerHTML = comScore;
+			}
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div class = "score">
+			PLAYER CARDS: <span id = "plyrScore"> </span>  /
+			COMPUTER CARDS: <span id = "comscore"> </span>
+		</div>
+		<div id = "backcard">
+			<img onclick = "playGame();" src = "images/back-blue-75-1.png"/>
+		</div>
+		<div id = "playerdeck">
+		</div>
+		<div id = "computercard">
+			
+		</div>
+		<span id = "feedback"> </span>
+	
+	</body>
+</html>
+
+

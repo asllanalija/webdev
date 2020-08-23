@@ -1,0 +1,125 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				diceOne = null;
+				diceTwo = null;
+				dOneOnes = 0;
+				dOneTwos = 0;
+				dOneThrees = 0;
+				dOneFours = 0;
+				dOneFives = 0;
+				dOneSixes = 0;
+				dTwoOnes = 0;
+				dTwoTwos = 0;
+				dTwoThrees = 0;
+				dTwoFours = 0;
+				dTwoFives = 0;
+				dTwoSixes = 0;
+				diceOneRolls = [];
+				diceTwoRolls = [];
+				totalRoll = parseInt(Math.random()*51)+50
+				totalRollOut = document.getElementById("totalout");
+				myTableObject = document.getElementById("tableob");
+				rollNumber = 0;
+				getRandomInteger();
+			}
+			function getRandomInteger()
+			{
+				while (totalRoll > 0)
+				{	
+					rollNumber++;
+					nextRow = myTableObject.insertRow();
+					nextCell = nextRow.insertCell();
+					nextCell.innerHTML = rollNumber
+					diceOne = parseInt(Math.random()*6)+1
+					nextCell = nextRow.insertCell();
+					nextCell.innerHTML = diceOne;
+					diceOneRolls.push(diceOne);
+					diceTwo = parseInt(Math.random()*6)+1
+					nextCell = nextRow.insertCell();
+					nextCell.innerHTML = diceTwo;
+					diceTwoRolls.push(diceTwo);
+					nextCell = nextRow.insertCell();
+					nextCell.innerHTML = diceOne + diceTwo;					
+					totalRoll--;
+				}
+				for (idx = 0; idx < diceOneRolls.length; idx++)
+				{
+					if (diceOneRolls(idx) == 1)
+					{
+						dOneOnes++;
+					}
+					if (diceOneRolls(idx) == 2)
+					{
+						dOneTwos++;
+					}
+					if (diceOneRolls(idx) == 3)
+					{
+						dOneThrees++;
+					}
+					if (diceOneRolls(idx) == 4)
+					{
+						dOneFours++;
+					}
+					if (diceOneRolls(idx) == 5)
+					{
+						dOneFives++;
+					}
+					if (diceOneRolls(idx) == 6)
+					{
+						dOneSixes++;
+					}
+				}
+			}
+		</script>
+		<style>
+			td
+			{
+				border : 1px solid black;
+				background-color:#d6d6c2
+			}
+			th
+			{
+				border : 3px solid black;
+				background-color:black;
+				color:white;
+			}
+			h1
+			{
+				text-align:center;
+			}
+			div
+			{
+				text-align:center;
+			}
+			table.center
+			{
+				margin-left:auto;
+				margin-right:auto;
+			}
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<h1> Dice Table </h1>
+		<div> <table id = "tableob" class = "center">
+			<th> Roll # </th>
+			<th> Dice One </th>
+			<th> Dice Two </th>
+			<th> Sum </th>
+			
+		</table></div>
+	
+	</body>
+</html>
+
+

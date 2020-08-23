@@ -1,0 +1,115 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script src = "story.js"></script>
+		<script>
+			function initialize()
+			{
+				completeStory = document.getElementById("story1");
+				query = location.search.substring(1);
+				query = query.split("&");
+				
+				idxReplaced = [];
+				
+				for (i = 0; i < query.length; i++)
+				{
+					query[i] = query[i].split("=");
+					if (i > 0)
+						query[i][0] = query[i][0].slice(0, query[i][0].indexOf("+"));
+				}
+				story = STORIES[query[0][1]].split(DELIMITER);
+				
+				wordsPresent = [];
+				for (i = 0; i < wordTypes.length; i++)
+				{
+					for (n = 0; n < story.length; n++)
+					{
+						if (wordTypes[i] == story[n])
+						{
+							wordsPresent.push(story[n]);
+						}
+					}
+				}
+				replaceWords();
+			}
+			function replaceWords()
+			{
+				for (i = 0; i < wordsPresent.length; i++)
+				{
+					for (n = 0; n < story.length; n++)
+					{
+						if (story[n] == wordsPresent[i])
+						{
+							for (j = 0; j < query.length; j++)
+							{	
+								if (query[j][0] == wordsPresent[i])
+								{
+									var word = query[j][1];
+									query.splice(j, 1);
+									break;
+								}
+							}
+							word = "<span class = 'word'>" + word + "</span>";
+							story.splice(n, 1, word);
+						}
+					}
+				}
+				display();
+			}
+			function display()
+			{
+				str = "";
+				for (i = 0; i < story.length; i++)
+				{
+					str += story[i];
+				}
+				completeStory.innerHTML = str;
+			}
+		</script>
+		<style>
+			#story1
+			{
+				position:absolute;
+				width: 35%;
+				text-align:center;
+				left: 31%;
+				top: 40%;
+				font-size: 16pt;
+				border: 1px solid black;
+				border-radius: 25px;
+				padding: 25px;
+				background-color:white;
+			}
+			body
+			{
+				background-color:gray;
+			}
+			.title
+			{
+				
+				text-align:center;
+				font-size: 72pt;
+			}
+			.word
+			{
+				color: red;
+			}
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<h1 class = "title"> Mad Libs </h1>
+		<div id = "story1"> </div>
+	
+	</body>
+</html>
+
+

@@ -1,0 +1,128 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script src = "videogamedata.js">
+		
+		</script>
+		<script>
+			function initialize()
+			{
+				test = sampleData.split(";");
+				array = [];
+				idx1 = 0;
+				idx2 = 1;
+				idx3 = 2;
+				for (i = 0; i < test.length; i++)
+				{
+					item = test[i];
+					item = item.split(",");
+					array[i] = item;	
+				}
+				numImg = array.length;
+				img1 = document.getElementById("img1");
+				img2 = document.getElementById("img2");
+				img3 = document.getElementById("img3");
+				cat1 = document.getElementById("cat1");
+				cat2 = document.getElementById("cat2");
+				cat3 = document.getElementById("cat3");
+				info1 = document.getElementById("info1");
+				info2 = document.getElementById("info2");
+				info3 = document.getElementById("info3");
+				display();
+			}
+			function change()
+			{
+				idx1++;
+				idx2++;
+				idx3++;
+				if (idx1 >= numImg)
+				{
+					idx1 = 0;
+				}
+				if (idx2 >= numImg)
+				{
+					idx2 = 0;
+				}	
+				if (idx3 >= numImg)
+				{
+					idx3 = 0;
+				}
+				display();
+			}
+			function display()
+			{
+				img1.src = array[idx1][IMAGE];
+				img2.src = array[idx2][IMAGE];
+				img3.src = array[idx3][IMAGE];
+				cat1.innerHTML = array[idx1][CATEGORY];
+				cat2.innerHTML = array[idx2][CATEGORY];
+				cat3.innerHTML = array[idx3][CATEGORY];
+				infoArray1 = [];
+				infoArray2 = [];
+				infoArray3 = [];
+				for (i = 2; i < 6; i++)
+				{
+					temp1 = array[idx1][i];
+					temp2 = array[idx2][i];
+					temp3 = array[idx3][i];
+					infoArray1.push(temp1 + " <br />");
+					infoArray2.push(temp2 + " <br />");
+					infoArray3.push(temp3 + "<br />");
+				}
+				info1.innerHTML = infoArray1;
+				info2.innerHTML = infoArray2;
+				info3.innerHTML = infoArray3;
+			}
+		</script>
+		<style>
+			img
+			{
+				height: 300px;
+				width: 300px;
+			}
+			#cat1, #info1
+			{
+				margin-left:8%;
+			}
+			#cat2, #info2
+			{
+				margin-left:15%;
+			}
+			#cat3, #info3
+			{
+				margin-left:15%;
+			}
+			.column
+			{
+				display: inline-block;
+			}
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div class = "column">
+			<img id = "img1">
+			<div id = "cat1"></div>		
+			<div id = "info1"> </div>	
+		</div>
+		<div class = "column">
+			<img id = "img2">
+			<div id = "cat2"></div>
+			<div id = "info2"> </div>
+		</div>
+		<div class = "column">
+			<img id = "img3">
+			<div id = "cat3"></div>
+			<div id = "info3"> </div>
+		</div>
+		<button onclick = "change();"> cl </button>
+	</body>
+</html>
+
+

@@ -1,0 +1,85 @@
+<!doctYpe html>
+<html>
+	<head>
+		<title>Transition</title>
+		<style>
+			img 
+			{
+				width: 10%;
+			}
+			#chosenImg
+			{
+				width:75%;
+			}
+			div
+			{
+				text-align:center;
+			}
+			#name
+			{
+				color: blue;
+				font-size: 16pt;
+				font-weight: bold;
+			}
+			#caption
+			{
+				font-weight: bold;
+			}
+			body
+			{
+				background-color:gray;
+			}
+		</style>
+		<script src = "dragondata.js">
+		</script>
+		<script>
+			function initialize()
+			{
+				chosenImage = document.getElementById("chosenImg");
+				nameOutput = document.getElementById("name");
+				captionOutput = document.getElementById("caption");
+				dragonThumbs = document.getElementsByClassName("thumb");
+				myDragon = {};
+				imgArray = [];
+				
+				genInfo();
+			}
+			function genInfo()
+			{
+				names = dragons.split(";");
+				info = dragoninfo.split(";");
+				for (i = 0; i < dragonThumbs.length; i++)
+				{
+					imgArray.push(dragonThumbs[i]);
+					myDragon.dragonName = names[i];
+					myDragon.dragonInformation = info[i];
+				}			
+			}
+			function changeImg(mod)
+			{
+				chosenImage.src = imgArray[1].src;
+				nameOutput.innerHTML = myDragon.dragonName;
+				captionOutput.innerHTML = myDragon.dragonInformation;
+			}
+			
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<div>
+			<img id = "chosenImg" src = "images/Rax copy.png" >
+			<div id = "name"> Rax </div>
+			<div id = "caption"> Rax was a dragon scout who was betrayed by one of his own.  Killed before his time, Rax returned as a skeleton to continue the fight. </div>
+		</div>
+	
+		<div>
+			<img  class = "thumb" src = "images/Rax copy.png" onclick = "changeImg(0);"/>
+			<img  class = "thumb" src = "images/Ash copy.png" onclick = "changeImg(1);"/>
+			<img  class = "thumb" src = "images/Barnabas copy.png" onclick = "changeImg(2);"/>
+			<img  class = "thumb" src = "images/Drake copy.png" onclick = "changeImg(3);"/>
+			<img  class = "thumb" src = "images/Endisun copy.png" onclick = "changeImg(4);"/>
+			<img  class = "thumb" src = "images/Lunar copy.png" onclick = "changeImg(5);"/>
+		</div>
+		
+	</body>
+</html>

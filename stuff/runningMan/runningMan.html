@@ -1,0 +1,76 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				index = 0;
+				img = document.getElementById("man");
+				picList = []
+				pos = 0;
+				button = document.getElementById("button");
+				button.innerHTML = "<button onclick = 'start();'> Start </button>"
+				W = window.innerWidth;
+				timeCycled = 0;
+				picNames = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven"]
+				numItems = picNames.length;
+				createList();
+				display();
+			}
+			function createList()
+			{
+				for (i = 0; i < numItems; i++)
+				{
+					picList[i] = "Runner/" + picNames[i] + ".png";
+				}
+			}
+			function changeImg()
+			{
+				index++;
+				if (index >= numItems)
+				{
+					index = 0;
+					timeCycled++;
+					img.style.marginLeft = 300*timeCycled;
+					pos = 300*timeCycled;
+				}
+				if (pos > W)
+				{
+					timeCycled = 0;
+					img.style.marginLeft = 300*timeCycled;					
+				}
+				display();
+			}
+			function display()
+			{
+				img.src = picList[index];
+			}
+			function start()
+			{
+				id = setInterval(changeImg, 100);
+				button.innerHTML = "<button onclick = 'stop();'> Stop </button> "
+			}
+			function stop()
+			{
+				clearInterval(id);
+				button.innerHTML = "<button onclick = 'start();'> Start </button>" 
+			}
+		</script>
+		<style>
+
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<img id = "man"/> <br />
+		<span id = "button"> </span>
+	</body>
+</html>
+
+

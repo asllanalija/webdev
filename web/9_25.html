@@ -1,0 +1,60 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+		function initialize()
+		{
+			toggle = false;
+			toggleMsg = "The toggle is off";
+			toggleMsgOut = document.getElementById("tmsg");
+			display()
+			
+		}
+		function change()
+		{
+			if (toggle == true)
+			{
+				toggle = false;
+				toggleMsg = "The toggle is off";
+			}
+			else
+			{
+				toggle = true;
+				toggleMsg = "The toggle is on";
+			}
+			
+			display()
+			
+		}
+		function display()
+		{
+			toggleOutput = document.getElementById("toggleout");.
+			
+			toggleMsgOut.innerHTML = toggleMsg;
+			toggleOutput.innerHTML = toggle;
+
+		}
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div id = "tmsg">  </div><br />
+		<button onclick = "change();">switch</button>
+
+	
+	</body>
+</html>
+
+
+<!-- Toggle - multiple outputs, more user-interaction, Sometimes you need to turn stuff on and off, 

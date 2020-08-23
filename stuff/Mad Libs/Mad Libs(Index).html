@@ -1,0 +1,64 @@
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		</title>
+		<link rel = "stylesheet" type = "text/css" href = "Mad Libs CSS.css"/>
+		<script src = "story.js"></script>
+		<script>
+			function initialize()
+			{
+				form = document.getElementById("formOutput");
+				pickStory();
+			}
+			function pickStory()
+			{
+				getRandomInteger(1,3);
+				StoryChosen = rnd;
+				hInput = document.getElementById("hiddenInput");
+				hInput.value = StoryChosen;
+				hInput.style.display = "none";
+			}
+			function makeMadLibs()
+			{
+				StoriesArray = [];
+				for(var i = 0; i < STORIES.length; i++)
+				{
+					var temp = STORIES[i].split(DELIMITER);
+					StoriesArray.push(temp);
+				}
+				for(var i = 1; i < StoriesArray[StoryChosen].length; i += 2)
+				{
+					index = form.children.length;
+					var madLib = document.createElement("input");
+					var text = document.createTextNode(StoriesArray[StoryChosen][i]);
+					var br = document.createElement("br");
+					madLib.setAttribute("name","madLibs");
+					madLib.setAttribute("type","text");
+					form.insertBefore(text,form.children[index-1]);
+					index = form.children.length;
+					form.insertBefore(madLib,form.children[index-1]);
+					index = form.children.length;
+					form.insertBefore(br,form.children[index-1]);
+				}
+			}
+			function getRandomInteger(min,max)
+			{
+				rnd = Math.floor(Math.random() * (max - min + 1) ) + min;
+			}
+		</script>
+		<style>
+		</style>
+	</head>	
+	<body onload = "initialize();">
+		<div>
+			<button onclick = "makeMadLibs();">Create Mad Libs</button>
+			<form method = "get" action = "Mad Libs(Destination).html" id = "formOutput">
+				<input id = "hiddenInput" name = "hidden"/>
+				<input type = "submit" value = "Submit Mad Libs"/>
+			</form>
+		</div>
+	</body>	
+</html>

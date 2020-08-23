@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Transition Objects</title>
+		<style>
+			body
+			{
+				text-align:center;
+			}
+			
+			.thumb
+			{
+				width:12%;
+			}
+			
+			#mainimg
+			{
+				width:50%;
+			}
+			
+			#caption
+			{
+				font-size:24pt;
+				font-weight:bold;
+			}
+		</style>
+		
+		<script src = "itemdata.js"></script>
+		<script>
+			function initialize()
+			{
+				mainImage = document.getElementById("mainimg");
+				captionOutput = document.getElementById("caption");
+				blurbOutput = document.getElementById("blurb");
+				dragonArray = [];
+				currentDragonIdx = 0;
+				
+				buildData();
+				setThumbnails();
+				
+				display();
+			}
+			
+			function buildData()
+			{
+				var itemsArray = items.split(";");
+				for (var i = 0; i < itemsArray.length; i++)
+				{
+					var dragon = {};
+					var dragonInfo = itemsArray[i];
+					var dragonData = dragonInfo.split(":");
+					dragon.dragonName = dragonData[0];
+					dragon.dragonCaption = dragonData[1];
+					dragon.dragonImage = dragonData[2];
+					
+					
+					dragonArray.push(dragon);
+				}
+			}
+			
+			function setThumbnails()
+			{
+				var dragonImageFiles = [];			
+				var dragonThumbs = document.getElementsByClassName("thumb");
+				for (var i = 0; i < dragonThumbs.length; i++)
+				{
+					dragonImageFiles.push(dragonArray[i].dragonImage);
+					dragonThumbs[i].src = "images/" + dragonImageFiles[i];
+				}
+			}
+			function selectDragon(idx)
+			{
+				currentDragonIdx = idx;
+				display();
+			}
+			function display()
+			{
+				mainImage.src = "images/" + dragonArray[currentDragonIdx].dragonImage;
+				captionOutput.innerHTML = dragonArray[currentDragonIdx].dragonName;
+				blurbOutput.innerHTML = dragonArray[currentDragonIdx].dragonCaption;
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<img id = "mainimg"  />
+		<div id = "caption"></div>
+		<div id = "blurb"></div>
+		<hr />
+		<img class = "thumb" onclick = "selectDragon(0);" />
+		<img class = "thumb" onclick = "selectDragon(1);" />
+		<img class = "thumb" onclick = "selectDragon(2);" />
+		<img class = "thumb" onclick = "selectDragon(3);" />
+		<img class = "thumb" onclick = "selectDragon(4);" />
+		<img class = "thumb" onclick = "selectDragon(5);" />
+	</body>
+</html>

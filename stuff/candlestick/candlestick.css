@@ -1,0 +1,56 @@
+body
+{
+	background-image:url("candles.png");
+	color: antiquewhite;
+}
+ul
+{
+	font: 14pt calibri;
+	list-style-type:none;
+	margin-left:85px;
+	margin-top:175px;
+}
+a
+{
+	color:antiquewhite;
+}
+p
+{
+	font: 12pt calibri;
+	text-align: justify;
+	margin-left:400px;
+	margin-right:150px;
+	position:absolute;
+	top:0px;
+}
+h1, h2, h3
+{
+	text-align:center;
+}
+h1
+{
+	font:36pt copperplate gothic;
+}
+h2
+{
+	font:20pt copperplate gothic light;
+}
+h3
+{
+	font:15pt copperplate gothic light;
+}
+p span
+{
+	color:#FF9933;
+}
+div.maintext
+{
+	margin-top:175px;
+	position:relative;
+} 
+div.subtext
+{
+	text-align:center;
+	margin-top:150px;
+	font: italic 10pt arial;
+}

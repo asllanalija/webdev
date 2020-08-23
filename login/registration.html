@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<title>Sample Page</title>
+		<script>
+			function initialize()
+			{
+				if (data == "unameTaken")
+					document.getElementById("feedback").innerHTML = "That username is taken.";
+			}
+		</script>
+	</head>
+	<body>
+		<form method = "post" action = "index.html">
+			username: <input type = "text" name = "uname" />
+			password: <input type = "text" name = "pword" />
+			First Name: <input type = "text" name = "first"/>
+			Last Name: <input type = "text" name = "last"/>
+			<input type = "hidden" name = "registration" value = "true"/>
+			<input type = "submit" />
+		</form>
+		<span id = "feedback"> </span>
+	</body>
+</html>

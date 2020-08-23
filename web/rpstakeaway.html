@@ -1,0 +1,76 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				rock = 1;
+				scissors = 2;
+				paper = 3;
+				choice = null;
+				rockN = 5;
+				scissorsN = 5;
+				paperN = 5;
+			}
+			function takeaway()
+			{	
+				if (rock == 0 && scissors == 0 && paper == 0)
+				{
+					return;
+				}
+				choice = parseInt(Math.random()*3)+1;
+				goodChoice = true;
+				while (!goodChoice)
+				{
+					goodChoice = true;
+					if (choice == 1 && roockN > 0)
+					{
+						rockN--;						
+					}
+					else
+					{
+						if (choice == 3 && paperN > 0)
+						{
+							paperN--;
+						}
+						else
+						{
+							if (choice == 2 && scissorsN > 0)
+							{
+								scissorsN--;
+							}
+							else
+						}
+					}
+				}
+				while (choice == 2 && scissorsN == 0)
+				{
+					choice = parseInt(Math.random()*3)+1
+				}
+				while (choice == 3 && paperN == 0)
+				{
+					choice = parseInt(Math.random()*3)+1
+				}
+
+			}
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body>
+
+	
+	</body>
+</html>
+
+

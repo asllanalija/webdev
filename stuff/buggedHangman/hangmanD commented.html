@@ -1,0 +1,297 @@
+<!DOCTYPE HTML>
+<!--
+	This version of Hangman has bugs in it.  Can you find the bugs?
+	
+	Debug the game and make a note of all of the steps you take to try and find the errors.
+-->
+<html>
+	<head>
+		<title>Hangman</title>
+		<link rel = "stylesheet" href = "hangman.css" />
+		<style></style>
+		<script>
+			/*
+				initialize
+			*/
+			function initialize()
+			{
+				/*
+					Constants make programming a lot more comprehensible.  Giving names to constant values allows you to both read your code more easily AND update it without error if the need should arise.
+				*/
+				CODE_A = ("A").charCodeAt(0);		//Character code for "A".
+				CODE_Z = ("Z").charCodeAt(0);		//Character code for "Z"
+				
+				PLAYING = 0, WON = 1, LOST = 2;		//Game State Constants
+				HANGED = 7;							//Last value for the gallows.
+				
+				/*
+					HTML Elements
+				*/
+				solutionBox = document.getElementById("solbox");
+				gallowsImage = document.getElementById("galimg");
+				
+				buttonContainer = document.getElementById("buttonctr");
+				
+				guessBox = document.getElementById("guessbox");
+				
+				buttonList = document.getElementsByTagName("button");
+
+				//Begin the game.
+				startNewGame();
+			}
+			
+			/*
+				startNewGame
+				
+				Handles the construction (or reconstruction) of all of the game elements.  This function is used when the page is loaded AND when the player clicks the reset button.
+			*/
+			function startNewGame()
+			{
+				//Set up a new puzzle and the game status
+				hangmanPuzzle = loadPuzzle();
+				gallows = 1;
+
+				gameStatus = PLAYING;
+
+				/*
+					The hangmanSolution array parallels the puzzle string with each item representing a character in the string.  Initially, all letter characters are represented by dashes (-) to indicate that no letters have been found in the puzzle.  As the player finds letters throughout the course of the game, those dashes will be replaced.
+					
+					The array is initialized by looping through the puzzle.  Wherever there is a letter, a dash is added to the array.  Wherever there is anything else, that character is added to the array.
+				*/
+				hangmanSolution = [];
+				var upPuzzle = hangmanPuzzle.toUpperCase();
+				for (var i = 0; i < hangmanPuzzle.length; i++)
+				{
+					currLetter = upPuzzle.charCodeAt(i);
+					if (currLetter <= CODE_Z && currLetter >= CODE_A)
+						hangmanSolution.push("-");
+					else
+						hangmanSolution.push(hangmanPuzzle.charAt(i));
+				}
+				
+				//Enable all of the letter buttons
+				for (var i = 0; i < buttonList.length; i++)
+					buttonList[i].disabled = false;
+				
+				/*
+					Make the buttonContainer visible by changing its display (which may be none from an old game.
+					The table display is used because all of the buttons are inside a table.
+				*/
+				buttonContainer.style.display = "table";
+				guessBox.value = "";
+				
+				display();
+			}
+			
+			/*
+				loadPuzzle
+				Determines the current puzzle and returns it.
+				
+				This function is undeveloped.  The program can have a hardcoded array of puzzles to load or, more likely, it will load puzzles from a database on a server.
+			*/
+			function loadPuzzle()
+			{
+				return "Super Mario Brothers";
+			}
+			
+			/*
+				fillPuzzleWithSolution
+				This simple utility function changes all of the items in the array to the characters from the solution so that they will all show during display.
+			*/
+			function fillPuzzleWithSolution()
+			{
+				for (var i = 0; i < hangmanSolution.length; i++)
+					hangmanSolution[i] = hangmanPuzzle.charAt(i);
+			}
+			
+			/*
+				guessSolution
+				Called by the Guess button click, this function compares an uppercase version of the puzzle with an uppercase version of what's in the text box.
+			*/
+			function guessSolution()
+			{
+				/*
+					If the guess is correct, fill the boolean array with true values.  Otherwise, add 1 to the gallows.
+				*/
+				if(guessBox.value.toUpperCase() == hangmanPuzzle.toUpperCase())
+					fillPuzzleWithSolution();
+				else
+					gallows++;
+				
+				checkGameStatus();
+			}
+			
+			/*
+				updatePuzzle
+				Alters the boolean variable if the selected letter is found in the puzzle and returns whether or not it was found.
+				
+				Parameters:
+				letter:	The selected letter in capital form.
+				
+				Returns:
+				A boolean value that indicates whether or not the letter was found in the puzzle.
+			*/
+			function updatePuzzle(letter)
+			{
+				/*
+					foundLetter will be used as the return value.  It is initialized to false because the letter has not been found yet.  It will ONLY be set to true if the letter is eventually found.
+				*/
+				// I went through this function and removed the vars from the variables to make sure they are what they're supposed to be. When I noticed this function was fine I went back to
+				// the makeGuess function.
+				var foundLetter = false;
+				var upperString = hangmanPuzzle.toUpperCase();
+				for (var i = 0; i < upperString.length; i++)
+					if (upperString.charAt(i) == letter)
+					{
+						/*
+							Each time the letter is found in the puzzle, the corresponding index in the  array must be set to the actual character from the solution.
+							
+							The boolean foundLetter is also set to true, so that the function returns whether or not the player was successful this round.
+						*/
+						hangmanSolution[i] = hangmanPuzzle.charAt(i);
+						foundLetter = true;
+					}
+					
+				return foundLetter;
+			}
+
+			/*
+				makeGuess
+				Called by each of the letter buttons, this function's job is to see whether or not the chosen letter is in the puzzle.
+				
+				Parameters:
+				letter:	The selected letter, in capital form.
+			*/
+			function makeGuess(letter)
+			{
+				//Uses the return value of updatePuzzle to decide whether or not to set the gallows.
+				// I noticed that the problem happened when I clicked on the button so I went to the buttons and followed the function pathing.
+				if (!updatePuzzle(letter))
+				{
+					gallows++;
+				}
+				
+				checkGameStatus();
+			}
+			
+			/*
+				checkGameStatus
+				May change the status of the game to WON or LOST based on the gallows and the state of the boolean array.
+			*/
+			function checkGameStatus()
+			{
+				// The problem had to be in this function or the display function as they were the only two left being called when a button is clicked.
+				// the if statement below was the problem as when I clicked a button, gallows was always 7. Its "=" instead of "=="
+				//Has the gallows reached its final step.
+				if (gallows == HANGED)
+				{
+					gameStatus = LOST;
+					//Hide Buttons - Game Over - you lose
+				}
+				
+				//Are there any instances of "-" left in the solution array?
+				if (hangmanSolution.indexOf("-") < 0)
+				{
+					gameStatus = WON;
+					//Hide Buttons  - Game over - you win
+				}
+			
+				display();
+			}
+			
+			/*
+				display
+			*/
+			function display()
+			{
+				/*
+					If the game is over (WON or LOST), show the solution to the puzzle and hide all of the buttons.
+				*/
+				if (gameStatus == WON || gameStatus == LOST)
+				{
+					fillPuzzleWithSolution();
+					buttonContainer.style.display = "none";
+				}
+
+				/*
+					Empty out the <div> that's going to hold the puzzle output.
+					Cycle through the solution array, concatening each character onto the solutionBox's innerHTML one at a time.
+				*/
+				solutionBox.innerHTML = "";
+				for (var i = 0; i < hangmanSolution.length; i++)
+					solutionBox.innerHTML += hangmanSolution[i];
+				
+				/*
+					Use string concatenation to build the src file name for the gallows image.
+				*/
+				gallowsImage.src = "images/gallows" + gallows + ".png";
+			}
+		</script>
+	</head>
+		
+	<body onload = "initialize();">
+		<img class = "backimg" src = "images/hangman background.jpg" />
+		<h1><span><img class = "backimg" src = "images/innerback.png" />HANGMAN</span></h1>
+		<div class = "maincontainer">
+			<img class = "backimg" src = "images/innerback.png" />
+			<span class = "column">
+				<table id = "buttonctr">
+					<tr>
+						<!--
+							STEP 8 - disable the button
+						-->
+						<td><button onclick = "makeGuess('A');disabled = true;">A</button></td>
+						<td><button onclick = "makeGuess('B');disabled = true;">B</button></td>
+						<td><button onclick = "makeGuess('C');disabled = true;">C</button></td>
+						<td><button onclick = "makeGuess('D');disabled = true;">D</button></td>
+					</tr>
+					<tr>
+						<td><button onclick = "makeGuess('E');disabled = true;">E</button></td>
+						<td><button onclick = "makeGuess('F');disabled = true;">F</button></td>
+						<td><button onclick = "makeGuess('G');disabled = true;">G</button></td>
+						<td><button onclick = "makeGuess('H');disabled = true;">H</button></td>
+					</tr>
+					<tr>
+						<td><button onclick = "makeGuess('I');disabled = true;">I</button></td>
+						<td><button onclick = "makeGuess('J');disabled = true;">J</button></td>
+						<td><button onclick = "makeGuess('K');disabled = true;">K</button></td>
+						<td><button onclick = "makeGuess('L');disabled = true;">L</button></td>
+					</tr>
+					<tr>
+						<td><button onclick = "makeGuess('M');disabled = true;">M</button></td>
+						<td><button onclick = "makeGuess('N');disabled = true;">N</button></td>
+						<td><button onclick = "makeGuess('O');disabled = true;">O</button></td>
+						<td><button onclick = "makeGuess('P');disabled = true;">P</button></td>
+					</tr>
+					<tr>
+						<td><button onclick = "makeGuess('Q');disabled = true;">Q</button></td>
+						<td><button onclick = "makeGuess('R');disabled = true;">R</button></td>
+						<td><button onclick = "makeGuess('S');disabled = true;">S</button></td>
+						<!-- When I pressed T, S was being shown instead so the button had to be at fault -->
+						<td><button onclick = "makeGuess('T');disabled = true;">T</button></td>
+					</tr>
+					<tr>
+						<td><button onclick = "makeGuess('U');disabled = true;">U</button></td>
+						<td><button onclick = "makeGuess('V');disabled = true;">V</button></td>
+						<td><button onclick = "makeGuess('W');disabled = true;">W</button></td>
+						<td><button onclick = "makeGuess('X');disabled = true;">X</button></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><button onclick = "makeGuess('Y');disabled = true;">Y</button></td>
+						<td><button onclick = "makeGuess('Z');disabled = true;">Z</button></td>
+						<td></td>
+					</tr>
+				</table>
+				<hr />
+				<input type = "text" id = "guessbox" placeholder = "Enter your guess here." /><br /><br />
+				<button id = "guessbtn" onclick = "guessSolution();">Guess</button>
+				<button onclick = "startNewGame();">Reset</button>
+			</span>
+			<span class = "column">
+				<img id = "galimg" src = "images/gallows1.png" />
+				<div id = "solbox"></div>
+			</span>
+		</div>
+	</body>
+</html>

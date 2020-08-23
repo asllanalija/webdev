@@ -1,0 +1,47 @@
+<!-- Asllan -->
+<!DOCTYYPE HTML>
+<html>
+	<head>
+		<title>
+		
+		
+		</title>
+		<script>
+			function initialize()
+			{
+				FIRST = 0, LAST = 1, TEXTCOLOR = 2, BACKGROUNDCOLOR = 3, FONT = 4, FONTSIZE = 5;
+				test = document.getElementById("test");
+				query = location.search;
+				query = query.split("&");
+				propertyArray = [];
+				
+				
+				for (i = 0; i < query.length; i++)
+				{
+					var temp = query[i].split("=");
+					propertyArray.push(temp);
+				}
+
+				
+				test.innerHTML = "Welcome, " + propertyArray[FIRST][1] + " " + propertyArray[LAST][1];
+				document.body.style.backgroundColor = propertyArray[BACKGROUNDCOLOR][1];
+				test.style.color = propertyArray[TEXTCOLOR][1];
+				test.style.font = propertyArray[FONT][1];
+				test.style.fontSize = propertyArray[FONTSIZE][1];
+			}
+		</script>
+		<style>
+		
+		
+		
+		</style>
+
+	</head>
+
+	<body onload = "initialize();">
+		<div id = "test" > </div>
+	
+	</body>
+</html>
+
+
